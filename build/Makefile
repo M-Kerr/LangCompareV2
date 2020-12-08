@@ -142,6 +142,19 @@ LangCompare/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LangCompare.dir/build.make CMakeFiles/LangCompare.dir/build
 .PHONY : LangCompare/fast
 
+#=============================================================================
+# Target rules for targets named fmt
+
+# Build rule for target.
+fmt: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fmt
+.PHONY : fmt
+
+# fast build rule for target.
+fmt/fast:
+	$(MAKE) $(MAKESILENT) -f src/third_party/fmt/CMakeFiles/fmt.dir/build.make src/third_party/fmt/CMakeFiles/fmt.dir/build
+.PHONY : fmt/fast
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -178,6 +191,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LangCompare"
+	@echo "... fmt"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -98,6 +98,7 @@ LangCompare_EXTERNAL_OBJECTS =
 
 LangCompare: CMakeFiles/LangCompare.dir/src/main.cpp.o
 LangCompare: CMakeFiles/LangCompare.dir/build.make
+LangCompare: src/third_party/fmt/libfmt.a
 LangCompare: CMakeFiles/LangCompare.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable LangCompare"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LangCompare.dir/link.txt --verbose=$(VERBOSE)

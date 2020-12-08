@@ -8,12 +8,19 @@ set(CMAKE_DEPENDS_CHECK_CXX
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "FMT_LOCALE"
+  )
+
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../src/third_party/fmt/include"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/src/third_party/fmt/CMakeFiles/fmt.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

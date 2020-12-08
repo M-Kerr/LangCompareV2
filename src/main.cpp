@@ -3,6 +3,7 @@
 //      time limits, 
 #include <iostream>
 #include <algorithm>
+#include <cctype>
 #include <string>
 #include <vector>
 #include <exception>
@@ -10,6 +11,7 @@
 #include <system_error>
 #include <unistd.h>
 #include "wrappers.h"
+#include "fmt/core.h"
 
 #define LANGUAGES "C++, Python"
 
@@ -122,6 +124,7 @@ void run_python(    const std::string &python_file,
     }
 }
 
+// Receives user input and creates Execute objects
 void take_input()
 {
     std::cout   << "Select Language\n"
@@ -131,7 +134,7 @@ void take_input()
     std::string language;
     std::cin >> language;
 
-    std::transform(language.begin(), language.end(), language.begin(), std::tolower);
+    std::transform(language.begin(), language.end(), language.begin(), ::tolower);
     //TODO sanitize input and compare to list of languages
 
     // Receive CPP and python file name input

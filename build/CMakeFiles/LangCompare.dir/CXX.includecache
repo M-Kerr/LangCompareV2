@@ -6,8 +6,42 @@
 
 #IncludeRegexTransform: 
 
+../src/third_party/fmt/include/fmt/args.h
+functional
+-
+memory
+-
+vector
+-
+core.h
+../src/third_party/fmt/include/fmt/core.h
+
+../src/third_party/fmt/include/fmt/core.h
+cstdio
+-
+cstring
+-
+iterator
+-
+string
+-
+type_traits
+-
+string_view
+-
+experimental/string_view
+-
+fmt/core.h
+-
+args.h
+../src/third_party/fmt/include/fmt/args.h
+
 /Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/src/main.cpp
 iostream
+-
+algorithm
+-
+cctype
 -
 string
 -
@@ -21,4 +55,10 @@ system_error
 -
 unistd.h
 -
+wrappers.h
+/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/src/wrappers.h
+fmt/core.h
+/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/src/fmt/core.h
+
+/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/src/wrappers.h
 
