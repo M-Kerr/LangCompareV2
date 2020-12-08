@@ -12,7 +12,11 @@ target_link_libraries(${PROJECT_NAME} PUBLIC fmt)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_directory
-                   ${CMAKE_SOURCE_DIR}/src
-                   $<TARGET_FILE_DIR:${PROJECT_NAME}>/src)
+set(CODE_DIRS CPP Python Algorithms)
+
+foreach(DIR IN ITEMS ${CODE_DIRS})
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_directory
+                    ${CMAKE_SOURCE_DIR}/src/${dir}
+                    $<TARGET_FILE_DIR:${PROJECT_NAME}>/src/${DIR})
+endforeach()

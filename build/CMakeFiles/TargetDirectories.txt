@@ -1,6 +1,0 @@
-/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/CMakeFiles/rebuild_cache.dir
-/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/CMakeFiles/edit_cache.dir
-/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/CMakeFiles/LangCompare.dir
-/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/src/third_party/fmt/CMakeFiles/rebuild_cache.dir
-/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/src/third_party/fmt/CMakeFiles/edit_cache.dir
-/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/build/src/third_party/fmt/CMakeFiles/fmt.dir
