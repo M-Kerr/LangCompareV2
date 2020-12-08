@@ -1,0 +1,12 @@
+rm -r ./CM*
+rm -r ./Make*
+rm -r ./cma*
+rm -r ./Lang*
+rm -r ./Hello*
+rm -r ./src*
+
+cmake ..
+make && clear
+
+echo Hello_World.cpp Hello_World.py | ./LangCompare
+
