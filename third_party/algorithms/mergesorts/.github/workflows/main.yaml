@@ -1,0 +1,122 @@
+name: CI run
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 30
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: update packages
+      run: sudo apt update
+
+    # set up scala
+    - name: install scala
+      run: sudo apt install scala
+
+    # set up ocaml
+    - name : install ocaml 
+      run: sudo apt install ocaml
+
+    # set up java
+    - name : install java 
+      run: sudo apt install default-jdk  
+
+    # set up haskell
+    - name : install haskell 
+      run: sudo apt install haskell-platform
+
+    # set up .swi-prolog
+    - name : install swi-prolog 
+      run: sudo apt install swi-prolog
+
+    # set up J
+    - name : install J
+      run : |
+        curl https://www.jsoftware.com/download/j901/install/j901_amd64.deb > j901_amd64.deb
+        sudo apt install ./j901_amd64.deb
+
+    # set up ChezScheme
+    - name : install ChezScheme
+      run : sudo apt install chezscheme
+
+    # set up elixir
+    - name : install elixir
+      run : sudo apt install elixir
+
+    # set up R
+    - name : install R
+      run : sudo apt -y install r-base-core
+
+    # set up Dart
+    - name : install dart
+      run : |
+        sudo apt-get install apt-transport-https
+        sudo sh -c 'wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+        sudo sh -c 'wget -qO- https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+        sudo apt-get update
+        sudo apt-get install dart
+
+    # set up Coq
+    - name : install Coq
+      run : sudo apt install coq
+
+    # set up TypeScript
+    - name : install TypeScript
+      run : npm install typescript
+      
+    # set up LUA
+    - name : install LUA
+      run : sudo apt install lua5.3
+
+    # set up Coffeescript
+    - name : install Coffeescript
+      run : sudo npm install -g coffeescript
+      
+    # set up HolyC
+    - name : install HolyC
+      run : |
+        curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
+        cargo install --git https://github.com/r-ba/hcc
+
+    #set up Swift
+    - name : install Swift 
+      run : sudo apt install swift
+
+    # set up Kotlin
+    - name : install Kotlin
+      run : sudo snap install --classic kotlin
+
+    # set up ATS
+    - name : install ATS
+      run : sudo apt install ats2-lang gcc
+      
+    # set up Brainfuck
+    - name : install bf
+      run : sudo apt install bf
+
+    # set up TCL
+    - name : install Tcl
+      run : sudo apt install tcl
+
+    - name : install DLang
+      run : sudo snap install dmd --classic
+
+    # set up Ada
+    - name : install GNAT
+      run : sudo apt install gnat
+
+    # set up Pascal
+    - name : install Pascal
+      run : sudo apt install fp-compiler
+
+    # Runs the main script script
+    - name: Run script
+      run: ./run.sh

@@ -1,0 +1,20 @@
+a.out
+mergesort
+Mergesort
+.*.swp
+*.hi
+*.s
+*.o
+*.class
+*.cmi
+*.cmo
+out
+
+## Coq files
+mergesort.glob
+mergesort.vo
+.mergesort.aux
+
+## Intelij Files
+*.iml
+.idea
