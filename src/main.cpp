@@ -1,16 +1,17 @@
-//TODO: Python call, python pipe read,
+//TODO: refactor.
 //      Iterations and iteration average result,
-//      time limits, refactor.
+//      time limits, 
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <exception>
 #include <errno.h>
 #include <system_error>
 #include <unistd.h>
+#include "wrappers.h"
 
-#define CPP_WRAPPER_FILE "src/CPP/wrapper.cpp"
-#define MSGSIZE sizeof(unsigned long long int)
+#define LANGUAGES "C++, Python"
 
 struct Duration
 {
@@ -103,11 +104,13 @@ void run_python(    const std::string &python_file,
                     const std::string &python_class, 
                     int fd, int iters= 1, int limit= 0)
 {
-    std::string python_command = "python src/Python/wrapper.py -name " 
-                                + python_file + " -cname " + python_class
-                                + " -fd " + std::to_string(fd) + " -iter "
-                                + std::to_string(iters)
-                                + " -limit " + std::to_string(limit);
+    std::string python_command = "python ";
+    python_command += PYTHON_WRAPPER_FILE;
+    python_command += " -name " + python_file 
+                    + " -cname " + python_class
+                    + " -fd " + std::to_string(fd) 
+                    + " -iter " + std::to_string(iters)
+                    + " -limit " + std::to_string(limit);
 
     std::cout << "\nExecuting Python " << python_class << "..." << std::endl;
     int error_code = std::system(python_command.data());
@@ -119,9 +122,18 @@ void run_python(    const std::string &python_file,
     }
 }
 
-int main()
+void take_input()
 {
-    
+    std::cout   << "Select Language\n"
+                << "\t" << LANGUAGES << "\n\n"
+                << "...>>>";
+
+    std::string language;
+    std::cin >> language;
+
+    std::transform(language.begin(), language.end(), language.begin(), std::tolower);
+    //TODO sanitize input and compare to list of languages
+
     // Receive CPP and python file name input
     std::string cpp_file;
     std::cout << "Enter the cpp file name: ";
@@ -130,11 +142,21 @@ int main()
     std::string cpp_class = cpp_file.substr(0, cpp_file.rfind('.'));
     cpp_file = "CPP/code/" + cpp_file;
 
-
-    //TODO
     std::string python_file;
     std::cout << "Enter the python file name: ";
     std::cin >> python_file;
+}
+
+void cpp_setup()
+{
+}
+void python_setup()
+{
+}
+
+int main()
+{
+    
    
     // Python importlib doesn't like .py filenames
     int ext = python_file.rfind('.');
