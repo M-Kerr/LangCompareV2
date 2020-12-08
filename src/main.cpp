@@ -4,14 +4,14 @@
 #include <iostream>
 #include <algorithm>
 #include <cctype>
-#include <string>
 #include <vector>
 #include <exception>
 #include <errno.h>
 #include <system_error>
 #include <unistd.h>
 #include "wrappers.h"
-#include "fmt/core.h"
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
 
 #define LANGUAGES "C++, Python"
 
@@ -24,9 +24,9 @@ struct Duration
 
 class Compile_And_Run_Failure: public std::exception
 {
-    std::string _error;
+    QString _error;
     public:
-        Compile_And_Run_Failure(std::string error)
+        Compile_And_Run_Failure(QString error)
             : _error(error){}
         const char* what() const _NOEXCEPT override
         {
@@ -34,7 +34,7 @@ class Compile_And_Run_Failure: public std::exception
         }
 };
 
-void print_duration(std::string name, unsigned long long int ns, double us, double ms)
+void print_duration(QString name, unsigned long long int ns, double us, double ms)
 {
     std::cout << "\n" << name << " Timing Duration: " << ns << "ns"
               << " (" << us << "us, " << ms << "ms)" << std::endl;
@@ -77,36 +77,36 @@ Duration receive(int fd)
     return d;
 }
 
-void compile_run_cpp(   const std::string &compile_command, 
-                        const std::string &cpp_file, 
-                        const std::string &cpp_class)
+void compile_run_cpp(   const QString &compile_command,
+                        const QString &cpp_file,
+                        const QString &cpp_class)
 {
     std::cout << "\nCompiling " << cpp_file << "..." << std::endl;
     int error_code = std::system(compile_command.data());
     if (error_code)
     {
-        std::string error = "Error during compilation of CPP " + cpp_file
+        QString error = "Error during compilation of CPP " + cpp_file
                             + "\nError code " + std::to_string(error_code);
         throw Compile_And_Run_Failure(error);
     }
 
     // Execute CPP executable
     std::cout << "\nExecuting CPP " << cpp_class << "...\n" << std::endl;
-    std::string run_cpp_command = "./" + cpp_class;
+    QString run_cpp_command = "./" + cpp_class;
     error_code = std::system(run_cpp_command.data());
     if (error_code)
     {
-        std::string error = "Error during execution of CPP " + cpp_class
+        QString error = "Error during execution of CPP " + cpp_class
                             + "\nError code " + std::to_string(error_code);
         throw Compile_And_Run_Failure(error);
     }
 }
 
-void run_python(    const std::string &python_file, 
-                    const std::string &python_class, 
+void run_python(    const QString &python_file,
+                    const QString &python_class,
                     int fd, int iters= 1, int limit= 0)
 {
-    std::string python_command = "python ";
+    QString python_command = "python ";
     python_command += PYTHON_WRAPPER_FILE;
     python_command += " -name " + python_file 
                     + " -cname " + python_class
@@ -118,7 +118,7 @@ void run_python(    const std::string &python_file,
     int error_code = std::system(python_command.data());
     if (error_code)
     {
-        std::string error = "Error during execution of Python " + python_class
+        QString error = "Error during execution of Python " + python_class
                             + "\nError code " + std::to_string(error_code);
         throw Compile_And_Run_Failure(error);
     }
@@ -131,21 +131,21 @@ void take_input()
                 << "\t" << LANGUAGES << "\n\n"
                 << "...>>>";
 
-    std::string language;
+    QString language;
     std::cin >> language;
 
     std::transform(language.begin(), language.end(), language.begin(), ::tolower);
     //TODO sanitize input and compare to list of languages
 
     // Receive CPP and python file name input
-    std::string cpp_file;
+    QString cpp_file;
     std::cout << "Enter the cpp file name: ";
     std::cin >> cpp_file;
 
-    std::string cpp_class = cpp_file.substr(0, cpp_file.rfind('.'));
+    QString cpp_class = cpp_file.substr(0, cpp_file.rfind('.'));
     cpp_file = "CPP/code/" + cpp_file;
 
-    std::string python_file;
+    QString python_file;
     std::cout << "Enter the python file name: ";
     std::cin >> python_file;
 }
@@ -157,9 +157,22 @@ void python_setup()
 {
 }
 
-int main()
+
+int main(int argc, char *argv[])
 {
-    
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
+    engine.load(url);
+
    
     // Python importlib doesn't like .py filenames
     int ext = python_file.rfind('.');
@@ -196,5 +209,5 @@ int main()
                     python_duration.ms);
     // Compare and output results
 
-    return 0;
+    return app.exec();
 }
