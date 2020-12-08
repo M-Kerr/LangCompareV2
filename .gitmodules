@@ -1,3 +1,6 @@
 [submodule "third_party/mergesorts"]
 	path = third_party/mergesorts
 	url = https://github.com/geohot/mergesorts
+[submodule "third_party/fmt"]
+	path = third_party/fmt
+	url = https://github.com/fmtlib/fmt
