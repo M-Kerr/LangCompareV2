@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Volumes/Sierra/Users/mdkerr/Programming/Projects/LangCompareV2/src/main.cpp
+iostream
+-
+string
+-
+vector
+-
+exception
+-
+errno.h
+-
+system_error
+-
+unistd.h
+-
+
