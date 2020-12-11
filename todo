@@ -1,18 +1,19 @@
-Refactor all files
-
 Implement iterations
 
 Implement time limit
 
-implement support for multiple files per language
+Create unit tests
 
 Implement sockets
 
-Implement geohot's multi-language algorithm repo
-
 Implement GUI
+
+Implement geohot's multi-language algorithm repo
 
 Add licensing
 
+Add Qt src to maintain Qt licensing requirements
+
 Allow user to define python environment
 
+Create documentation and README
