@@ -1,28 +1,28 @@
 // Wrapper that times and runs CPP code
 #include <iostream>
-#include "CPP/benchmarking.hpp"
+#include "helpers/benchmarking.hpp"
 #include <unistd.h>
 #include <string>
-#ifdef FILENAME
-#include FILENAME
+#ifdef FILEPATH
+#include FILEPATH
+#else
+#error No C++ code file provided
 #endif
 
 #define MSGSIZE sizeof(long long int)
 
-#ifdef CLASSNAME
 //TODO: Receive num iterations and timeout length CLI args
 int main(int argc, char *argv[])
 {
-    CLASSNAME code{};
     Benchmarking::Timer timer{};
     try
     {
-        code.execute();
+        execute();
         timer.stop();
     } 
     catch (...) 
     {
-        std::cerr   << "Exception thrown during execution" << std::endl;
+        std::cerr   << "Exception thrown during C++ execution" << std::endl;
         return 1;
     }
 #ifdef FD
@@ -34,15 +34,9 @@ int main(int argc, char *argv[])
         std::cerr << "Pipe write 1 failed" << std::endl;
     if (write(FD, ns_str.c_str(), ns_str.size()) < 0)
         std::cerr << "Pipe write 2 failed" << std::endl;
-#endif
-#ifndef FD
-#error Pipe file descriptor missing
+#else
+#error Write file descriptor missing
 #endif
 
     return 0;
 }
-#endif
-#ifndef CLASSNAME
-#error No C++ class provided
-#endif
-
