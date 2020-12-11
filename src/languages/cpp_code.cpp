@@ -19,8 +19,7 @@ bool Cpp_Code::execute(int read_fd, int write_fd)
 
     // Triple escape characters pass forward the quote escape to shell.
     // The file name needs to be wrapped in quotes within the macro.
-    // TODO: delete this comment..  -Isrc/
-    QString compile_command = "clang++ -O3 -std=c++17 -DFILEPATH=\\\""
+    QString compile_command = "clang++ -O3 -std=c++17 -Icpp/ -DFILEPATH=\\\""
                                    + get_file_path() + "\\\" -DFD=";
     compile_command += QString::number(write_fd);
     compile_command += " " + CPP_WRAPPER_FILE;
