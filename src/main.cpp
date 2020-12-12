@@ -52,6 +52,7 @@ void build_code_list(QVector<Code *> &code_files)
 }
 int main(int argc, char *argv[])
 {
+    // Deprecated
     //QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
