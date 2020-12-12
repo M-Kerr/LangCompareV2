@@ -29,6 +29,11 @@ parser.add_argument("-limit", type=int, default=0,
                     help="Running-time limit in seconds for each iteration")
 args = parser.parse_args()
 
+# Allows the user to drop modules and submodules into py directory without
+# changing their import structure. Possible naming conflict if user adds
+# submodule named py/ or module named wrapper.py
+sys.path.insert(1, "./code/py")
+
 try:
     module = importlib.import_module("." + args.name, package="py")
 except Exception as ex:

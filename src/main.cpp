@@ -6,6 +6,7 @@
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <QFile>
+#include <QDir>
 #include "languages/languages.h"
 
 // Receives user input and adds Code objects to the code_files vector
@@ -63,6 +64,14 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
+
+    // Ensure working dir is the application's directory
+    QFileInfo appfile(argv[0]);
+    if (!QDir::setCurrent(appfile.absolutePath()))
+    {
+        qWarning() << "failed to change to application directory";
+        return 1;
+    }
 
     // Fill vector with user submitted code to benchmark
     QVector<Code *> code_files;
