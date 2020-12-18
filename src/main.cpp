@@ -50,6 +50,20 @@ void build_code_list(QVector<Code *> &code_files)
         code_files.push_back(code);
     }
 }
+
+// Ensure working dir is the application's directory.
+// Required for correct paths to user submitted code
+bool set_cwd_to_application_dir(char *argv[])
+{
+    QFileInfo appfile(argv[0]);
+    if (!QDir::setCurrent(appfile.absolutePath()))
+    {
+        qCritical() << "failed to change cwd to application directory";
+        return false;
+    }
+    return true;
+}
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
@@ -63,14 +77,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
-    // Ensure working dir is the application's directory
-    // Required for correct paths to user submitted code
-    QFileInfo appfile(argv[0]);
-    if (!QDir::setCurrent(appfile.absolutePath()))
-    {
-        qWarning() << "failed to change to application directory";
-        return 1;
-    }
+    if (!set_cwd_to_application_dir(argv)) return 1;
 
     // Fill vector with user submitted code for benchmarking
     QVector<Code *> code_files;

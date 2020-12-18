@@ -25,6 +25,8 @@ Current program structure:
 
 
 Detailed program structure:
+    Main first ensures the current working directory is the application's
+    directory.
 
 
 
