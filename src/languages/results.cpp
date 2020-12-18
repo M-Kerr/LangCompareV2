@@ -39,7 +39,7 @@ void Results::receive(int fd)
     duration_ms = duration_us * 0.001;
 }
 
-void Results::print()
+void Results::print() const
 {
     qInfo() << "\n\tTiming Duration: " << duration_ns << "ns"
               << " (" << duration_us << "us, " << duration_ms << "ms)\n\n";

@@ -32,12 +32,12 @@ void build_code_list(QVector<Code *> &code_files)
         }
 
         // Request the file's name. Assumes file resides in ./code/ directory
-        QString file;
+        QString file_name;
         qInfo()     << "\nEnter the full file name (E.g., FileName.cpp): \n";
-        q_cin >> file;
+        q_cin >> file_name;
 
         // Generate a Code* according to the input
-        auto code = code_factory(language, file);
+        auto code = code_factory(language, file_name);
         if (code == nullptr)
         {
             qWarning() << "Code submission failed";
@@ -47,7 +47,7 @@ void build_code_list(QVector<Code *> &code_files)
         // TODO request number of iterations and time limit
         // and save to Code member var
 
-        qInfo() << file << " added successfully...\n\n";
+        qInfo() << file_name << " added successfully...\n\n";
         code_files.push_back(code);
     }
 }

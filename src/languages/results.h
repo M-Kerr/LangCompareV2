@@ -20,7 +20,7 @@ public:
     explicit Results(QObject *parent = nullptr);
 
     void receive(int fd);
-    void print();
+    void print() const;
 
 signals:
 

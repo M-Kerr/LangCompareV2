@@ -8,16 +8,16 @@ QStringList LANGUAGES = {"C++", "Python"};
 
 // Builds a Code subclass according to the submitted file's language, and 
 // returns it as a Code*, or nullptr on failure.
-Code *code_factory(const QString &language, const QString &file,
+Code *code_factory(const QString &language, const QString &file_name,
                    QObject *parent = nullptr)
 {
     // C++
     if (language.toLower() == "c++" || language.toLower() == "cpp")
     {
-        QFileInfo path("code/cpp/" + file);
-        if (path.exists())
+        QFileInfo file("code/cpp/" + file_name);
+        if (file.exists())
         {
-            return new Cpp_Code(file, path.absoluteFilePath(), parent);
+            return new Cpp_Code(file, parent);
         }
         else
         {
@@ -27,10 +27,10 @@ Code *code_factory(const QString &language, const QString &file,
     // Python
     else if (language.toLower() == "python")
     {
-        QFileInfo path("code/py/" + file);
-        if (path.exists())
+        QFileInfo file("code/py/" + file_name);
+        if (file.exists())
         {
-            return new Python_Code(file, path.absoluteFilePath(), parent);
+            return new Python_Code(file, parent);
         }
         else
         {

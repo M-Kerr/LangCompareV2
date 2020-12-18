@@ -11,7 +11,7 @@ class Cpp_Code : public Code
 
 public:
 
-    explicit Cpp_Code(const QString file, const QString path,
+    explicit Cpp_Code(const QFileInfo file,
                       QObject *parent = nullptr,
                       unsigned iters= 1, unsigned limit= 0);
 

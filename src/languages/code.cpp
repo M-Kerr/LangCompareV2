@@ -1,44 +1,40 @@
 #include "code.h"
 
-Code::Code(const QString language, const QString file, const QString path,
+Code::Code(const QString language, const QFileInfo file,
            QObject *parent, unsigned iters, unsigned limit)
-    : QObject(parent), _language(language), _file_name(file), _file_path(path),
+    : QObject(parent), _language(language), _file(file),
       _iters(iters), _limit(limit), results(this)
 {
 }
 
-const QString &Code::get_language()
+const QString &Code::get_language() const
 {
     return _language;
 }
 
-const QString &Code::get_file_name()
+const QFileInfo &Code::get_file() const
 {
-    return _file_name;
+    return _file;
 }
 
-const QString &Code::get_file_path()
-{
-    return _file_path;
-}
-
-const unsigned &Code::get_iters()
+const unsigned &Code::get_iters() const
 {
     return _iters;
 }
 
-const unsigned &Code::get_limit()
+const unsigned &Code::get_limit() const
 {
     return _limit;
 }
 
-const Results &Code::get_results()
+const Results &Code::get_results() const
 {
     return results;
 }
 
-void Code::print_results()
+void Code::print_results() const
 {
-    qInfo() << "\n\t" << _file_name << " results:";
+    qInfo().noquote().nospace() << "\n\t" << _language << " "
+                                << _file.completeBaseName() << " results:";
     results.print();
 }

@@ -13,7 +13,7 @@ protected:
 
 public:
 
-    explicit Python_Code(const QString file, const QString path,
+    explicit Python_Code(const QFileInfo file,
                          QObject *parent = nullptr,
                          unsigned iters= 1, unsigned limit= 0);
 

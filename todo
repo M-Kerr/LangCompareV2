@@ -2,6 +2,7 @@ Create unit tests
     - Run C++ and Python Hello_World
     - Run Code with submodules (all languages)
     - Run code packaged entirely in a submodule (all languages)
+        * I don't think python currently supports this
 
 Improve comments
 

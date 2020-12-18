@@ -1,28 +1,25 @@
 #include "python_code.h"
 
-Python_Code::Python_Code(const QString file, const QString path,
+Python_Code::Python_Code(const QFileInfo file,
                          QObject *parent, unsigned iters, unsigned limit)
-    : Code("Python", file, path, parent, iters, limit)
+    : Code("Python", file, parent, iters, limit)
 {
 }
 
 bool Python_Code::execute(int read_fd, int write_fd)
 {
-
     // Only needs file name with .py extension removed,
     // importlib doesn't like .py filenames or path separators
-    QString file = get_file_name();
-    QString name_no_extension = file.chopped(
-                file.length() - file.lastIndexOf("."));
+    QString file = get_file().completeBaseName();
 
     QString python_command = "python3 " + PYTHON_WRAPPER_FILE;
-    python_command      += " -name " + name_no_extension
+    python_command      += " -name " + file
                         + " -fd " + QString::number(write_fd)
                         + " -iter " + QString::number(get_iters())
                         + " -limit " + QString::number(get_limit());
 
 
-    qInfo() << "\nExecuting " << file << "...\n";
+    qInfo() << "\nExecuting Python " << file << "...\n";
     int error_code = std::system(python_command.toLatin1());
     if (error_code)
     {
