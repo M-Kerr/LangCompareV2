@@ -25,9 +25,20 @@ Current program structure:
 
 
 Detailed program structure:
-    Main first ensures the current working directory is the application's
-    directory.
+    ./src/languages/code.h 
 
+        User submitted code files are abstracted into a Code object that
+        contains the language, file information, and timing results.
+        A Code subclass is created for each language, implementing language 
+        specific build and run rules in the Code.execute() method.
+            ./src/languages/cpp_code.h
+            ./src/languages/python_code.h
+            etc.
+    
+    ./src/main.cpp
+        The main call builds a list of Code objects from user input,
+        Opens a pipe, calls the execute() method on each Code object
+        passing the pipe to communicate timing results. 
 
 
 

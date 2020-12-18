@@ -14,6 +14,7 @@ Implement iterations
 Implement time limit
 
 Implement sockets
+    - Update README to reflect sockets instead of pipes
 
 Implement GUI
 

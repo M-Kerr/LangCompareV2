@@ -87,13 +87,20 @@ int main(int argc, char *argv[])
     int pipe_fd[2];
     if (pipe(pipe_fd) < 0 )
     {
-        qWarning() << "Pipe failed to open";
+        qFatal("Pipe failed to open");
     }
 
     // Benchmark code
-    for (const auto code: qAsConst(code_files))
+    // TODO this should not work as a const auto..!
+    for (Code *const code: qAsConst(code_files))
     {
         code->execute(pipe_fd[0], pipe_fd[1]);
+    }
+
+    // Print results
+    for (const Code *code: qAsConst(code_files))
+    {
+        code->print_results();
     }
 
     return app.exec();

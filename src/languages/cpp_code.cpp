@@ -47,7 +47,5 @@ bool Cpp_Code::execute(int read_fd, int write_fd)
     }
 
     results.receive(read_fd);
-    print_results();
-
     return true;
 }
