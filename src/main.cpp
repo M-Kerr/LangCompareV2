@@ -31,7 +31,8 @@ void build_code_list(QVector<Code *> &code_files)
             continue;
         }
 
-        // Request the file's name. Assumes file resides in ./code/ directory
+        // Request the file's name.
+        // Assumes file resides in ./code/<language> directory
         QString file_name;
         qInfo()     << "\nEnter the full file name (E.g., FileName.cpp): \n";
         q_cin >> file_name;
