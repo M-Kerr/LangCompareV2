@@ -9,7 +9,7 @@
 #include <QDir>
 #include "languages/languages.h"
 
-// Receives user input and adds Code objects to the code_files vector
+// Builds a vector of code file names via user input
 void build_code_list(QVector<Code *> &code_files)
 {
     QString language;
@@ -17,11 +17,11 @@ void build_code_list(QVector<Code *> &code_files)
 
     while (true)
     {
+        // Print supported languages
         qInfo()   << "\nEnter a language to add, or 'R' to run\n"
                 << "\t" << LANGUAGES.join(", ") << "\n";
 
         q_cin >> language;
-
         if (language.toLower() == 'r')
         {
             break;
@@ -32,7 +32,7 @@ void build_code_list(QVector<Code *> &code_files)
             continue;
         }
 
-        // Receive CPP and python file name input
+        // Request file name
         QString file;
         qInfo()     << "\nEnter the full file name (E.g., FileName.cpp): \n";
         q_cin >> file;
@@ -46,6 +46,7 @@ void build_code_list(QVector<Code *> &code_files)
 
         // TODO request number of iterations and time limit
         // and save to code member var
+
         qInfo() << file << " added successfully...\n\n";
         code_files.push_back(code);
     }
@@ -67,6 +68,7 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     // Ensure working dir is the application's directory
+    // Required for correct paths to user submitted code
     QFileInfo appfile(argv[0]);
     if (!QDir::setCurrent(appfile.absolutePath()))
     {
@@ -74,7 +76,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    // Fill vector with user submitted code to benchmark
+    // Fill vector with user submitted code for benchmarking
     QVector<Code *> code_files;
     build_code_list(code_files);
 
@@ -86,9 +88,9 @@ int main(int argc, char *argv[])
     }
 
     // Benchmark code
-    for (const auto c: qAsConst(code_files))
+    for (const auto code: qAsConst(code_files))
     {
-        c->execute(pipe_fd[0], pipe_fd[1]);
+        code->execute(pipe_fd[0], pipe_fd[1]);
     }
 
     return app.exec();
