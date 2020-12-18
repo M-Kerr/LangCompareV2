@@ -91,7 +91,6 @@ int main(int argc, char *argv[])
     }
 
     // Benchmark code
-    // TODO this should not work as a const auto..!
     for (Code *const code: qAsConst(code_files))
     {
         code->execute(pipe_fd[0], pipe_fd[1]);
