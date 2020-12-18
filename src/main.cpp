@@ -1,7 +1,3 @@
-//TODO: refactor.
-//      Iterations and iteration average result,
-//      time limits, 
-//      Platform independent path separators
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
