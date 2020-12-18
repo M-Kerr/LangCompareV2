@@ -1,7 +1,6 @@
-// The hope with this module is to unscientifically compare the speed
-// difference between dynamically calling a method from related classes
-// via templating, against calling a method through polymorphism.
-// The templated call should be much faster.
+// This module compares the speed difference between dynamically calling a
+// method from related classes via templating, against calling a method through
+// polymorphism. The templated call should be much faster.
 #include <random>
 class A
 {
