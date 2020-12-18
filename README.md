@@ -36,14 +36,27 @@ Detailed program structure:
             etc.
     
     ./src/main.cpp
-        The main call builds a list of Code objects from user input,
-        Opens a pipe, calls the execute() method on each Code object
+        The main call first builds a list of Code objects from user input.
+        Then it opens a pipe, calls the execute() method on each Code object
         passing the pipe to communicate timing results. 
-
-
-
+        Finally, it prints the results.
 
 
 
 How to contribute support for a language:
+
+    * wrapper file
+        - timing support
+        - embed user code
+        - return timing results
+    * <language>_code.h/cpp
+        - wrapper file macro
+        - execute() method implementation
+                ./src/languages/compile_and_run_failure.h exception is
+                provided to signal compilation failures.
+    
+    * languages.h 
+        - language list
+        - code_factory section
+    
 
