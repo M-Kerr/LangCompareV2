@@ -9,7 +9,7 @@
 #include <QDir>
 #include "languages/languages.h"
 
-// Builds a vector of code file names via user input
+// Builds a vector of Code file objects via user input
 void build_code_list(QVector<Code *> &code_files)
 {
     QString language;
@@ -17,10 +17,9 @@ void build_code_list(QVector<Code *> &code_files)
 
     while (true)
     {
-        // Print supported languages
+        // Print supported languages and receive input
         qInfo()   << "\nEnter a language to add, or 'R' to run\n"
                 << "\t" << LANGUAGES.join(", ") << "\n";
-
         q_cin >> language;
         if (language.toLower() == 'r')
         {
@@ -32,11 +31,12 @@ void build_code_list(QVector<Code *> &code_files)
             continue;
         }
 
-        // Request file name
+        // Request the file's name. Assumes file resides in ./code/ directory
         QString file;
         qInfo()     << "\nEnter the full file name (E.g., FileName.cpp): \n";
         q_cin >> file;
 
+        // Generate a Code* according to the input
         auto code = code_factory(language, file);
         if (code == nullptr)
         {
@@ -45,7 +45,7 @@ void build_code_list(QVector<Code *> &code_files)
         }
 
         // TODO request number of iterations and time limit
-        // and save to code member var
+        // and save to Code member var
 
         qInfo() << file << " added successfully...\n\n";
         code_files.push_back(code);

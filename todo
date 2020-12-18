@@ -1,8 +1,15 @@
+Create unit tests
+    - Run C++ and Python Hello_World
+    - Run Code with submodules (all languages)
+    - Run code packaged entirely in a submodule (all languages)
+
+Improve comments
+
+Create documentation and README
+
 Implement iterations
 
 Implement time limit
-
-Create unit tests
 
 Implement sockets
 
@@ -16,4 +23,3 @@ Add Qt src to maintain Qt licensing requirements
 
 Allow user to define python environment
 
-Create documentation and README
