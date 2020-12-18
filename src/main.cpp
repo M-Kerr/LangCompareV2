@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QDir>
 #include "languages/languages.h"
+#include "helpers/clear_console.h"
 
 // Builds a vector of Code file objects via user input
 void build_code_list(QVector<Code *> &code_files)
@@ -23,6 +24,7 @@ void build_code_list(QVector<Code *> &code_files)
         q_cin >> language;
         if (language.toLower() == 'r')
         {
+            clear_console();
             break;
         }
         else if (!LANGUAGES.contains(language, Qt::CaseInsensitive))
