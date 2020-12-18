@@ -3,7 +3,6 @@
 // via templating, against calling a method through polymorphism.
 // The templated call should be much faster.
 #include <random>
-#include <iostream>
 class A
 {
     public:
