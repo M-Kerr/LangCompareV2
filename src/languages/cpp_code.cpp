@@ -7,11 +7,11 @@ Cpp_Code::Cpp_Code(const QString file, const QString path,
 {
 }
 
+// Compiles user submitted code and links with benchmark wrapper CPP_WRAPPER_FILE
 bool Cpp_Code::execute(int read_fd, int write_fd)
 {
     // Remove source and header extensions for executable name.
-    // .chopped() removes n characters counting from the end, instead of
-    // beginning...
+    // .chopped() removes n characters counting from the end.
     QString file = get_file_name();
     QString exe = file.chopped(
                         file.length() - file.lastIndexOf(

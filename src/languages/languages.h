@@ -6,6 +6,8 @@
 
 QStringList LANGUAGES = {"C++", "Python"};
 
+// Builds a Code subclass according to the submitted file's language, and 
+// returns it as a Code*
 Code *code_factory(const QString &language, const QString &file,
                    QObject *parent = nullptr)
 {
@@ -13,7 +15,6 @@ Code *code_factory(const QString &language, const QString &file,
     if (language.toLower() == "c++" || language.toLower() == "cpp")
     {
         QFileInfo path("code/cpp/" + file);
-
         if (path.exists())
         {
             return new Cpp_Code(file, path.absoluteFilePath(), parent);
