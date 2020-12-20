@@ -1,4 +1,5 @@
 Create documentation and README
+    * Complete the "How to contribute support for a language" section.
 
 Improve comments
 
@@ -12,6 +13,9 @@ Create unit tests
 Implement iterations
 
 Implement time limit
+
+Add a timing results base unit option (seconds, ns, ms, etc).
+    - Add to documentation
 
 Implement sockets
     - Update README to reflect sockets instead of pipes
