@@ -4,7 +4,7 @@
 #include "cpp_code.h"
 #include "python_code.h"
 
-QStringList LANGUAGES = {"C++", "Python"};
+static const QStringList LANGUAGES = {"C++", "Python"};
 
 // Builds a Code subclass according to the submitted file's language, and 
 // returns it as a Code*, or nullptr on failure.

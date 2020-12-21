@@ -69,29 +69,79 @@ Detailed program structure:
 
 
 How to contribute support for a language:
-
-    * wrapper file
-        - timing support
-        - embed user code
-        - return timing results
-
-    * ./src/languages/<language>_code.h
-
-        - <LANGAUGE>_WRAPPER_FILE macro
-            - This macro contains the relative path to the language's wrapper
-              file
-        - <Language>_Code Code subclass
-
-      ./src/languages/<language>_code.cpp
-
-        - <Language>_Code::execute() method implementation
-
-                (a ./src/languages/compile_and_run_failure.h exception is
-                provided in the languages directory to signal compilation 
-                failures)
     
-    * languages.h 
-        - language list
-        - code_factory section
-    
+    1.) Build a wrapper file in the language that matches the requirements for
+        wrapper files enumerated in the "Detailed program structure" section.
+        The wrapper will execute through a system() call receiving command
+        line arguments.
+        The timer should begin execution as close as possible to the execute()
+        call, and stop upon its return.
 
+        Use the existing wrapper files for inspiration.
+
+    2.) Create a Code subclass using the file naming convention 
+        <language>_code.h and class name <Language_Name_Code>.
+        
+        The <language>_code.h header file should contain a global QString
+        variable containing the path to the language's wrapper file:
+
+static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
+
+        
+        Implement the class' execute method with the following signature:
+
+                bool execute(int read_fd, int write_fd) override;
+
+        The execute method should:
+
+            Compile the wrapper and user code together if necessary, then run
+            the wrapper, passing the required command line arguments and any
+            others if necessary. Finally, the method should call
+            this->results.receive(read_fd) before returning successfully.
+
+            Additionally, the compile and run calls should support the user
+            adding a single file directly in the code/<language_abbreviation>/ directory, 
+            or multiple files within a package.
+
+                See cpp_code.cpp for an example of a compiled language,
+                and python_code.cpp for an interpreted language.
+
+            *note*
+            A pipe is used to communicate when running instead of stdin/stdout 
+            in the event that the user code is timing IO operations.
+
+            Throw a Compile_And_Run_Failure in the event of a failure during
+            the compilation or run system() calls, using the error code
+            returned from the call.
+
+    3.) Inside /src/languages/languages.h:
+
+            - #include the <language>_code.h header file
+        
+            - Add the language name to the LANGAUGES QStringList
+
+            - Add an `else if` segment to the `code_factory` function,
+              building and returning a pointer to a <Language>_Code object.
+              The segment should follow this basic pattern:
+
+    // <Language>
+    else if (language.toLower() == "<language>")
+    {
+        QFileInfo file("code/<language_abbreviation>/" + file_name);
+        if (file.exists())
+        {
+            return new <Language>_Code(file, parent);
+        }
+        else
+        {
+            return nullptr;
+        }
+
+    
+    4.) Add a code/<language_abbreviation> directory and an example hello_world
+        user file that prints the string "Hello, World!" within an execute()
+        function.
+
+    5.) Build and run the application, testing your language's hello_world
+        code.
+            
