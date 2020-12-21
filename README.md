@@ -145,3 +145,20 @@ static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
     5.) Build and run the application, testing your language's hello_world
         code.
             
+
+How to contribute common algorithms, data structures, and constructs:
+
+    For common algorithms and data structures, add them as:
+
+        code/algorithms/<algorithm>/<algorithm>.<extension>
+        code/data_structures/<data_structure>/<data_structure>.<extension>
+
+    If adding a new algorithm or data structure, include a README outlining 
+    the parameters of the algorithm or structure.
+    For an example, see the code/algorithms/mergesorts/mergesort directory.
+
+    Constructs should follow the same pattern, where constructs are other
+    common code constructs that don't fall cleanly within the categories of
+    algorithms or data structures. E.g., design patterns, simple servers,
+    memory operations (garbage collection, memory pools, ...), etc.
+
