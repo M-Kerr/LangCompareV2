@@ -14,8 +14,8 @@ protected:
 public:
 
     explicit Python_Code(const QFileInfo file,
-                         QObject *parent = nullptr,
-                         unsigned iters= 1, unsigned limit= 0);
+                         QObject *parent = nullptr, unsigned iters= 1,
+                         unsigned limit= 0);
 
     bool execute(int read_fd, int write_fd) override;
 

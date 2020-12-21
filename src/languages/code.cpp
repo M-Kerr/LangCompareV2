@@ -2,6 +2,7 @@
 
 Code::Code(const QString language, const QFileInfo file,
            QObject *parent, unsigned iters, unsigned limit)
+
     : QObject(parent), _language(language), _file(file),
       _iters(iters), _limit(limit), results(this)
 {

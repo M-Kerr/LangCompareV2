@@ -3,11 +3,14 @@
 #include <QDebug>
 #include <QFile>
 #include <QDir>
+#include <QVector>
 #include "languages/languages.h"
 #include "helpers/clear_console.h"
 
-// Builds a vector of Code file objects via user input
-void build_code_list(QVector<Code *> &code_files)
+/**
+ * @brief Fills a vector with Code file objects via user input.
+ */
+void build_code_list(QVector<Code*> &code_files)
 {
     QString language;
     QTextStream q_cin(stdin, QIODevice::ReadOnly);
@@ -51,8 +54,9 @@ void build_code_list(QVector<Code *> &code_files)
     }
 }
 
-// Ensure working dir is the application's directory.
-// Required for correct paths to user submitted code
+/** Ensures working dir is the application's directory.
+ *  Required for correct paths to user submitted code.
+ */
 bool set_cwd_to_application_dir(char *argv[])
 {
     QFileInfo appfile(argv[0]);
@@ -80,7 +84,7 @@ int main(int argc, char *argv[])
     if (!set_cwd_to_application_dir(argv)) return 1;
 
     // Fill vector with user submitted code for benchmarking
-    QVector<Code *> code_files;
+    QVector<Code*> code_files;
     build_code_list(code_files);
 
     //Open pipe

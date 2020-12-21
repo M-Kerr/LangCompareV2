@@ -7,7 +7,15 @@ Cpp_Code::Cpp_Code(const QFileInfo file,
 {
 }
 
-// Compiles user submitted code and links with benchmark wrapper CPP_WRAPPER_FILE
+/**
+ * @brief Cpp_Code::execute compiles and runs user submitted C++ code.
+ *
+ * includes user code into CPP_WRAPPER_FILE.
+ *
+ * @param read_fd pipe file descriptor read end.
+ * @param write_fd pipe file descriptor write end.
+ * @return bool true if successful.
+ */
 bool Cpp_Code::execute(int read_fd, int write_fd)
 {
     // Remove extensions for executable name.

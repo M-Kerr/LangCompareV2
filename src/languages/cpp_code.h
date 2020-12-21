@@ -1,10 +1,16 @@
 #pragma once
 #include "code.h"
 
-// Path to C++ wrapper file that benchmarks submitted code and returns
-// results. Used as the entry point when running user submitted code.
+/**
+ * @brief CPP_WRAPPER_FILE path to C++ wrapper file
+ * The C++ wrapper file benchmarks submitted code and returns
+ * the results.
+ */
 static const QString CPP_WRAPPER_FILE("code/wrapper.cpp");
 
+/**
+ * @brief Code subclass representing C++ code files.
+ */
 class Cpp_Code : public Code
 {
     Q_OBJECT
@@ -12,8 +18,8 @@ class Cpp_Code : public Code
 public:
 
     explicit Cpp_Code(const QFileInfo file,
-                      QObject *parent = nullptr,
-                      unsigned iters= 1, unsigned limit= 0);
+                      QObject *parent = nullptr, unsigned iters= 1,
+                      unsigned limit= 0);
 
 
     bool execute(int read_fd, int write_fd) override;

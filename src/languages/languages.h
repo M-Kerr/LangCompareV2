@@ -6,8 +6,16 @@
 
 static const QStringList LANGUAGES = {"C++", "Python"};
 
-// Builds a Code subclass according to the submitted file's language, and 
-// returns it as a Code*, or nullptr on failure.
+/**
+ * @brief code_factory builds Code subclasses.
+ *
+ * Builds a Code subclass according to the submitted file's language
+ *
+ * @param language code file language
+ * @param file_name code file name and extension
+ * @param parent Q_OBJECT parent pointer
+ * @return Code *, nullptr on failure
+ */
 Code *code_factory(const QString &language, const QString &file_name,
                    QObject *parent = nullptr)
 {
