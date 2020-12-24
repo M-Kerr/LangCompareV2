@@ -1,5 +1,4 @@
 package_add_test(code_tests code_tests.cpp ${PROJECT_NAME}_languages)
-package_add_test(compile_and_run_failure_tests compile_and_run_failure_tests.cpp ${PROJECT_NAME}_languages)
 package_add_test(cpp_code_tests cpp_code_tests.cpp ${PROJECT_NAME}_languages)
 package_add_test(languages_tests languages_tests.cpp ${PROJECT_NAME}_languages)
 package_add_test(python_code_tests python_code_tests.cpp ${PROJECT_NAME}_languages)
