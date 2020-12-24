@@ -25,3 +25,6 @@ Add Qt src to maintain Qt licensing requirements
 
 Allow user to define python environment
 
+Make user-code compile/run into a code/tmp directory
+    - Currently builds into and clutters application directory
+
