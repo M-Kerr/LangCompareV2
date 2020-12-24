@@ -1,5 +1,3 @@
-// TODO: Refactor to sockets for cross platform.
-// Currently receives duration data as string from pipe
 #pragma once
 
 #include <QObject>
@@ -19,6 +17,7 @@ class Results : public QObject
 public:
     explicit Results(QObject *parent = nullptr);
 
+    // Currently receives duration data as string from pipe
     void receive(int fd);
     void print() const;
 

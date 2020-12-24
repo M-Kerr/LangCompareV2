@@ -8,16 +8,16 @@
 #include "compile_and_run_failure.h"
 
 /**
- * @brief Abstracts the user submitted code files.
+ * @brief Abstracts the user-submitted code files.
  */
 class Code : public QObject
 {
     Q_OBJECT
 
-    const QString _language;
-    const QFileInfo _file;
-    unsigned _iters;
-    unsigned _limit;
+    const QString language_;
+    const QFileInfo file_;
+    unsigned iters_;
+    unsigned limit_;
 
 protected:
 

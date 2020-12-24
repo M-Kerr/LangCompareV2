@@ -20,6 +20,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
+##### Qt Setup #####
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
@@ -27,32 +29,38 @@ if(ANDROID)
     add_library(${PROJECT_NAME} SHARED
       main.cpp
       qml.qrc
-     # src/code.cpp
-     # src/results.cpp
-     # src/Languages/cpp_code.cpp
     )
 else()
     add_executable(${PROJECT_NAME}
       main.cpp
       qml.qrc
-      #src/code.cpp
-      #src/results.cpp
     )
 endif()
 
 target_compile_definitions(${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
+##### Project Setup #####
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/languages)
+##### Gather source dirs into libraries #####
+add_subdirectory(helpers/)
 
+set(SRC_DIRS languages)
+foreach(DIR IN LISTS SRC_DIRS)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/${DIR})
+    list(APPEND SRC_LIBS ${PROJECT_NAME}_${DIR})
+endforeach()
+
+##### Build main #####
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
   Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
-  ${PROJECT_NAME}_Languages
+  ${PROJECT_NAME}_helpers
+  ${SRC_LIBS}
   )
 
+# Copy code directory into build directory
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy_directory
                     ${CMAKE_SOURCE_DIR}/code

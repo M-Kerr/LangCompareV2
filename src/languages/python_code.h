@@ -1,8 +1,6 @@
 #pragma once
 #include "code.h"
 
-// Path to Python wrapper file that benchmarks submitted code and returns
-// results. Used as the entry point when running user submitted code.
 static const QString PYTHON_WRAPPER_FILE("code/wrapper.py");
 
 class Python_Code : public Code

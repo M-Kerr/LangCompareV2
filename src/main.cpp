@@ -1,72 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QDebug>
-#include <QFile>
-#include <QDir>
 #include <QVector>
 #include "languages/languages.h"
-#include "helpers/clear_console.h"
+#include "helpers/helpers.h"
 
-/**
- * @brief Fills a vector with Code file objects via user input.
- */
-void build_code_list(QVector<Code*> &code_files)
-{
-    QString language;
-    QTextStream q_cin(stdin, QIODevice::ReadOnly);
 
-    while (true)
-    {
-        // Print supported languages and receive input
-        qInfo()   << "\nEnter a language to add, or 'R' to run\n"
-                << "\t" << LANGUAGES.join(", ") << "\n";
-        q_cin >> language;
-        if (language.toLower() == 'r')
-        {
-            clear_console();
-            break;
-        }
-        else if (!LANGUAGES.contains(language, Qt::CaseInsensitive))
-        {
-            qWarning() << "\nLanguage " << language << " not currently supported.";
-            continue;
-        }
-
-        // Request the file's name.
-        // Assumes file resides in ./code/<language> directory
-        QString file_name;
-        qInfo()     << "\nEnter the full file name (E.g., FileName.cpp): \n";
-        q_cin >> file_name;
-
-        // Generate a Code* according to the input
-        auto code = code_factory(language, file_name);
-        if (code == nullptr)
-        {
-            qWarning() << "Code submission failed";
-            continue;
-        }
-
-        // TODO request number of iterations and time limit
-        // and save to Code member var
-
-        qInfo() << file_name << " added successfully...\n\n";
-        code_files.push_back(code);
-    }
-}
-
-/** Ensures working dir is the application's directory.
- *  Required for correct paths to user submitted code.
- */
-bool set_cwd_to_application_dir(char *argv[])
-{
-    QFileInfo appfile(argv[0]);
-    if (!QDir::setCurrent(appfile.absolutePath()))
-    {
-        qCritical() << "failed to change cwd to application directory";
-        return false;
-    }
-    return true;
-}
 
 int main(int argc, char *argv[])
 {
@@ -87,7 +26,7 @@ int main(int argc, char *argv[])
     QVector<Code*> code_files;
     build_code_list(code_files);
 
-    //Open pipe
+    //Open pipe to receive results
     int pipe_fd[2];
     if (pipe(pipe_fd) < 0 )
     {
