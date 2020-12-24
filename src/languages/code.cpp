@@ -18,6 +18,21 @@ const QFileInfo &Code::get_file() const
     return file_;
 }
 
+const QString Code::file_name() const
+{
+    return file_.completeBaseName();
+}
+
+const QString Code::file_path() const
+{
+    return file_.absoluteFilePath();
+}
+
+const QString Code::output_file() const
+{
+    return file_.absolutePath() + "/" + file_name();
+}
+
 const unsigned &Code::get_iters() const
 {
     return iters_;

@@ -37,6 +37,10 @@ public:
     const unsigned &get_limit() const;
     const Results &get_results() const;
 
+    const QString file_name() const;
+    const QString file_path() const;
+    const QString output_file() const;
+
     void print_results() const;
 
     /**
