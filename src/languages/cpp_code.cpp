@@ -1,9 +1,9 @@
 #include "cpp_code.h"
 
 
-Cpp_Code::Cpp_Code(const QFileInfo file,
+Cpp_Code::Cpp_Code(const QString file_name,
                    QObject *parent, unsigned iters, unsigned limit)
-    : Code("C++", file, parent, iters, limit)
+    : Code("C++", "code/cpp/" + file_name, parent, iters, limit)
 {
 }
 

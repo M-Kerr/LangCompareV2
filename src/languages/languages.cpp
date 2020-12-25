@@ -6,26 +6,30 @@ Code *code_factory(const QString &language, const QString &file_name,
     // C++
     if (language.toLower() == "c++" || language.toLower() == "cpp")
     {
-        QFileInfo file("code/cpp/" + file_name);
+        auto code = new Cpp_Code(file_name, parent);
+        auto file = code->get_file();
         if (file.exists())
         {
-            return new Cpp_Code(file, parent);
+            return code;
         }
         else
         {
+            delete code;
             return nullptr;
         }
     }
     // Python
     else if (language.toLower() == "python")
     {
-        QFileInfo file("code/py/" + file_name);
+        auto code = new Python_Code(file_name, parent);
+        auto file = code->get_file();
         if (file.exists())
         {
-            return new Python_Code(file, parent);
+            return code;
         }
         else
         {
+            delete code;
             return nullptr;
         }
     }

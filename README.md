@@ -85,8 +85,14 @@ How to contribute support for a language:
         The <language>_code.h header file should contain a global QString
         variable containing the path to the language's wrapper file:
 
+
 static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
 
+
+        The class' constructor should prepend the "code/<language>/" directory
+        on to the file_name when it constructs the Code parent.
+        E.g., 
+                : Code("C++", "code/cpp/" + file_name, parent, iters, limit)
         
         Implement the class' execute method with the following signature:
 
@@ -127,6 +133,17 @@ static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
     // <Language>
     else if (language.toLower() == "<language>")
     {
+        auto code = new <Language>_Code(file_name, parent);
+        auto file = code->get_file();
+        if (file.exists())
+        {
+            return code;
+        }
+        else
+        {
+            delete code;
+            return nullptr;
+        }
         QFileInfo file("code/<language_abbreviation>/" + file_name);
         if (file.exists())
         {

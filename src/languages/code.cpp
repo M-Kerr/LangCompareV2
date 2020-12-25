@@ -1,9 +1,9 @@
 #include "code.h"
 
-Code::Code(const QString language, const QFileInfo file,
+Code::Code(const QString language, const QString file_name,
            QObject *parent, unsigned iters, unsigned limit)
 
-    : QObject(parent), language_(language), file_(file),
+    : QObject(parent), language_(language), file_(file_name),
       iters_(iters), limit_(limit), results(this)
 {
 }

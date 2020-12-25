@@ -9,7 +9,7 @@ class Cpp_Code : public Code
 
 public:
 
-    explicit Cpp_Code(const QFileInfo file,
+    explicit Cpp_Code(const QString file_name,
                       QObject *parent = nullptr, unsigned iters= 1,
                       unsigned limit= 0);
 
