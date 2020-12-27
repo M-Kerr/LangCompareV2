@@ -29,15 +29,13 @@ parser.add_argument("-limit", type=int, default=0,
                     help="Running-time limit in seconds for each iteration")
 args = parser.parse_args()
 
-# Allows the user to drop modules and submodules into py directory without
-# changing their import structure. Possible naming conflict if user adds
-# submodule named py/ or module named wrapper.py
-sys.path.insert(1, "./code/py")
+# Allows user to test packages
+sys.path.insert(0, os.path.dirname(args.name))
 
 try:
-    module = importlib.import_module("." + args.name, package="py")
+    module = importlib.import_module(os.path.basename(args.name))
 except Exception as ex:
-    print("\nModule import failed: " + str(ex))
+    print("\n" + str(ex) + ". PYTHON MODULE IMPORT FAILED!" )
 
 # Execute timed code
 duration = timeit.timeit(module.execute, number=args.iter,

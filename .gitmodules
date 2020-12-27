@@ -4,3 +4,11 @@
 [submodule "third_party/fmt"]
 	path = third_party/fmt
 	url = https://github.com/fmtlib/fmt
+[submodule "src/third_party/googletest"]
+	path = src/third_party/googletest
+	url = https://github.com/google/googletest/
+	branch = v1.10.x
+[submodule "third_party/googletest"]
+	path = third_party/googletest
+	url = https://github.com/google/googletest
+	branch = v1.10.x

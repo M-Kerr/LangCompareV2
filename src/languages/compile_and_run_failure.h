@@ -1,6 +1,9 @@
 #pragma once
 #include <exception>
 
+/**
+ * @brief Exception class for a compile or a run failure on user-submitted code.
+ */
 class Compile_And_Run_Failure: public std::exception
 {
     const char *_error;

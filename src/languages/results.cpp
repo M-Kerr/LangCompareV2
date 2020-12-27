@@ -6,12 +6,14 @@ Results::Results(QObject *parent) : QObject(parent)
 
 void Results::receive(int fd)
 {
-    std::string data;
+    std::string data_str;
     std::vector<char> buf;
+
+    // Message header containing the incomming message's size
     // Reads chars into buffer until newline
     for (int i=0; ; i++)
     {
-        buf.push_back('0');   // vector resizing
+        buf.push_back('0');   // Create a new slot at the back of array to write
         if (read(fd, buf.data() + i, 1) < 0)
         {
 
@@ -20,21 +22,23 @@ void Results::receive(int fd)
         }
         if (buf[i] == '\n') break;
     }
-    // Assign incomming message size to data
-    buf.pop_back();
-    data.assign(buf.data(), buf.size());
-    size_t msg_size = std::stoi(data);
+
+    buf.pop_back(); // remove newline
+    // Convert message size from string to size_t
+    data_str.assign(buf.data(), buf.size());
+    size_t msg_size = std::stoi(data_str);
+    // Reset buf to receive incoming message
     buf.clear();
     buf.resize(msg_size);
 
-    // Read incomming message
+    // receive duration data
     if (read(fd, buf.data(), msg_size) < 0)
     {
         qWarning() << "Error reading pipe stream";
     }
-    data.assign(buf.data(), buf.size());
+    data_str.assign(buf.data(), buf.size());
 
-    duration_ns = std::stoll(data);
+    duration_ns = std::stoll(data_str);
     duration_us = duration_ns * 0.001;
     duration_ms = duration_us * 0.001;
 }
