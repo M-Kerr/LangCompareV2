@@ -3,22 +3,22 @@ Goal:
     multiple languages.
 
 Why:
-    A common question among new developers and topic of conversation amongst 
-    seasoned developers is the runtime efficiency of languages.
-    This application will allow the direct (somewhat) comparison of algorithms
-    and code between languages.
+    The difference between languages in runtime efficiency is an occasional
+    topic of conversation amongst developers.
+    This application will allow the user to test and compare the runtime 
+    efficencey of code written in multiple languages.
 
 How:
-    The main application is currently built in C++, using Qt.
-    The user provides code files using the languages of their choice. The 
-    application will compile (if necessary) and run the files in a subprocess, 
-    using a wrapper that times how long it takes for the code to complete,
-    returning the results back to the application.
+    The user provides code files of the languages of their choice. The 
+    application will compile (if necessary) then run the files in a subprocess, 
+    using a wrapper that times how long it takes for the code to complete. The
+    wrapper then returns the results back to the application for comparison.
 
 Current program structure:
+    The main application is currently built in C++, using Qt.
     The "code/<language_name>/" subdirectories contain user submitted code 
-    files. Inside the code directory is a collection of wrapper files for each
-    supported language. The job of each wrapper file is to load the user code,
+    files. Inside the code/ directory is a collection of wrapper files for each
+    supported language. The job of the wrapper file is to load the user code,
     initialize a timer, execute the user code, and relay the timing results
     back to the application (currently via pipe, will refactor to sockets soon
     for cross platform compatibility).
