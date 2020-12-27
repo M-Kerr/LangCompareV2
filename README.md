@@ -34,8 +34,8 @@ Detailed program structure:
         wrapper file, passing the user code to the wrapper file.
 
         E.g., Code subclasses:
-            ./src/languages/cpp_code.h      //Cpp_Code: public Code
-            ./src/languages/python_code.h   //Python_Code: public Code
+            ./src/languages/code_cpp.h      
+            ./src/languages/code_python.h  
             etc.
 
     ./src/languages/languages.h
@@ -80,9 +80,9 @@ How to contribute support for a language:
         Use the existing wrapper files for inspiration.
 
     2.) Create a Code subclass using the file naming convention 
-        <language>_code.h and class name <Language_Name_Code>.
+        code_<language>.h and class name <Code_Language_Name>.
         
-        The <language>_code.h header file should contain a global QString
+        The code_<language>.h header file should contain a global QString
         variable containing the path to the language's wrapper file:
 
 
@@ -92,8 +92,13 @@ static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
         The class' constructor should prepend the "code/<language>/" directory
         on to the file_name when it constructs the Code parent.
         E.g., 
-                : Code("C++", "code/cpp/" + file_name, parent, iters, limit)
         
+        
+Code_Cpp::Code_Cpp(const QString file_name,
+                   QObject *parent, unsigned iters, unsigned limit)
+    : Code("C++", "code/cpp/" + file_name, parent, iters, limit)
+        
+
         Implement the class' execute method with the following signature:
 
                 bool execute(int read_fd, int write_fd) override;
@@ -109,8 +114,8 @@ static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
             adding a single file directly in the code/<language_abbreviation>/ directory, 
             or multiple files within a package.
 
-                See cpp_code.cpp for an example of a compiled language,
-                and python_code.cpp for an interpreted language.
+                See code_cpp.cpp for an example of a compiled language,
+                and code_python.cpp for an interpreted language.
 
             *note*
             A pipe is used to communicate when running instead of stdin/stdout 
@@ -122,18 +127,18 @@ static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
 
     3.) Inside /src/languages/languages.h:
 
-            - #include the <language>_code.h header file
+            - #include the code_<language>.h header file
         
             - Add the language name to the LANGAUGES QStringList
 
             - Add an `else if` segment to the `code_factory` function,
-              building and returning a pointer to a <Language>_Code object.
+              building and returning a pointer to a Code_<Language> object.
               The segment should follow this basic pattern:
 
     // <Language>
     else if (language.toLower() == "<language>")
     {
-        auto code = new <Language>_Code(file_name, parent);
+        auto code = new Code_<Language>(file_name, parent);
         auto file = code->get_file();
         if (file.exists())
         {
@@ -147,7 +152,7 @@ static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
         QFileInfo file("code/<language_abbreviation>/" + file_name);
         if (file.exists())
         {
-            return new <Language>_Code(file, parent);
+            return new Code_<Language>(file, parent);
         }
         else
         {
