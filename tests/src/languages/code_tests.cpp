@@ -5,10 +5,10 @@
 class Concrete_Code: public Code
 {
 public:
-    explicit Concrete_Code(const QString language, const QFileInfo file,
+    explicit Concrete_Code(const QString language, const QString file_name,
                   QObject *parent = nullptr, unsigned iters = 1,
                   unsigned limit = 0)
-        : Code(language, file, parent, iters, limit){}
+        : Code(language, file_name, parent, iters, limit){}
 
     virtual bool execute(int read_fd, int write_fd)
     {
@@ -24,7 +24,7 @@ public:
     CodeTestsF()
         : file_("/tmp/none"), code{"language", file_} {}
 
-    QFileInfo file_;
+    QString file_;
     Concrete_Code code;
 };
 

@@ -19,23 +19,23 @@ void code_execute(QString language, QString file)
     ASSERT_FALSE(close(fd[1]) < 0) << "Failed to close pipe write\n";
 }
 
-TEST(CppCodeTests, CanExecute)
+TEST(CodeCppTests, CanExecute)
 {
     code_execute("c++", "hello_world.cpp");
 }
 
 // Tests executing files in subdirectories
-TEST(CppCodeTests, CanExecuteModules)
+TEST(CodeCppTests, CanExecuteModules)
 {
     code_execute("c++", "templating/templating.cpp");
 }
 
-TEST(PythonCodeTests, CanExecute)
+TEST(CodePythonTests, CanExecute)
 {
     code_execute("python", "hello_world.py");
 }
 
-TEST(PythonCodeTests, CanExecuteModules)
+TEST(CodePythonTests, CanExecuteModules)
 {
-    FAIL() << "***Not yet implemented***";
+    code_execute("python", "test_package/hello_module.py");
 }
