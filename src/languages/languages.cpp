@@ -6,7 +6,7 @@ Code *code_factory(const QString &language, const QString &file_name,
     // C++
     if (language.toLower() == "c++" || language.toLower() == "cpp")
     {
-        auto code = new Cpp_Code(file_name, parent);
+        auto code = new Code_Cpp(file_name, parent);
         auto file = code->get_file();
         if (file.exists())
         {
@@ -21,7 +21,7 @@ Code *code_factory(const QString &language, const QString &file_name,
     // Python
     else if (language.toLower() == "python")
     {
-        auto code = new Python_Code(file_name, parent);
+        auto code = new Code_Python(file_name, parent);
         auto file = code->get_file();
         if (file.exists())
         {

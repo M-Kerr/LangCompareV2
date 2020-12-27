@@ -1,12 +1,12 @@
-#include "python_code.h"
+#include "code_python.h"
 
-Python_Code::Python_Code(const QString file_name,
+Code_Python::Code_Python(const QString file_name,
                          QObject *parent, unsigned iters, unsigned limit)
     : Code("Python", "code/py/" + file_name, parent, iters, limit)
 {
 }
 
-bool Python_Code::execute(int read_fd, int write_fd)
+bool Code_Python::execute(int read_fd, int write_fd)
 {
     QString python_command = "python3 " + PYTHON_WRAPPER_FILE;
     python_command      += " -name " + output_file()

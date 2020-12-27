@@ -1,8 +1,8 @@
 #pragma once
 
 #include <QFileInfo>
-#include "cpp_code.h"
-#include "python_code.h"
+#include "code_cpp.h"
+#include "code_python.h"
 #include "helpers/helpers.h"
 
 static const QStringList LANGUAGES = {"C++", "Python"};

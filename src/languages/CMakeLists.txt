@@ -2,8 +2,8 @@ add_library(${PROJECT_NAME}_languages
     STATIC
     results.cpp
     code.cpp
-    cpp_code.cpp
-    python_code.cpp
+    code_cpp.cpp
+    code_python.cpp
     languages.cpp
     )
 

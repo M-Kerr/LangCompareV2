@@ -4,7 +4,7 @@
 
 static const QString PYTHON_WRAPPER_FILE("code/wrapper.py");
 
-class Python_Code : public Code
+class Code_Python : public Code
 {
     Q_OBJECT
 
@@ -12,7 +12,7 @@ protected:
 
 public:
 
-    explicit Python_Code(const QString file_name,
+    explicit Code_Python(const QString file_name,
                          QObject *parent = nullptr, unsigned iters= 1,
                          unsigned limit= 0);
 

@@ -1,13 +1,13 @@
-#include "cpp_code.h"
+#include "code_cpp.h"
 
 
-Cpp_Code::Cpp_Code(const QString file_name,
+Code_Cpp::Code_Cpp(const QString file_name,
                    QObject *parent, unsigned iters, unsigned limit)
     : Code("C++", "code/cpp/" + file_name, parent, iters, limit)
 {
 }
 
-bool Cpp_Code::execute(int read_fd, int write_fd)
+bool Code_Cpp::execute(int read_fd, int write_fd)
 {
     // Triple escape characters pass forward the quote escape to shell.
     // The file name needs to be wrapped in quotes within the macro.
