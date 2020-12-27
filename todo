@@ -1,9 +1,3 @@
-Create unit tests
-    - Run C++ and Python hello_world
-        - Expect tcl extension? https://en.wikipedia.org/wiki/Expect
-    - Run Code with submodules (Python not yet implemented)
-    - Run code packaged entirely in a submodule (python not yet implemented)
-
 Implement iterations
 
 Implement time limit
@@ -14,16 +8,18 @@ Add a timing results base unit option (seconds, ns, ms, etc).
 Implement sockets
     - Update README to reflect sockets instead of pipes
 
+Add markdown to README.md
+
 Implement GUI
 
-Implement geohot's multi-language algorithm repo
-
 Add licensing
+
+Make user-code compile/run into a code/tmp directory
+    - Currently builds into and clutters application directory
+
+Implement geohot's multi-language algorithm repo
 
 Add Qt src to maintain Qt licensing requirements
 
 Allow user to define python environment
-
-Make user-code compile/run into a code/tmp directory
-    - Currently builds into and clutters application directory
 
