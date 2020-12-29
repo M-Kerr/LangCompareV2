@@ -109,8 +109,8 @@ Code subclass design
 **Constructor**
 
 - Pass the name of the language into the ``Code`` superclass constructor, and
-  prefix the user-code path for the language to the ``file_name`` argument.
-  Forward the remaining arguments to the ``Code`` constructor.
+  prefix the language's user-code path to the ``file_name`` argument.
+  Forward the remaining parameters to the ``Code`` constructor.
 
 .. code-block:: c++
 
