@@ -2,8 +2,3 @@
 
 def execute():
     print("Hello, World!", flush= True)
-
-
-
-if __name__ == "__main__":
-    execute()
