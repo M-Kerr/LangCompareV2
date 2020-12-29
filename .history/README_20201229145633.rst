@@ -119,8 +119,7 @@ Forward the remaining arguments to the ``Code`` constructor.
        : Code("C++", "code/cpp/" + file_name, parent, iters, limit){}
         
 **execute**
-
-Implement the virtual execute method. 
+- Implement the virtual execute method. 
 
 .. code-block:: c++
 
