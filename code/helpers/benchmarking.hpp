@@ -25,7 +25,7 @@ namespace Benchmarking
 // Timer::stop() will stop the timer and calculate the duration.
 class Timer
 {
-    bool stopped;
+    bool stopped{true};
   public:
     
     //std::chrono::time_point<std::chrono::steady_clock> start_time_point;
@@ -33,15 +33,16 @@ class Timer
     Time end_time_point, start_time_point;
     
     //Nanoseconds, microseconds, milliseconds
-    unsigned long long int ns{};
-    double us;
-    double ms;
+    unsigned long long int ns{0};
+    double us{0};
+    double ms{0};
     
-    Timer()
-        : stopped(false)
+    Timer() = default;
+
+    void start()
     {
+        stopped = false;
         start_time_point = std::chrono::high_resolution_clock::now();
-        
     }
 
     // Stops the timer and calculates duration.

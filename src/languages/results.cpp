@@ -4,43 +4,90 @@ Results::Results(QObject *parent) : QObject(parent)
 {
 }
 
+bool Results::get_success() const
+{
+    return success;
+}
+
+unsigned long long Results::get_duration_ns() const
+{
+    return duration_ns;
+}
+
+double Results::get_duration_us() const
+{
+    return duration_us;
+}
+
+double Results::get_duration_ms() const
+{
+    return duration_ms;
+}
+
 void Results::receive(int fd)
 {
     std::string data_str;
     std::vector<char> buf;
+    size_t msg_size;
 
-    // Message header containing the incomming message's size
-    // Reads chars into buffer until newline
-    for (int i=0; ; i++)
+    // The payload begins with a benchmarking success or failure character
+    // 0 or 1 delimited with '\n'.
+    // Followed by the size of the message, delimited with '\n'
+    // Followed by the message (benchmarking results)
+
+    // Read chars into buffer for the first two newlines
+    for (int j = 0; j < 2; j++)
     {
-        buf.push_back('0');   // Create a new slot at the back of array to write
-        if (read(fd, buf.data() + i, 1) < 0)
+        for (int i = 0; ; i++)
         {
+            // Create a new slot at the back of array to write
+            buf.push_back('0');
+            if (read(fd, buf.data() + i, 1) < 0)
+            {
 
-            qWarning() << "Error reading stream size";
-            throw std::system_error(errno, std::system_category());
+                qWarning() << "Error reading stream";
+                throw std::system_error(errno, std::system_category());
+            }
+            if (buf[i] == '\n')
+            {
+                break;
+            }
         }
-        if (buf[i] == '\n') break;
+        // remove newline
+        buf.pop_back();
+        data_str.assign(buf.data(), buf.size());
+
+        // success indicator
+        if (j == 0)
+        {
+            success = std::stoi(data_str);
+            buf.clear();
+            buf.resize(0);
+        }
+        // incomming message size
+        else
+        {
+            msg_size = std::stoi(data_str);
+            buf.clear();
+            buf.resize(msg_size);
+        }
     }
 
-    buf.pop_back(); // remove newline
-    // Convert message size from string to size_t
-    data_str.assign(buf.data(), buf.size());
-    size_t msg_size = std::stoi(data_str);
-    // Reset buf to receive incoming message
-    buf.clear();
-    buf.resize(msg_size);
-
-    // receive duration data
+    // Timing results
     if (read(fd, buf.data(), msg_size) < 0)
     {
-        qWarning() << "Error reading pipe stream";
+        qWarning() << "Error reading timing results";
     }
     data_str.assign(buf.data(), buf.size());
 
-    duration_ns = std::stoll(data_str);
-    duration_us = duration_ns * 0.001;
-    duration_ms = duration_us * 0.001;
+    // Assign results
+    if (success)
+    {
+        duration_ns = std::stoll(data_str);
+        duration_us = duration_ns * 0.001;
+        duration_ms = duration_us * 0.001;
+    }
+    qWarning() << "RESULTS RECEIVED: " << duration_ns;
 }
 
 void Results::print() const

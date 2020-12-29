@@ -1,41 +1,84 @@
-// Test the languages.h functions and the implemented languages' execute()
-// method.
+//! Test the languages.h functions and the Code subclass' execute() method
 #include "gtest/gtest.h"
 #include "languages/languages.h"
 #include <QDir>
 
-void code_execute(QString language, QString file)
+class LanguagesF : public testing::Test
 {
     int fd[2];
-    ASSERT_FALSE((pipe(fd) < 0 )) << "Failed to open a test pipe\n";
-    // I need to resolve the directory issue. Right now I'm
-    // getting a nullptr when trying to build
-    Code *code = code_factory(language, file);
-    ASSERT_TRUE(code != nullptr) << "Failed to create Code *";
 
-    EXPECT_TRUE(code->execute(fd[0], fd[1])) << "execute() failed";
+public:
+    ~LanguagesF()
+    {if (code) delete code;}
 
-    ASSERT_FALSE(close(fd[0]) < 0) << "Failed to close pipe read\n";
-    ASSERT_FALSE(close(fd[1]) < 0) << "Failed to close pipe write\n";
+    void SetUp() override
+    {
+        ASSERT_FALSE((pipe(fd) < 0 )) << "Failed to open a test pipe\n";
+    }
+
+    void TearDown() override
+    {
+        ASSERT_FALSE(close(fd[0]) < 0) << "Failed to close pipe read\n";
+        ASSERT_FALSE(close(fd[1]) < 0) << "Failed to close pipe write\n";
+    }
+
+    void execute(QString language, QString file,
+                  long iters = 1, long timeout = 0)
+    {
+        if (code) delete code;
+        code = code_factory(language, file, nullptr, iters, timeout);
+        ASSERT_TRUE(code != nullptr) << "Failed to create Code *";
+        EXPECT_TRUE(code->execute(fd[0], fd[1])) << "execute() failed";
+    }
+
+    Code *code = nullptr;
+};
+
+TEST_F(LanguagesF, CanExecuteCpp)
+{
+    execute("c++", "hello_world.cpp");
 }
 
-TEST(CodeCppTests, CanExecute)
+//! Tests executing files in subdirectories
+TEST_F(LanguagesF, CanExecuteCppModules)
 {
-    code_execute("c++", "hello_world.cpp");
+    execute("c++", "templating/templating.cpp");
 }
 
-// Tests executing files in subdirectories
-TEST(CodeCppTests, CanExecuteModules)
+//TEST_F(LanguagesF, CanExecuteCppIters)
+//{
+//    FAIL() << "NOT IMPLEMENTED";
+//}
+
+TEST_F(LanguagesF, CanTimeoutCpp)
 {
-    code_execute("c++", "templating/templating.cpp");
+    execute("c++", "timeout.cpp", 1, 1);
+    EXPECT_FALSE(code->get_results().get_success());
+
+    execute("c++", "timeout.cpp", 1, 2);
+    EXPECT_TRUE(code->get_results().get_success());
 }
 
-TEST(CodePythonTests, CanExecute)
+TEST_F(LanguagesF, CanExecutePy)
 {
-    code_execute("python", "hello_world.py");
+    execute("python", "hello_world.py");
 }
 
-TEST(CodePythonTests, CanExecuteModules)
+TEST_F(LanguagesF, CanExecutePyModules)
 {
-    code_execute("python", "test_package/hello_module.py");
+    execute("python", "test_package/hello_module.py");
+}
+
+//TEST_F(LanguagesF, CanExecutePyIters)
+//{
+//    FAIL() << "NOT IMPLEMENTED";
+//}
+//
+TEST_F(LanguagesF, CanTimeoutPy)
+{
+    execute("python", "timeout.py", 1, 1);
+    EXPECT_FALSE(code->get_results().get_success());
+
+    execute("python", "timeout.py", 1, 2);
+    EXPECT_TRUE(code->get_results().get_success());
 }

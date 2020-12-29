@@ -1,6 +1,6 @@
-Implement iterations
+Verify the timing results received are correct
 
-Implement time limit
+Implement iterations
 
 Add a timing results base unit option (seconds, ns, ms, etc).
     - Add to documentation
@@ -23,3 +23,4 @@ Add Qt src to maintain Qt licensing requirements
 
 Allow user to define python environment
 
+Add compiler support for MSVC and GCC

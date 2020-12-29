@@ -5,10 +5,16 @@ TODO:
 
 import os
 import sys
+import threading
 import time
 import timeit
 import importlib
 import argparse
+import logging #TODO: Delete
+
+logging.basicConfig(level=logging.DEBUG,
+                    format='(%(threadName)-9s) %(message)s',)
+
 parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description="""\
@@ -32,17 +38,50 @@ args = parser.parse_args()
 # Allows user to test packages
 sys.path.insert(0, os.path.dirname(args.name))
 
-try:
-    module = importlib.import_module(os.path.basename(args.name))
-except Exception as ex:
-    print("\n" + str(ex) + ". PYTHON MODULE IMPORT FAILED!" )
 
-# Execute timed code
-duration = timeit.timeit(module.execute, number=args.iter,
-        timer=time.perf_counter_ns)
+if __name__ == "__main__":
+    duration = None
+    results_lock = threading.Lock()
 
-duration_ns = str(duration).encode()
+    def return_results(success: bool):
+        results_lock.acquire(blocking= True, timeout= -1)
 
-pipe = open(args.fd, mode='ab', buffering=0)
-pipe.write("{}\n".format(len(duration_ns)).encode())
-pipe.write(duration_ns)
+        if success:
+            # Python's bool doesn't encode cleanly into 1 or 0, must do manually
+            success_bit = "{}\n".format(str(1)).encode()
+            duration_ns = str(duration).encode()
+        else:
+            success_bit = "{}\n".format(str(0)).encode()
+            duration_ns = str(0).encode()
+        msg_size ="{}\n".format(len(duration_ns)).encode()
+
+        pipe = open(args.fd, mode='ab', buffering=0)
+        pipe.write(success_bit)
+        pipe.write(msg_size)
+        pipe.write(duration_ns)
+        pipe.flush()
+
+        logging.debug("RESULTS SENT: {}".format(duration_ns))
+
+        os._exit(0) 
+
+
+    try:
+        module = importlib.import_module(os.path.basename(args.name))
+    except Exception as ex:
+        print("\n" + str(ex) + ". PYTHON MODULE IMPORT FAILED!" )
+
+    # start timeout timer
+    timeout = None
+    if (args.limit > 0):
+        timeout = threading.Timer(args.limit, return_results, [False])
+        timeout.setName("{} timeout thread".format(module.__name__))
+        timeout.start()
+    else:
+        timeout = None
+
+    threading.currentThread().setName("{} main thread".format(module.__name__))
+    # Execute timed code
+    duration = timeit.timeit(module.execute, number=args.iter,
+            timer=time.perf_counter_ns)
+    return_results(True)

@@ -61,7 +61,7 @@ target_link_libraries(${PROJECT_NAME}
   )
 
 # Copy code directory into build directory
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+add_custom_target(build_code_files ALL
                     COMMAND ${CMAKE_COMMAND} -E copy_directory
                     ${CMAKE_SOURCE_DIR}/code
                     $<TARGET_FILE_DIR:${PROJECT_NAME}>/code)

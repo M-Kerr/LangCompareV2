@@ -19,7 +19,8 @@ static const QStringList LANGUAGES = {"C++", "Python"};
  * @return Code *, nullptr on failure
  */
 Code *code_factory(const QString &language, const QString &file_name,
-                   QObject *parent = nullptr);
+                   QObject *parent = nullptr, unsigned iters = 1,
+                   unsigned timeout = 0);
 
 
 /**
