@@ -181,24 +181,24 @@ in the event that the user code is timing IO operations.
     user file that prints the string "Hello, World!" within an execute()
     function.
 
-#. Build and run the application, testing your language's hello_world;
+#. Build and run the application, testing your language's hello_world
     code.
             
 
 How to contribute common algorithms, data structures, and constructs
 --------------------------------------------------------------------
 
-For common algorithms and data structures, add them as:
+    For common algorithms and data structures, add them as:
 
-    code/algorithms/<algorithm>/<algorithm>.<extension>
-    code/data_structures/<data_structure>/<data_structure>.<extension>
+        code/algorithms/<algorithm>/<algorithm>.<extension>
+        code/data_structures/<data_structure>/<data_structure>.<extension>
 
-If adding a new algorithm or data structure, include a README outlining 
-the parameters of the algorithm or structure.
-For an example, see the code/algorithms/mergesorts/mergesort directory.
+    If adding a new algorithm or data structure, include a README outlining 
+    the parameters of the algorithm or structure.
+    For an example, see the code/algorithms/mergesorts/mergesort directory.
 
-Constructs should follow the same pattern, where constructs are other
-common code constructs that don't fall cleanly within the categories of
-algorithms or data structures. E.g., design patterns, simple servers,
-memory operations (garbage collection, memory pools, ...), etc.
+    Constructs should follow the same pattern, where constructs are other
+    common code constructs that don't fall cleanly within the categories of
+    algorithms or data structures. E.g., design patterns, simple servers,
+    memory operations (garbage collection, memory pools, ...), etc.
 
