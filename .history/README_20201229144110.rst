@@ -134,11 +134,8 @@ Finally, the method should call ``this->results.receive(read_fd)`` before
 returning successfully.
 
 The compile and run calls should support the user adding a single file directly
-in the ``code/<language>/`` directory, or multiple files within a package.
-
-Throw a Compile_And_Run_Failure in the event of a failure during the
-compilation or run system() calls, using the error code returned from the
-call.
+in the code/<language_abbreviation>/ directory, or multiple files within a 
+package.
 
 .. note::
 
@@ -146,8 +143,12 @@ call.
    ``code_python.cpp`` for an interpreted language.
    
 
-A pipe is used to communicate when running instead of connecting stdin/stdout 
+*note*
+A pipe is used to communicate when running instead of stdin/stdout 
 in the event that the user code is timing IO operations.
+Throw a Compile_And_Run_Failure in the event of a failure during
+the compilation or run system() calls, using the error code
+returned from the call.
    #. Inside /src/languages/languages.h:
 
             - #include the code_<language>.h header file
