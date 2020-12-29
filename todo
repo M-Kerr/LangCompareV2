@@ -1,14 +1,16 @@
+Add markdown to README.md
+
+Add licensing
+
+Implement GUI
+
 Add a timing results base unit option (seconds, ns, ms, etc).
     - Add to documentation
 
 Implement sockets
     - Update README to reflect sockets instead of pipes
 
-Add markdown to README.md
-
-Implement GUI
-
-Add licensing
+Add compiler support for MSVC and GCC
 
 Make user-code compile/run into a code/tmp directory
     - Currently builds into and clutters application directory
@@ -18,5 +20,3 @@ Implement geohot's multi-language algorithm repo
 Add Qt src to maintain Qt licensing requirements
 
 Allow user to define python environment
-
-Add compiler support for MSVC and GCC
