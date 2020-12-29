@@ -1,5 +1,3 @@
-Verify the timing results received are correct
-
 Implement iterations
 
 Add a timing results base unit option (seconds, ns, ms, etc).

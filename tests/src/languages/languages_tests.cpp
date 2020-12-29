@@ -45,10 +45,10 @@ TEST_F(LanguagesF, CanExecuteCppModules)
     execute("c++", "templating/templating.cpp");
 }
 
-//TEST_F(LanguagesF, CanExecuteCppIters)
-//{
-//    FAIL() << "NOT IMPLEMENTED";
-//}
+TEST_F(LanguagesF, CanExecuteCppIters)
+{
+    execute("c++", "hello_world.cpp", 20);
+}
 
 TEST_F(LanguagesF, CanTimeoutCpp)
 {
@@ -69,11 +69,11 @@ TEST_F(LanguagesF, CanExecutePyModules)
     execute("python", "test_package/hello_module.py");
 }
 
-//TEST_F(LanguagesF, CanExecutePyIters)
-//{
-//    FAIL() << "NOT IMPLEMENTED";
-//}
-//
+TEST_F(LanguagesF, CanExecutePyIters)
+{
+    execute("python", "hello_world.py", 20);
+}
+
 TEST_F(LanguagesF, CanTimeoutPy)
 {
     execute("python", "timeout.py", 1, 1);

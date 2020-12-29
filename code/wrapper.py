@@ -10,7 +10,7 @@ import time
 import timeit
 import importlib
 import argparse
-import logging #TODO: Delete
+import logging
 
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-9s) %(message)s',)
@@ -40,7 +40,7 @@ sys.path.insert(0, os.path.dirname(args.name))
 
 
 if __name__ == "__main__":
-    duration = None
+    duration = 0
     results_lock = threading.Lock()
 
     def return_results(success: bool):
@@ -60,16 +60,19 @@ if __name__ == "__main__":
         pipe.write(msg_size)
         pipe.write(duration_ns)
         pipe.flush()
+        sys.stdout.flush()
+        sys.stderr.flush()
 
         logging.debug("RESULTS SENT: {}".format(duration_ns))
-
+        # Warning: will not exit cleanly, leaving ouputs unflushed etc.
         os._exit(0) 
-
 
     try:
         module = importlib.import_module(os.path.basename(args.name))
     except Exception as ex:
         print("\n" + str(ex) + ". PYTHON MODULE IMPORT FAILED!" )
+
+    threading.currentThread().setName("{} main thread".format(module.__name__))
 
     # start timeout timer
     timeout = None
@@ -80,8 +83,9 @@ if __name__ == "__main__":
     else:
         timeout = None
 
-    threading.currentThread().setName("{} main thread".format(module.__name__))
     # Execute timed code
-    duration = timeit.timeit(module.execute, number=args.iter,
-            timer=time.perf_counter_ns)
+    for i in range(args.iter):
+        duration += timeit.timeit(module.execute, number=args.iter,
+                                        timer=time.perf_counter_ns)
+    duration /= args.iter
     return_results(True)
