@@ -94,7 +94,6 @@ How to contribute support for a language
 
    static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
 
-
 2. Create a user-code directory for the language within the ``code/`` 
    directory. E.g., ``code/cpp/``. This is the directory the user places the 
    code they want to benchmark.

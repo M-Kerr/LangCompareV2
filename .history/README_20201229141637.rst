@@ -90,11 +90,6 @@ How to contribute support for a language
    A const string containing the path to this wrapper file should be placed
    at the top of the header file to the Code subclass created in step 3.
 
-.. code-block: c++
-
-   static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
-
-
 2. Create a user-code directory for the language within the ``code/`` 
    directory. E.g., ``code/cpp/``. This is the directory the user places the 
    code they want to benchmark.
@@ -127,6 +122,7 @@ Code subclass design
 
 .. code-block:: c++
 
+   static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
    bool execute(int read_fd, int write_fd) override;
 
   The execute method should

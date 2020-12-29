@@ -80,7 +80,7 @@ Detailed program structure
 How to contribute support for a language
 ----------------------------------------
     
-1. Build a wrapper file in the language that matches the requirements for
+#. Build a wrapper file in the language that matches the requirements for
    wrapper files enumerated in the "Detailed program structure" section.
    This wrapper will execute through a system() call receiving command
    line arguments.
@@ -88,18 +88,13 @@ How to contribute support for a language
    call, and stop upon its return.
    Use the existing wrapper files for inspiration.
    A const string containing the path to this wrapper file should be placed
-   at the top of the header file to the Code subclass created in step 3.
+   at the top of the header file to the Code subclass described below.
 
-.. code-block: c++
-
-   static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
-
-
-2. Create a user-code directory for the language within the ``code/`` 
+#. Create a user-code directory for the language within the ``code/`` 
    directory. E.g., ``code/cpp/``. This is the directory the user places the 
    code they want to benchmark.
 
-3. Create a ``Code`` subclass using the file naming convention
+#. Create a ``Code`` subclass using the file naming convention
     - ``code_<language>.h`` 
    and class naming convention:
     - ``<Code_Language_Name>``
@@ -127,6 +122,7 @@ Code subclass design
 
 .. code-block:: c++
 
+   static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
    bool execute(int read_fd, int write_fd) override;
 
   The execute method should
