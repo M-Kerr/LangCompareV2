@@ -64,8 +64,8 @@ Detailed program structure
 
     - Embed the user code
     - Initialize a timer
-        - The timer should begin execution as close as possible to the 
-          execute() call, and stop upon its return.
+      - The timer should begin execution as close as 
+        possible to the execute() call, and stop upon its return.
     - Call the execute() function
     - Stop the timer
     - Average the timing results of the execute() iterations
