@@ -134,8 +134,10 @@ Finally, ``execute`` should call ``this->results.receive(read_fd)``
 to receive the benchmark results, before returning successfully.
 
 **Code sublass examples**
-    - ``code_cpp.cpp`` 
-    - ``code_python.cpp``
+
+   See ``code_cpp.cpp`` for an example of a compiled language, and 
+   ``code_python.cpp`` for an interpreted language.
+   
 
 A pipe is used to communicate when running instead of connecting stdin/stdout 
 in the event that the user code is timing IO operations.

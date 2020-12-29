@@ -136,6 +136,9 @@ to receive the benchmark results, before returning successfully.
 **Code sublass examples**
     - ``code_cpp.cpp`` 
     - ``code_python.cpp``
+   See for an example of a compiled language, and 
+   
+   
 
 A pipe is used to communicate when running instead of connecting stdin/stdout 
 in the event that the user code is timing IO operations.
