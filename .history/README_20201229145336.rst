@@ -132,8 +132,9 @@ necessary.
 Execution must support the user adding a single file directly in the 
 ``code/<language>/`` directory, or multiple files within a package.
 
-Finally, the ``execute`` should call ``this->results.receive(read_fd)`` 
-to receive the benchmark results, before returning successfully.
+Finally, the ``execute`` should call ``this->results.receive(read_fd)`` before 
+returning successfully.
+
 
 .. note::
 
