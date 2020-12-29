@@ -135,7 +135,9 @@ returning successfully.
 
 The compile and run system calls should support the user adding a single file 
 directly in the ``code/<language>/`` directory, or multiple files within a 
-package. Throw a Compile_And_Run_Failure in the event of a failure during the
+package.
+
+Throw a Compile_And_Run_Failure in the event of a failure during the
 compilation or run system() calls, using the error code returned from the
 call.
 
