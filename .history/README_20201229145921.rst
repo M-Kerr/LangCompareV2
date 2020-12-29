@@ -124,13 +124,13 @@ Forward the remaining arguments to the ``Code`` constructor.
 
    bool execute(int read_fd, int write_fd) override;
 
-The ``execute`` method should compile the language's ``wrapper.<ext>`` and user
-code together then run it, passing the required command line arguments and any
-others if necessary.
+The ``execute`` method should compile the language's ``wrapper.<ext>`` and user code together
+then run it, passing the required command line arguments and any others if 
+necessary. 
 Execution must support the user adding a single file directly in the 
 ``code/<language>/`` directory, or multiple files within a package.
 
-Finally, ``execute`` should call ``this->results.receive(read_fd)`` 
+Finally, the ``execute`` should call ``this->results.receive(read_fd)`` 
 to receive the benchmark results, before returning successfully.
 
 .. note::
