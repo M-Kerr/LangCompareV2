@@ -82,10 +82,11 @@ How to contribute support for a language
     
 1. Build a wrapper file in the language that matches the requirements for
    wrapper files described in the "Detailed program structure" section.
-   Inside the wrapper file, the timer should begin execution as close as 
-   possible to the execute() call, and stop upon its return.
-   *Use the existing wrapper files for inspiration.*
-
+   This wrapper will execute through a system() call receiving command
+   line arguments.
+   The timer should begin execution as close as possible to the execute()
+   call, and stop upon its return.
+   Use the existing wrapper files for inspiration.
    A const string containing the path to this wrapper file should be placed
    at the top of the header file to the Code subclass created in step 3.
 

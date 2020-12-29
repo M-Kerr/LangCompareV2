@@ -84,8 +84,7 @@ How to contribute support for a language
    wrapper files described in the "Detailed program structure" section.
    Inside the wrapper file, the timer should begin execution as close as 
    possible to the execute() call, and stop upon its return.
-   *Use the existing wrapper files for inspiration.*
-
+   Use the existing wrapper files for inspiration.
    A const string containing the path to this wrapper file should be placed
    at the top of the header file to the Code subclass created in step 3.
 
