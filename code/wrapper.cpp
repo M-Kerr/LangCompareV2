@@ -37,8 +37,6 @@ void return_results(long iters, bool success = true)
     if (write(FD, average.c_str(), average.size()) < 0)
         std::cerr << "Pipe write timing results failed" << std::endl;
 
-    std::cout << "RESULTS SENT: " << average << std::endl;
-
     std::exit(EXIT_SUCCESS);
 #else
 #error Write file descriptor missing

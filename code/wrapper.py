@@ -63,7 +63,6 @@ if __name__ == "__main__":
         sys.stdout.flush()
         sys.stderr.flush()
 
-        logging.debug("RESULTS SENT: {}".format(duration_ns))
         # Warning: will not exit cleanly, leaving ouputs unflushed etc.
         os._exit(0) 
 

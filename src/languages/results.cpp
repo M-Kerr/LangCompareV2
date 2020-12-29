@@ -87,7 +87,6 @@ void Results::receive(int fd)
         duration_us = duration_ns * 0.001;
         duration_ms = duration_us * 0.001;
     }
-    qWarning() << "RESULTS RECEIVED: " << duration_ns;
 }
 
 void Results::print() const
