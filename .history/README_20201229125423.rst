@@ -1,0 +1,197 @@
+Goal
+----
+An application to compare the runtime of similar code constructs in
+multiple languages.
+
+Why
+---
+The difference between languages in runtime efficiency is an occasional
+topic of conversation amongst developers.
+This application will allow the user to test and compare the runtime 
+efficiency of code written in multiple languages.
+
+How
+---
+The user provides code files of the languages of their choice. The 
+application will compile (if necessary) then run the files in a subprocess, 
+using a wrapper that times how long it takes for the code to complete. The
+wrapper then returns the results back to the application for comparison.
+
+Current program structure
+-------------------------
+The main application is currently built in C++, using Qt.
+The "code/<language_name>/" subdirectories contain user submitted code 
+files. Inside the code/ directory is a collection of wrapper files for each
+supported language. The job of the wrapper file is to load the user code,
+initialize a timer, execute the user code, and relay the timing results
+back to the application (currently via pipe, will refactor to sockets soon
+for cross platform compatibility).
+
+Detailed program structure
+--------------------------
+    **src/languages/code.h**
+        User submitted code files are abstracted into a ``Code`` object 
+        containing the language, file information, and timing results.
+        A ``Code`` subclass is created for each language, where the language's
+        specific build and run rules are implemented within the Code.execute()
+        method. The Code.execute() method should ultimately run the language's
+        wrapper file, passing the user code to the wrapper file.
+    
+        Example ``Code`` subclasses:
+    
+        - ``src/languages/code_cpp.h``      
+        - ``src/languages/code_python.h``  
+
+|
+
+    **src/languages/languages.h**
+        Root languages header, contains the factory function called within main
+        to build Code objects.
+
+|
+
+    **code/<language>/<user_code>**
+        User submitted code files are expected to have an execute() function 
+        containing the code to benchmark.
+
+|
+
+    **code/wrapper.<language_extension>**
+        Through either a macro or command line argument, the wrapper file for
+        each language receives the code to wrap; a write pipe file descriptor;
+        and optionally receives the number of iterations to execute; and a 
+        timeout (seconds) to stop execution upon expiration.
+
+        The wrapper file is expected to:
+
+        - Embed the user code
+        - Initialize a timer
+        - Call the execute() function
+        - Stop the timer
+        - Average the timing results of the execute() iterations
+        - Return the results through the write pipe
+    
+    src/main.cpp
+        The main call first builds a list of Code objects through user input.
+        Then it opens a pipe, calls each Code object's execute() method,  
+        passing the pipe file descriptor as an argument in order to communicate
+        the timing results. Finally, it prints each Code object's results.
+
+
+How to contribute support for a language
+----------------------------------------
+    
+1. Build a wrapper file in the language that matches the requirements for
+   wrapper files enumerated in the "Detailed program structure" section.
+   The wrapper will execute through a system() call receiving command
+   line arguments.
+   The timer should begin execution as close as possible to the execute()
+   call, and stop upon its return.
+   Use the existing wrapper files for inspiration.
+
+2. Create a Code subclass using the file naming convention 
+   ``code_<language>.h`` and class name ``<Code_Language_Name>``.
+   The class' constructor should prepend the `code/<language>/` directory
+   on to the file_name when it constructs the Code parent.
+
+   E.g., 
+::
+
+    Code_Cpp::Code_Cpp(const QString file_name,
+                       QObject *parent, unsigned iters, unsigned limit)
+        : Code("C++", "code/cpp/" + file_name, parent, iters, limit)
+        
+
+        Implement the class' execute method with the following signature:
+       The ``code_<language>.h`` header file should contain a global ``QString``
+       variable containing the path to the language's wrapper file:
+
+..  code: c++
+
+    static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
+
+
+                bool execute(int read_fd, int write_fd) override;
+
+        The execute method should:
+
+            Compile the wrapper and user code together if necessary, then run
+            the wrapper, passing the required command line arguments and any
+            others if necessary. Finally, the method should call
+            this->results.receive(read_fd) before returning successfully.
+
+            Additionally, the compile and run calls should support the user
+            adding a single file directly in the code/<language_abbreviation>/ directory, 
+            or multiple files within a package.
+
+                See code_cpp.cpp for an example of a compiled language,
+                and code_python.cpp for an interpreted language.
+
+            *note*
+            A pipe is used to communicate when running instead of stdin/stdout 
+            in the event that the user code is timing IO operations.
+
+            Throw a Compile_And_Run_Failure in the event of a failure during
+            the compilation or run system() calls, using the error code
+            returned from the call.
+
+    #. Inside /src/languages/languages.h:
+
+            - #include the code_<language>.h header file
+        
+            - Add the language name to the LANGAUGES QStringList
+
+            - Add an `else if` segment to the `code_factory` function,
+              building and returning a pointer to a Code_<Language> object.
+              The segment should follow this basic pattern:
+
+    // <Language>
+    else if (language.toLower() == "<language>")
+    {
+        auto code = new Code_<Language>(file_name, parent);
+        auto file = code->get_file();
+        if (file.exists())
+        {
+            return code;
+        }
+        else
+        {
+            delete code;
+            return nullptr;
+        }
+        QFileInfo file("code/<language_abbreviation>/" + file_name);
+        if (file.exists())
+        {
+            return new Code_<Language>(file, parent);
+        }
+        else
+        {
+            return nullptr;
+        }
+
+    
+    4.) Add a code/<language_abbreviation> directory and an example hello_world
+        user file that prints the string "Hello, World!" within an execute()
+        function.
+
+    5.) Build and run the application, testing your language's hello_world
+        code.
+            
+
+How to contribute common algorithms, data structures, and constructs
+--------------------------------------------------------------------
+
+    For common algorithms and data structures, add them as:
+
+        code/algorithms/<algorithm>/<algorithm>.<extension>
+        code/data_structures/<data_structure>/<data_structure>.<extension>
+
+    If adding a new algorithm or data structure, include a README outlining 
+    the parameters of the algorithm or structure.
+    For an example, see the code/algorithms/mergesorts/mergesort directory.
+
+    Constructs should follow the same pattern, where constructs are other
+    common code constructs that don't fall cleanly within the categories of
+    algorithms or data structures. E.g., design patterns, simple servers,
+    memory operations (garbage collection, memory pools, ...), etc.
+
