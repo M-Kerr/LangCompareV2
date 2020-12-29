@@ -84,8 +84,7 @@ if __name__ == "__main__":
         timeout = None
 
     # Execute timed code
-    for i in range(args.iter):
-        duration += timeit.timeit(module.execute, number=args.iter,
+    # timeit has built-in iterations support via 'number' kwarg
+    duration += timeit.timeit(module.execute, number=args.iter,
                                         timer=time.perf_counter_ns)
-    duration /= args.iter
     return_results(True)
