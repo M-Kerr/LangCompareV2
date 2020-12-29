@@ -97,15 +97,13 @@ How to contribute support for a language
    and class naming convention:
     - ``<Code_Language_Name>``
 
-
 Code subclass design
 ++++++++++++++++++++
-**Constructor**
-
-- Pass the name of the language into the ``Code`` constructor
-- Add the language's user-code directory to the ``file_name`` 
-  argument, forwarding the parameters to the ``Code``
-  constructor
+    **Constructor**
+        - Pass the name of the language into the ``Code`` constructor
+        - Add the language's user-code directory to the ``file_name`` 
+          argument, forwarding the parameters to the ``Code``
+          constructor
 
 E.g., 
 
