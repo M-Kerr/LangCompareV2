@@ -142,39 +142,39 @@ Code sublass examples
 
 A pipe is used to communicate when running instead of connecting stdin/stdout 
 in the event that the user code is timing IO operations.
-
    #. Inside /src/languages/languages.h:
-        - #include the code_<language>.h header file
-        - Add the language name to the LANGUAGES QStringList
-        - Add an ``else if`` segment to the ``code_factory`` function,
-          building and returning a pointer to a ``Code_<Language>`` object.
-          The segment should follow this basic pattern:
 
-.. code-block:: c++
+            - #include the code_<language>.h header file
+        
+            - Add the language name to the LANGAUGES QStringList
 
-   // <Language>
-   else if (language.toLower() == "<language>")
-   {
-       auto code = new Code_<Language>(file_name, parent);
-       auto file = code->get_file();
-       if (file.exists())
-       {
-           return code;
-       }
-       else
-       {
-           delete code;
-           return nullptr;
-       }
-       QFileInfo file("code/<language_abbreviation>/" + file_name);
-       if (file.exists())
-       {
-           return new Code_<Language>(file, parent);
-       }
-       else
-       {
-           return nullptr;
-       }
+            - Add an `else if` segment to the `code_factory` function,
+              building and returning a pointer to a Code_<Language> object.
+              The segment should follow this basic pattern:
+
+    // <Language>
+    else if (language.toLower() == "<language>")
+    {
+        auto code = new Code_<Language>(file_name, parent);
+        auto file = code->get_file();
+        if (file.exists())
+        {
+            return code;
+        }
+        else
+        {
+            delete code;
+            return nullptr;
+        }
+        QFileInfo file("code/<language_abbreviation>/" + file_name);
+        if (file.exists())
+        {
+            return new Code_<Language>(file, parent);
+        }
+        else
+        {
+            return nullptr;
+        }
 
     
     4.) Add a code/<language_abbreviation> directory and an example hello_world
