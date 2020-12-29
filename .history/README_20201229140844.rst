@@ -123,7 +123,7 @@ Code subclass design
    static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
    bool execute(int read_fd, int write_fd) override;
 
-  The execute method should
+  The execute method should:
   - Compile the wrapper and user code together if necessary, then run
   - the wrapper, passing the required command line arguments and any
   - others if necessary. Finally, the method should call
