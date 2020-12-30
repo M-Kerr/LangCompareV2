@@ -223,9 +223,8 @@ For common algorithms and data structures, add them as:
     code/data_structures/<data_structure>/<data_structure>.<language_extension>
 
 If adding a new algorithm or data structure, include a README outlining 
-the benchmarking parameters. E.g., "The algorithm should sort this container of
-50 objects...".
-
+the benchmarking parameters. E.g., "The algorithm
+should sort this container of 50 objects...".
 For a code example, see the ``code/algorithms/mergesorts/mergesort`` directory.
 
 Constructs should follow the same pattern as algorithms and data structures, 
