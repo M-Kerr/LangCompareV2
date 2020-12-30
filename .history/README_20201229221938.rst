@@ -184,8 +184,10 @@ Code sublass examples
 5. Add an example hello_world user-file to the code/<language> directory
     that prints the string "Hello, World!" within the execute() function.
 
+
 IPC
 ----
+
 Currently, a pipe is used to communicate benchmarking results back to the 
 application. Communication will be performed with sockets in a future update. 
 stdin/stdout is not a viable means of IPC in the event user-code writes to
@@ -212,22 +214,22 @@ through the pipe in the following format:
    Its important that the wrapper file does *not* close the pipe upon completion,
    as the pipe is maintained by the application until the application ends.
 
+    
+
 How to contribute common algorithms, data structures, and constructs
 --------------------------------------------------------------------
 
 For common algorithms and data structures, add them as:
 ::
 
-    code/algorithms/<algorithm>/<algorithm>.<language_extension>
-    code/data_structures/<data_structure>/<data_structure>.<language_extension>
+    code/algorithms/<algorithm>/<algorithm>.<extension>
+    code/data_structures/<data_structure>/<data_structure>.<extension>
 
 If adding a new algorithm or data structure, include a README outlining 
-the benchmarking parameters of the algorithm or structure. E.g., "The algorithm
-should sort this container of 50 objects...".
-For a code example, see the ``code/algorithms/mergesorts/mergesort`` directory.
+the parameters of the algorithm or structure.
+For an example, see the code/algorithms/mergesorts/mergesort directory.
 
-Constructs should follow the same pattern as algorithms and data structures, 
-where constructs are considered other common code constructs that don't fall 
-cleanly within the categories of algorithms or data structures. 
-E.g., design patterns, simple servers, memory operations 
-(garbage collection, memory pools, etc.).
+Constructs should follow the same pattern, where constructs are other
+common code constructs that don't fall cleanly within the categories of
+algorithms or data structures. E.g., design patterns, simple servers,
+memory operations (garbage collection, memory pools, etc.).
