@@ -152,6 +152,7 @@ Code sublass examples
 .. code-block:: c++
 
    static const QStringList LANGUAGES = {"C++", "Python", "<Language>"};
+ 
 
 5. Update ``src/languages/languages.cpp``
     - Add an ``else if`` segment to the ``code_factory`` function,

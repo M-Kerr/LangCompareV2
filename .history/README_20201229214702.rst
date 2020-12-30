@@ -147,13 +147,8 @@ Code sublass examples
 
 4. Update ``src/languages/languages.h``
     - ``#include`` the ``code_<language>.h`` header file
-    - Add the language name to the ``LANGUAGES`` ``QStringList``
-
-.. code-block:: c++
-
-   static const QStringList LANGUAGES = {"C++", "Python", "<Language>"};
-
 5. Update ``src/languages/languages.cpp``
+    - Add the language name to the ``LANGUAGES`` ``QStringList``
     - Add an ``else if`` segment to the ``code_factory`` function,
       which builds and returns a pointer to a ``Code_<Language>`` object.
       The ``else if`` segment should follow this basic pattern:

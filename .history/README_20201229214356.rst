@@ -145,15 +145,9 @@ Code sublass examples
     - ``code_cpp.cpp`` 
     - ``code_python.cpp``
 
-4. Update ``src/languages/languages.h``
+4. Update /src/languages/languages.h
     - ``#include`` the ``code_<language>.h`` header file
     - Add the language name to the ``LANGUAGES`` ``QStringList``
-
-.. code-block:: c++
-
-   static const QStringList LANGUAGES = {"C++", "Python", "<Language>"};
-
-5. Update ``src/languages/languages.cpp``
     - Add an ``else if`` segment to the ``code_factory`` function,
       which builds and returns a pointer to a ``Code_<Language>`` object.
       The ``else if`` segment should follow this basic pattern:
@@ -177,6 +171,15 @@ Code sublass examples
            else
            {
                delete code;
+               return nullptr;
+           }
+           QFileInfo file("code/<language_abbreviation>/" + file_name);
+           if (file.exists())
+           {
+               return new Code_<Language>(file, parent);
+           }
+           else
+           {
                return nullptr;
            }
    }
