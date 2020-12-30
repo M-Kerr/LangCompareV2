@@ -189,8 +189,7 @@ IPC
 Currently, a pipe is used to communicate benchmarking results back to the 
 application. Communication will be performed with sockets in a future update. 
 stdin/stdout is not a viable means of IPC in the event user-code writes to
-them, and therefore cannot be used for IPC between the application and 
-user-code.
+them, and therefore cannot be used for IPC
 
 The application passes the write end of the pipe to the language wrapper.
 The application then expects to receive the results back from the wrapper
