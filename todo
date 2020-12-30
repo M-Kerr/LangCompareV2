@@ -1,9 +1,9 @@
 Add rst to README
+    - Add a detailed IPC section in the README
+        - wrapper write pattern that results.receive is expecting
 
 Implement GUI
 
-Add a detailed IPC section in the README
-    - wrapper write pattern that results.receive is expecting
 
 Add a timing results base unit option (seconds, ns, ms, etc).
     - Add to documentation

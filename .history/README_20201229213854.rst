@@ -154,35 +154,29 @@ Code sublass examples
 
 .. code-block:: c++
 
-   Code *code_factory(const QString &language, const QString &file_name,
-                      QObject *parent, unsigned iters, unsigned timeout)
+   // <Language>
+   else if (language.toLower() == "<language>")
    {
-       ...
-
-       // <Language>
-       else if (language.toLower() == "<language>")
+       auto code = new Code_<Language>(file_name, parent);
+       auto file = code->get_file();
+       if (file.exists())
        {
-           auto code = new Code_<Language>(file_name, parent);
-           auto file = code->get_file();
-           if (file.exists())
-           {
-               return code;
-           }
-           else
-           {
-               delete code;
-               return nullptr;
-           }
-           QFileInfo file("code/<language_abbreviation>/" + file_name);
-           if (file.exists())
-           {
-               return new Code_<Language>(file, parent);
-           }
-           else
-           {
-               return nullptr;
-           }
-   }
+           return code;
+       }
+       else
+       {
+           delete code;
+           return nullptr;
+       }
+       QFileInfo file("code/<language_abbreviation>/" + file_name);
+       if (file.exists())
+       {
+           return new Code_<Language>(file, parent);
+       }
+       else
+       {
+           return nullptr;
+       }
 
 TODO
 ----
