@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/pages">
+        <file>AddCodePage.qml</file>
+        <file>AddCodePageForm.ui.qml</file>
+        <file>EditCodePage.qml</file>
+        <file>EditCodePageForm.ui.qml</file>
+        <file>Page1Form.ui.qml</file>
+        <file>Page2Form.ui.qml</file>
+        <file>ResultsPage.qml</file>
+        <file>ResultsPageForm.ui.qml</file>
+    </qresource>
+</RCC>

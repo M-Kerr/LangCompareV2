@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/src/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
@@ -22,6 +22,12 @@ int main(int argc, char *argv[])
 
     if (!set_cwd_to_application_dir(argv)) return 1;
 
+
+    // TODO: Parse argv input for a CLI argument to run application
+    // in command line instead of GUI.
+    // TODO: Uncomment below code.
+
+/*
     // Fill vector with user submitted code for benchmarking
     QVector<Code*> code_files;
     build_code_list(code_files);
@@ -45,5 +51,6 @@ int main(int argc, char *argv[])
         code->print_results();
     }
 
+*/
     return app.exec();
 }

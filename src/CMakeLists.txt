@@ -25,15 +25,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
+set(QRC_FILES qml/qml.qrc qml/pages/pages.qrc)
+
 if(ANDROID)
     add_library(${PROJECT_NAME} SHARED
       main.cpp
-      qml.qrc
+      ${QRC_FILES}
     )
 else()
     add_executable(${PROJECT_NAME}
       main.cpp
-      qml.qrc
+      ${QRC_FILES}
     )
 endif()
 
