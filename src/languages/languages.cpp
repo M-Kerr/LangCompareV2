@@ -1,6 +1,6 @@
 #include "languages.h"
 
-Code *code_factory(const QString &language, const QString &file_name,
+Code *Languages::code_factory(const QString &language, const QString &file_name,
                    QObject *parent, unsigned iters, unsigned timeout)
 {
     // C++
@@ -39,7 +39,7 @@ Code *code_factory(const QString &language, const QString &file_name,
     }
 }
 
-void build_code_list(QVector<Code*> &code_files)
+void Languages::build_code_list(QVector<Code*> &code_files)
 {
     QString language;
     QTextStream q_stdin(stdin, QIODevice::ReadOnly);

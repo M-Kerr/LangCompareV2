@@ -7,8 +7,14 @@
 
 static const QStringList LANGUAGES = {"C++", "Python"};
 
-
 /**
+ * @brief Languages class contains functions to build Code* objects
+ */
+class Languages: public QObject
+{
+    Q_OBJECT
+public:
+    /**
  * @brief code_factory builds Code subclasses.
  *
  * Builds a Code subclass according to the submitted file's language
@@ -18,12 +24,13 @@ static const QStringList LANGUAGES = {"C++", "Python"};
  * @param parent Q_OBJECT parent pointer
  * @return Code *, nullptr on failure
  */
-Code *code_factory(const QString &language, const QString &file_name,
-                   QObject *parent = nullptr, unsigned iters = 1,
-                   unsigned timeout = 0);
+    Q_INVOKABLE static Code *code_factory(const QString &language, const QString &file_name,
+                                          QObject *parent = nullptr, unsigned iters = 1,
+                                          unsigned timeout = 0);
 
 
-/**
+    /**
  * @brief Fills a vector with Code file objects via user input.
  */
-void build_code_list(QVector<Code*> &code_files);
+    Q_INVOKABLE static void build_code_list(QVector<Code*> &code_files);
+};

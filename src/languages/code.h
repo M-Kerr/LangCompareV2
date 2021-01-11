@@ -13,6 +13,10 @@
 class Code : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString language_ READ get_language)
+    Q_PROPERTY(QFileInfo file_ READ get_file)
+    Q_PROPERTY(QString iters_ READ get_iters)
+    Q_PROPERTY(QString limit_ READ get_limit)
 
     const QString language_;
     const QFileInfo file_;
@@ -38,11 +42,11 @@ public:
     const Results &get_results() const;
 
     //! @brief returns file name without extension.
-    const QString file_name() const;
+    Q_INVOKABLE QString file_name() const;
     //! @brief returns absolute path to the file's directory.
-    const QString file_path() const;
+    Q_INVOKABLE QString file_path() const;
     //! @brief returns absolute path to the file, without the extension.
-    const QString output_file() const;
+    Q_INVOKABLE QString output_file() const;
 
     void print_results() const;
 
@@ -52,10 +56,11 @@ public:
      * @param write_fd pipe file descriptor write end.
      * @return bool true upon success.
      */
-    virtual bool execute(int read_fd, int write_fd) = 0;
+    Q_INVOKABLE virtual bool execute(int read_fd, int write_fd) = 0;
 
 signals:
 
 public slots:
 };
 
+Q_DECLARE_INTERFACE(Code, "Code")

@@ -26,7 +26,7 @@ public:
                   long iters = 1, long timeout = 0)
     {
         if (code) delete code;
-        code = code_factory(language, file, nullptr, iters, timeout);
+        code = Languages::code_factory(language, file, nullptr, iters, timeout);
         ASSERT_TRUE(code != nullptr) << "Failed to create Code *";
         EXPECT_TRUE(code->execute(fd[0], fd[1])) << "execute() failed";
     }

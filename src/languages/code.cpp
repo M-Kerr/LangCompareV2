@@ -18,17 +18,17 @@ const QFileInfo &Code::get_file() const
     return file_;
 }
 
-const QString Code::file_name() const
+QString Code::file_name() const
 {
     return file_.completeBaseName();
 }
 
-const QString Code::file_path() const
+QString Code::file_path() const
 {
     return file_.absoluteFilePath();
 }
 
-const QString Code::output_file() const
+QString Code::output_file() const
 {
     return file_.absolutePath() + "/" + file_name();
 }
@@ -53,4 +53,11 @@ void Code::print_results() const
     qInfo().noquote().nospace() << "\n\t" << language_ << " "
                                 << file_.completeBaseName() << " results:";
     results.print();
+}
+
+bool Code::execute(int read_fd, int write_fd)
+{
+    static_cast<void>(read_fd); static_cast<void>(write_fd);
+
+    return true;
 }
