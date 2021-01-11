@@ -1,23 +1,23 @@
-Add rst to README
-
 Implement GUI
-
-Add a detailed IPC section in the README
-    - wrapper write pattern that results.receive is expecting
-
-Add a timing results base unit option (seconds, ns, ms, etc).
-    - Add to documentation
 
 Implement sockets
     - Update README to reflect sockets instead of pipes
 
+Perform a second README edit pass
+
+Add Qt src to maintain Qt licensing requirements
+
+PUBLISH MVP
+
 Add compiler support for MSVC and GCC
+
+Add a timing results base unit option (seconds, ns, ms, etc).
+    - Add to documentation
+
 
 Make user-code compile/run into a code/tmp directory
     - Currently builds into and clutters application directory
 
 Implement geohot's multi-language algorithm repo
-
-Add Qt src to maintain Qt licensing requirements
 
 Allow user to define python environment

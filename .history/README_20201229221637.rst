@@ -181,37 +181,41 @@ Code sublass examples
            }
    }
 
-5. Add an example hello_world user-file to the code/<language> directory
-    that prints the string "Hello, World!" within the execute() function.
-
 IPC
 ----
+
 Currently, a pipe is used to communicate benchmarking results back to the 
 application. Communication will be performed with sockets in a future update. 
 stdin/stdout is not a viable means of IPC in the event user-code writes to
-them, and therefore cannot be used for IPC between the application and 
-user-code.
+them.
 
-The application passes the file descriptor for the write end of the pipe to the
-language wrapper. The application then expects to receive the results back from
-the wrapper through the pipe in the following format:
+The application passes the write end of the pipe to the language wrapper.
+The application then expects to receive the results back from the wrapper
+through the pipe in the following format:
 
-- A ``'1'`` or ``'0'`` character followed by a newline ``'\n'``, 
-  representing the state of the benchmark run. ``0`` represents failure or 
-  timeout, ``1`` represents success.
+    - A ``'1'`` or ``'0``` character followed by a newline ``'\n'``, 
+      representing the state of the benchmark run. ``0`` represents failure or 
+      timeout, ``1`` represents success.
 
-- The byte size of the incoming results data followed by a newline ``'\n'``.
+    - The byte size of the incoming results data followed by a newline ``'\n'``.
 
-- The results data. Currently, the results are expected to be in nanoseconds,
-  with the option to adjust the time unit coming in a future update.
-  In the event of a failure, the pipe must still receive timing results. 
-  For consistency, the wrapper should return a result of ``'0'``, but the 
-  value will be ignored by the application if the success bit is ``'0'``.
+    - The results data. Currently, the results are expected to be in nanoseconds,
+      with the option to adjust the time unit coming in a future update.
+      In the event of a failure, the pipe must still receive timing results. 
+      For consistency, the wrapper should return a result of ``'0'``, but the 
+      value will be ignored by the application.
 
-.. warning::
+Its important that the wrapper file does *not* close the pipe upon completion,
+as the pipe is maintained by the application until the application ends.
 
-   Its important that the wrapper file does *not* close the pipe upon completion,
-   as the pipe is maintained by the application until the application ends.
+    
+#. Add a code/<language_abbreviation> directory and an example hello_world
+    user file that prints the string "Hello, World!" within an execute()
+    function.
+
+#. Build and run the application, testing your language's hello_world;
+    code.
+            
 
 How to contribute common algorithms, data structures, and constructs
 --------------------------------------------------------------------
@@ -219,17 +223,14 @@ How to contribute common algorithms, data structures, and constructs
 For common algorithms and data structures, add them as:
 ::
 
-    code/algorithms/<algorithm>/<algorithm>.<language_extension>
-    code/data_structures/<data_structure>/<data_structure>.<language_extension>
+    code/algorithms/<algorithm>/<algorithm>.<extension>
+    code/data_structures/<data_structure>/<data_structure>.<extension>
 
 If adding a new algorithm or data structure, include a README outlining 
-the benchmarking parameters. E.g., "The algorithm should sort this container of
-50 objects...".
+the parameters of the algorithm or structure.
+For an example, see the code/algorithms/mergesorts/mergesort directory.
 
-For a code example, see the ``code/algorithms/mergesorts/mergesort`` directory.
-
-Constructs should follow the same pattern as algorithms and data structures, 
-where constructs are the other common code constructs that don't fall 
-cleanly within the categories of algorithms or data structures. 
-E.g., design patterns, simple servers, memory operations 
-(garbage collection, memory pools, etc.).
+Constructs should follow the same pattern, where constructs are other
+common code constructs that don't fall cleanly within the categories of
+algorithms or data structures. E.g., design patterns, simple servers,
+memory operations (garbage collection, memory pools, etc.).
