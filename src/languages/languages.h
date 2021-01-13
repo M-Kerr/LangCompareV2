@@ -1,19 +1,37 @@
 #pragma once
 
 #include <QFileInfo>
+#include <QMap>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QUrl>
 #include "code_cpp.h"
 #include "code_python.h"
 #include "helpers/helpers.h"
 
-static const QStringList LANGUAGES = {"C++", "Python"};
 
-/**
- * @brief Languages class contains functions to build Code* objects
- */
+//!@brief supported languages and their relative user-code subdirectory
+static const QMap<QString, QString> LANGUAGES = {
+    {"c++", "code/cpp/"},
+    {"python", "code/py/"}
+    // Add additional languages here...
+};
+
+//!@brief Languages class contains functions to build Code* objects
 class Languages: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QList<QObject*> code_files READ get_code_files)
+
+    static QQmlApplicationEngine *engine_;
 public:
+    explicit Languages(QObject *parent = nullptr);
+
+    static QList<QObject*> code_files;
+
+    static void start_qml(QQmlApplicationEngine *engine);
+    Q_INVOKABLE static QList<QObject*> &get_code_files();
+
     /**
  * @brief code_factory builds Code subclasses.
  *
@@ -32,5 +50,15 @@ public:
     /**
  * @brief Fills a vector with Code file objects via user input.
  */
-    Q_INVOKABLE static void build_code_list(QVector<Code*> &code_files);
+    Q_INVOKABLE static void build_code_list();
+    Q_INVOKABLE static void qml_build_code_list(const QString &language,
+                                                const QUrl &file_url,
+                                                QObject *parent = nullptr,
+                                                unsigned iters = 1,
+                                                unsigned timeout = 0);
+
+signals:
+    void code_filesChanged();
+
+public slots:
 };

@@ -9,6 +9,6 @@ add_library(${PROJECT_NAME}_languages
 
 target_link_libraries(${PROJECT_NAME}_languages
     PUBLIC
-    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     ${PROJECT_NAME}_helpers
     )

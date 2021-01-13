@@ -5,6 +5,8 @@
 #include "languages/languages.h"
 #include "helpers/helpers.h"
 #include <QQmlContext>
+#include <QScopedPointer>
+#include <QSharedPointer>
 
 
 
@@ -13,12 +15,17 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    engine.rootContext()->setContextProperty("LANGUAGES", QVariant::fromValue(LANGUAGES));
-    qmlRegisterInterface<Code>("Code", 1);
-//    qmlRegisterType<Code>("Code", 1, 0, "Code");
-    QVector<Code*> code_files;
-
-
+    Languages::start_qml(&engine);
+//    Languages languages{};
+//    qmlRegisterType<Code>("Languages", 1, 0, "Languages");
+//    engine.rootContext()->setContextProperty("languages_instance", &languages);
+//    QScopedPointer<Languages> languages_singleton(new Languages(&engine));
+//    qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
+//                                 languages_singleton.get());
+    QStringList available_languages = LANGUAGES.keys();
+    engine.rootContext()->setContextProperty("LANGUAGES",
+                                             QVariant::fromValue(
+                                                 available_languages));
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -36,10 +43,12 @@ int main(int argc, char *argv[])
     // in command line instead of GUI.
     // TODO: Uncomment below code.
 
+/*
     // Fill vector with user submitted code for benchmarking
-    Languages::build_code_list(code_files);
+    Languages::build_code_list();
 
     //Open pipe to receive results
+    // FIXME: turn these blocks into Languages:: methods
     int pipe_fd[2];
     if (pipe(pipe_fd) < 0 )
     {
@@ -47,16 +56,21 @@ int main(int argc, char *argv[])
     }
 
     // Benchmark code
-    for (Code *const code: qAsConst(code_files))
+    // FIXME: turn these blocks into Languages:: methods
+    for (QObject *const code: qAsConst(Languages::code_files))
     {
-        code->execute(pipe_fd[0], pipe_fd[1]);
+        // I need to upcast the object ahhh
+        Code *cp = qobject_cast<Code *>(code);
+        cp->execute(pipe_fd[0], pipe_fd[1]);
     }
 
     // Print results
-    for (const Code *code: qAsConst(code_files))
+    // FIXME: turn these blocks into Languages:: methods
+    for (const QObject *code: qAsConst(Languages::code_files))
     {
-        code->print_results();
+        Code *cp = qobject_cast<Code *>(code);
+        cp->print_results();
     }
-
+*/
     return app.exec();
 }

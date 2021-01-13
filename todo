@@ -1,4 +1,7 @@
 Implement GUI
+    Notes:
+        Code_Cpp and Code_Python may require a noargs constructor to register
+        with QML, and Q_INVOKABLE in order to call their execute methods.
 
 Implement sockets
     - Update README to reflect sockets instead of pipes
