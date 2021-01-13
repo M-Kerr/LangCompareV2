@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     // in command line instead of GUI.
     // TODO: Uncomment below code.
 
-/*
+///*
     // Fill vector with user submitted code for benchmarking
     Languages::build_code_list();
 
@@ -71,6 +71,6 @@ int main(int argc, char *argv[])
         Code *cp = qobject_cast<Code *>(code);
         cp->print_results();
     }
-*/
+//*/
     return app.exec();
 }

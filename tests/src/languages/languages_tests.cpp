@@ -34,7 +34,7 @@ public:
         if (code) delete code;
 
         add_directory_prefix(language, file);
-        code = Languages::code_factory(language, file, nullptr, iters, timeout);
+        code = new Code(language, file, nullptr, iters, timeout);
         ASSERT_TRUE(code != nullptr) << "Failed to create Code *";
         EXPECT_TRUE(code->execute(fd[0], fd[1])) << "execute() failed";
     }

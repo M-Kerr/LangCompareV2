@@ -5,17 +5,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QUrl>
-#include "code_cpp.h"
-#include "code_python.h"
+#include "code.h"
 #include "helpers/helpers.h"
-
-
-//!@brief supported languages and their relative user-code subdirectory
-static const QMap<QString, QString> LANGUAGES = {
-    {"c++", "code/cpp/"},
-    {"python", "code/py/"}
-    // Add additional languages here...
-};
 
 //!@brief Languages class contains functions to build Code* objects
 class Languages: public QObject
@@ -42,16 +33,12 @@ public:
  * @param parent Q_OBJECT parent pointer
  * @return Code *, nullptr on failure
  */
-    Q_INVOKABLE static Code *code_factory(const QString &language, const QString &file_name,
-                                          QObject *parent = nullptr, unsigned iters = 1,
-                                          unsigned timeout = 0);
-
 
     /**
  * @brief Fills a vector with Code file objects via user input.
  */
     Q_INVOKABLE static void build_code_list();
-    Q_INVOKABLE static void qml_build_code_list(const QString &language,
+    Q_INVOKABLE static bool qml_build_code_list(const QString &language,
                                                 const QUrl &file_url,
                                                 QObject *parent = nullptr,
                                                 unsigned iters = 1,

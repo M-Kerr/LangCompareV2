@@ -7,6 +7,13 @@
 #include "results.h"
 #include "compile_and_run_failure.h"
 
+//!@brief supported languages and their relative user-code subdirectory
+static const QMap<QString, QString> LANGUAGES = {
+    {"c++", "code/cpp/"},
+    {"python", "code/py/"}
+    // Add additional languages here...
+};
+
 static const QString CPP_WRAPPER_FILE("code/wrapper.cpp");
 static const QString PYTHON_WRAPPER_FILE("code/wrapper.py");
 
