@@ -2,11 +2,9 @@
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <QVector>
+#include <QQmlContext>
 #include "languages/languages.h"
 #include "helpers/helpers.h"
-#include <QQmlContext>
-#include <QScopedPointer>
-#include <QSharedPointer>
 
 
 
@@ -15,17 +13,27 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    Languages::start_qml(&engine);
+    // Registering as type simply for code completion in QML.
+    // Only use the singleton.
+    qmlRegisterType<Languages>("Languages", 1, 0, "LanguagesT");
+    QScopedPointer<Languages> languages_singleton(new Languages(&engine));
+    qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
+                                 languages_singleton.get());
+    qmlRegisterType<Code>("Code", 1, 0, "Code");
+    Languages::set_engine(&engine);
+    engine.rootContext()->setContextProperty(
+                "code_files", QVariant::fromValue(Languages::code_files));
+
+//    LANGUAGES_START_QML(engine);
 //    Languages languages{};
 //    qmlRegisterType<Code>("Languages", 1, 0, "Languages");
 //    engine.rootContext()->setContextProperty("languages_instance", &languages);
-//    QScopedPointer<Languages> languages_singleton(new Languages(&engine));
-//    qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
-//                                 languages_singleton.get());
     QStringList available_languages = LANGUAGES.keys();
     engine.rootContext()->setContextProperty("LANGUAGES",
                                              QVariant::fromValue(
                                                  available_languages));
+    engine.rootContext()->setContextProperty("ExecutableDir", QString(QCoreApplication::applicationDirPath()));
+
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
@@ -43,7 +51,7 @@ int main(int argc, char *argv[])
     // in command line instead of GUI.
     // TODO: Uncomment below code.
 
-///*
+/*
     // Fill vector with user submitted code for benchmarking
     Languages::build_code_list();
 
@@ -59,7 +67,6 @@ int main(int argc, char *argv[])
     // FIXME: turn these blocks into Languages:: methods
     for (QObject *const code: qAsConst(Languages::code_files))
     {
-        // I need to upcast the object ahhh
         Code *cp = qobject_cast<Code *>(code);
         cp->execute(pipe_fd[0], pipe_fd[1]);
     }
@@ -71,6 +78,6 @@ int main(int argc, char *argv[])
         Code *cp = qobject_cast<Code *>(code);
         cp->print_results();
     }
-//*/
+*/
     return app.exec();
 }

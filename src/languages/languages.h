@@ -5,6 +5,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QUrl>
+#include <QScopedPointer>
 #include "code.h"
 #include "helpers/helpers.h"
 
@@ -20,24 +21,21 @@ public:
 
     static QList<QObject*> code_files;
 
-    static void start_qml(QQmlApplicationEngine *engine);
     Q_INVOKABLE static QList<QObject*> &get_code_files();
 
-    /**
- * @brief code_factory builds Code subclasses.
- *
- * Builds a Code subclass according to the submitted file's language
- *
- * @param language code file language
- * @param file_name code file name and extension
- * @param parent Q_OBJECT parent pointer
- * @return Code *, nullptr on failure
- */
 
-    /**
- * @brief Fills a vector with Code file objects via user input.
- */
+    static void set_engine(QQmlApplicationEngine *engine);
+
+    /*!
+    * @brief Fills a vector with Code file objects via user input.
+    */
     Q_INVOKABLE static void build_code_list();
+
+    /*!
+     * \brief qml_build_code_list builds a list of Code objects exposed to QML
+     * Creating Code objects directly in QML instead of C++ is recommended,
+     * however. See qml/components/CodeButton.qml
+     */
     Q_INVOKABLE static bool qml_build_code_list(const QString &language,
                                                 const QUrl &file_url,
                                                 QObject *parent = nullptr,

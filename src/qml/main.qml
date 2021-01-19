@@ -11,22 +11,21 @@ ApplicationWindow {
     title: qsTr("Tabs")
     id: window
 
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        currentIndex: tabBar.currentIndex
+        SwipeView {
+            id: swipeView
+            anchors.fill: parent
+            currentIndex: tabBar.currentIndex
 
+            AddCodePage{
+            }
 
-        AddCodePage{
+            EditCodePage {
+            }
+
+            ResultsPage {
+            }
+
         }
-
-        EditCodePage {
-        }
-
-        ResultsPage {
-        }
-
-    }
 
     header: ColumnLayout {
         width: window.width
@@ -42,7 +41,7 @@ ApplicationWindow {
 
             TabButton {
                 id: add_tab
-                text: qsTr("Add")
+                text: qsTr("Select")
             }
 
             TabButton {
@@ -57,7 +56,7 @@ ApplicationWindow {
         }
 
 
-        // Run status box will go here
+        //TODO: compile/run status box will go here
 
     }
 

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/components">
+        <file>CodeButton.qml</file>
+        <file>create_code_button.js</file>
+    </qresource>
+</RCC>

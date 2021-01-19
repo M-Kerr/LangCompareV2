@@ -6,7 +6,6 @@ Languages::Languages(QObject *parent)
 }
 
 QQmlApplicationEngine *Languages::engine_ = nullptr;
-
 QList<QObject *> Languages::code_files{};
 
 QList<QObject *> &Languages::get_code_files()
@@ -14,19 +13,9 @@ QList<QObject *> &Languages::get_code_files()
     return code_files;
 }
 
-void Languages::start_qml(QQmlApplicationEngine *engine)
+void Languages::set_engine(QQmlApplicationEngine *engine)
 {
-    qmlRegisterUncreatableType<Languages>("Languagues", 1, 0, "Languages",
-                                          "Static methods, only");
-    // FIXME: remove commented code
-    //    qmlRegisterType<Code>("Code", 1, 0, "Code");
-    //    qmlRegisterType<Code_Cpp>("Code", 1, 0, "Code_Cpp");
-    //    qmlRegisterAnonymousType<Code>("Code", 1);
-    qmlRegisterInterface<Code>("Code", 1);
-    //    qmlRegisterAnonymousType<Languages>("Languages", 1);
     engine_ = engine;
-    engine_->rootContext()->setContextProperty(
-                "code_files", QVariant::fromValue(code_files));
 }
 
 void Languages::build_code_list()
@@ -83,7 +72,6 @@ void Languages::build_code_list()
     }
 }
 
-
 bool Languages::qml_build_code_list(const QString &language, const QUrl &file_url,
                                     QObject *parent, unsigned iters,
                                     unsigned timeout)
@@ -103,9 +91,6 @@ bool Languages::qml_build_code_list(const QString &language, const QUrl &file_ur
     engine_->rootContext()->setContextProperty(
                 "code_files", QVariant::fromValue(code_files));
 
-    // FIXME: Delete debug below
-    qInfo() << "THIS IS THE VALUE " +
-               code_files.back()->property("language_").toString();
     return true;
 }
 
