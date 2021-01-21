@@ -72,6 +72,37 @@ void Languages::build_code_list()
     }
 }
 
+//TODO
+void Languages::execute_code()
+{
+//    // Fill vector with user submitted code for benchmarking
+//    Languages::build_code_list();
+
+//    //Open pipe to receive results
+//    // FIXME: turn these blocks into Languages:: methods
+//    int pipe_fd[2];
+//    if (pipe(pipe_fd) < 0 )
+//    {
+//        qFatal("Pipe failed to open");
+//    }
+
+//    // Benchmark code
+//    // FIXME: turn these blocks into Languages:: methods
+//    for (QObject *const code: qAsConst(Languages::code_files))
+//    {
+//        Code *cp = qobject_cast<Code *>(code);
+//        cp->execute(pipe_fd[0], pipe_fd[1]);
+//    }
+
+//    // Print results
+//    // FIXME: turn these blocks into Languages:: methods
+//    for (const QObject *code: qAsConst(Languages::code_files))
+//    {
+//        Code *cp = qobject_cast<Code *>(code);
+//        cp->print_results();
+//    }
+}
+
 bool Languages::qml_build_code_list(const QString &language, const QUrl &file_url,
                                     QObject *parent, unsigned iters,
                                     unsigned timeout)
@@ -92,6 +123,36 @@ bool Languages::qml_build_code_list(const QString &language, const QUrl &file_ur
                 "code_files", QVariant::fromValue(code_files));
 
     return true;
+}
+
+void Languages::qml_execute_code()
+{
+    //Open pipe to receive results
+    int pipe_fd[2];
+    if (pipe(pipe_fd) < 0 )
+    {
+        qFatal("Pipe failed to open");
+    }
+
+    // NOTE: Our model is inside QML, will have to iterate through each CodeButton object
+    // In the model inside QML.
+    // Benchmark code
+//    for (QObject *const code: qAsConst(Languages::code_files))
+//    {
+//        Code *cp = qobject_cast<Code *>(code);
+//        cp->execute(pipe_fd[0], pipe_fd[1]);
+//    }
+
+    // NOTE: Our model is inside QML, will have to iterate through each
+    // CodeButton object in the model inside QML.
+    // TODO: need to create QML functionality to render charts of results
+    // objects
+    // Print results
+//    for (const QObject *code: qAsConst(Languages::code_files))
+//    {
+//        Code *cp = qobject_cast<Code *>(code);
+//        cp->print_results();
+//    }
 }
 
 

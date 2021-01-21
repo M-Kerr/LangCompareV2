@@ -31,6 +31,8 @@ public:
     */
     Q_INVOKABLE static void build_code_list();
 
+    void execute_code();
+
     /*!
      * \brief qml_build_code_list builds a list of Code objects exposed to QML
      * Creating Code objects directly in QML instead of C++ is recommended,
@@ -42,8 +44,11 @@ public:
                                                 unsigned iters = 1,
                                                 unsigned timeout = 0);
 
+
+
 signals:
     void code_filesChanged();
 
 public slots:
+    void qml_execute_code();
 };
