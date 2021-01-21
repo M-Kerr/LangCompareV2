@@ -14,6 +14,8 @@ Page {
     width: 600
     height: 400
 
+    property alias fDialog: fileDialog
+
     Component {
         id: codeButtonComponent
         CodeButton {}
