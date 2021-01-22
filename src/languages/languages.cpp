@@ -7,15 +7,32 @@ Languages::Languages(QObject *parent)
 
 QQmlApplicationEngine *Languages::engine_ = nullptr;
 QList<QObject *> Languages::code_files{};
+int Languages::read_fd_ = 0;
+int Languages::write_fd_ = 0;
 
 QList<QObject *> &Languages::get_code_files()
 {
     return code_files;
 }
 
+int Languages::get_read_fd()
+{
+    return read_fd_;
+}
+
+int Languages::get_write_fd()
+{
+    return write_fd_;
+}
+
 void Languages::set_engine(QQmlApplicationEngine *engine)
 {
     engine_ = engine;
+}
+
+QQmlApplicationEngine *Languages::get_engine()
+{
+    return engine_;
 }
 
 void Languages::build_code_list()
@@ -125,81 +142,13 @@ bool Languages::qml_build_code_list(const QString &language, const QUrl &file_ur
     return true;
 }
 
-void Languages::qml_execute_code()
+void Languages::open_pipe()
 {
-    //Open pipe to receive results
     int pipe_fd[2];
     if (pipe(pipe_fd) < 0 )
     {
         qFatal("Pipe failed to open");
     }
-
-    // NOTE: Our model is inside QML, will have to iterate through each CodeButton object
-    // In the model inside QML.
-    // Benchmark code
-//    for (QObject *const code: qAsConst(Languages::code_files))
-//    {
-//        Code *cp = qobject_cast<Code *>(code);
-//        cp->execute(pipe_fd[0], pipe_fd[1]);
-//    }
-
-    // NOTE: Our model is inside QML, will have to iterate through each
-    // CodeButton object in the model inside QML.
-    // TODO: need to create QML functionality to render charts of results
-    // objects
-    // Print results
-//    for (const QObject *code: qAsConst(Languages::code_files))
-//    {
-//        Code *cp = qobject_cast<Code *>(code);
-//        cp->print_results();
-//    }
+    read_fd_ = pipe_fd[0];
+    write_fd_ = pipe_fd[1];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
