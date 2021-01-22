@@ -15,6 +15,7 @@ Page {
     height: 400
 
     property alias fDialog: fileDialog
+    property alias cModel: code_model
 
     Component {
         id: codeButtonComponent
@@ -23,6 +24,14 @@ Page {
 
     ObjectModel {
         id: code_model
+        function executeCode(read_fd, write_fd) {
+            // Iterate through the model and execute Code objects
+            for (var i=0; i < count; i++)
+            {
+                get(i).code.execute(read_fd, write_fd);
+            }
+            // TODO: render results
+        }
     }
 
     Item {

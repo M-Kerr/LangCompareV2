@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/pages">
-        <file>AddCodePage.qml</file>
-        <file>EditCodePage.qml</file>
-        <file>EditCodePageForm.ui.qml</file>
+        <file>SelectPage.qml</file>
+        <file>EditPage.qml</file>
         <file>ResultsPage.qml</file>
-        <file>ResultsPageForm.ui.qml</file>
     </qresource>
 </RCC>
