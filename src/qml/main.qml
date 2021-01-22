@@ -10,10 +10,21 @@ ApplicationWindow {
     height: 480
     visible: true
     title: qsTr("Tabs")
-    id: window
+    id: root
+
+    property int read_fd
+    property int write_fd
+
+    property alias cModel: selectPage.cModel
+
+    function openPipe() {
+        Languages.open_pipe();
+        read_fd = Languages.read_fd_;
+        write_fd = Languages.write_fd_;
+    }
 
     header: ColumnLayout {
-        width: window.width
+        width: root.width
 
         TabBar {
             id: tabBar
@@ -39,20 +50,21 @@ ApplicationWindow {
                 text: qsTr("Results")
             }
         }
-
     }
+
         SwipeView {
             id: swipeView
             anchors.fill: parent
             currentIndex: tabBar.currentIndex
 
-            AddCodePage{
+            SelectPage{
+                id: selectPage
                 fDialog.onAccepted: {
                     runButton.enabled = true
                 }
             }
 
-            EditCodePage {
+            EditPage {
             }
 
             ResultsPage {
@@ -61,11 +73,9 @@ ApplicationWindow {
         }
 
         ScrollView {
-        //TODO: compile/run status box will go here
             id: scrollView
             z: 1
-            visible: true
-//            visible: false
+            visible: false
             anchors.fill: parent
 
             TextArea {
@@ -75,8 +85,7 @@ ApplicationWindow {
                 activeFocusOnTab: false
                 color: "white"
 
-                text: "Foo fumm fii faaa fiizzz asdf \n
-Fim fum foo fooo hello these are multiple \n lines of output"
+                text: CppQmlConsole
 
                 background: Rectangle {
                     color: "#3F51B5"
@@ -88,8 +97,7 @@ Fim fum foo fooo hello these are multiple \n lines of output"
 
 
     footer: ColumnLayout {
-        width: window.width
-        //TODO: make footer invisible until running is an option
+        width: root.width
 
         Button {
             id: runButton
@@ -107,7 +115,8 @@ Fim fum foo fooo hello these are multiple \n lines of output"
 
             onClicked: {
                 scrollView.visible = true
-                //TODO: start compilation and execution
+                root.openPipe();
+                cModel.executeCode(read_fd, write_fd)
             }
         }
 
