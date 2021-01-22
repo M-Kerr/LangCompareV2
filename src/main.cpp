@@ -3,9 +3,28 @@
 #include <QDebug>
 #include <QVector>
 #include <QQmlContext>
+#include <QString>
 #include "languages/languages.h"
 #include "helpers/helpers.h"
 
+const QtMessageHandler QT_DEFAULT_MSG_HANDLER = qInstallMessageHandler(nullptr);
+static QString CppQmlConsole;
+
+void qmlConsoleHandler(QtMsgType type, const QMessageLogContext &context,
+                       const QString &msg)
+{
+    // The qml engine outputs its own messages to QtWarningMsg, will clutter
+    // GUI's console
+    if (type != QtWarningMsg)
+    {
+        CppQmlConsole.append(msg + "\n");
+        Languages::get_engine()->rootContext()->setContextProperty(
+                    "CppQmlConsole", CppQmlConsole);
+    }
+
+   // Return message to default handler for terminal output
+    (*QT_DEFAULT_MSG_HANDLER)(type, context, msg);
+}
 
 
 int main(int argc, char *argv[])
@@ -13,9 +32,6 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    // Registering as type simply for code completion in QML.
-    // Only use the singleton.
-    qmlRegisterType<Languages>("Languages", 1, 0, "LanguagesT");
     QScopedPointer<Languages> languages_singleton(new Languages(&engine));
     qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
                                  languages_singleton.get());
@@ -24,15 +40,14 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty(
                 "code_files", QVariant::fromValue(Languages::code_files));
 
-//    LANGUAGES_START_QML(engine);
-//    Languages languages{};
-//    qmlRegisterType<Code>("Languages", 1, 0, "Languages");
-//    engine.rootContext()->setContextProperty("languages_instance", &languages);
     QStringList available_languages = LANGUAGES.keys();
     engine.rootContext()->setContextProperty("LANGUAGES",
                                              QVariant::fromValue(
                                                  available_languages));
     engine.rootContext()->setContextProperty("ExecutableDir", QString(QCoreApplication::applicationDirPath()));
+
+    qInstallMessageHandler(qmlConsoleHandler);
+    engine.rootContext()->setContextProperty("CppQmlConsole", CppQmlConsole);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -44,8 +59,6 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     if (!set_cwd_to_application_dir(argv)) return 1;
-
-
 
     // TODO: Parse argv input for a CLI argument to run application
     // in command line instead of GUI.
