@@ -38,8 +38,8 @@ class Code : public QObject
     unsigned iters_;
     unsigned limit_;
 
-    bool cpp_execute(int read_fd, int write_fd);
-    bool python_execute(int read_fd, int write_fd);
+    bool cpp_execute_(int read_fd, int write_fd);
+    bool python_execute_(int read_fd, int write_fd);
 
 protected:
 

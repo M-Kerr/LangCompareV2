@@ -114,7 +114,7 @@ void Code::print_results() const
     results.print();
 }
 
-bool Code::cpp_execute(int read_fd, int write_fd)
+bool Code::cpp_execute_(int read_fd, int write_fd)
 {
     // Triple escape characters pass forward the quote escape to shell.
     // The file name needs to be wrapped in quotes within the macro.
@@ -152,7 +152,7 @@ bool Code::cpp_execute(int read_fd, int write_fd)
     return true;
 }
 
-bool Code::python_execute(int read_fd, int write_fd)
+bool Code::python_execute_(int read_fd, int write_fd)
 {
     QString python_command = "python3 " + PYTHON_WRAPPER_FILE;
     python_command      += " -name " + output_file()
@@ -178,10 +178,10 @@ bool Code::execute(int read_fd, int write_fd)
 {
     if (language_ == "c++")
     {
-        cpp_execute(read_fd, write_fd);
+        cpp_execute_(read_fd, write_fd);
     } else if (language_ == "python")
     {
-        python_execute(read_fd, write_fd);
+        python_execute_(read_fd, write_fd);
     }
 
     return true;
