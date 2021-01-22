@@ -1,7 +1,5 @@
 Implement GUI
     - main.qml: iterate through the CodeButton ObjectModel and
-            * execute
-            * send execute compile and run info to the TextArea
             * Swipe to Results page upon execute completion
             * Create Results page
             * iterate through CodeButton objects again and render their results
