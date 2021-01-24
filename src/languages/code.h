@@ -74,7 +74,7 @@ public:
     //! @brief returns absolute path to the file, without the extension.
     Q_INVOKABLE QString output_file() const;
 
-    void print_results() const;
+    Q_INVOKABLE void print_results() const;
 
     QString get_directory_prefix();
 

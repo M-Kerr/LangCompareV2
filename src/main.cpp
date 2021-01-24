@@ -8,7 +8,7 @@
 #include "helpers/helpers.h"
 
 const QtMessageHandler QT_DEFAULT_MSG_HANDLER = qInstallMessageHandler(nullptr);
-static QString CppQmlConsole;
+static QScopedPointer<Languages> languages_singleton(new Languages);
 
 void qmlConsoleHandler(QtMsgType type, const QMessageLogContext &context,
                        const QString &msg)
@@ -17,22 +17,18 @@ void qmlConsoleHandler(QtMsgType type, const QMessageLogContext &context,
     // GUI's console
     if (type != QtWarningMsg)
     {
-        CppQmlConsole.append(msg + "\n");
-        Languages::get_engine()->rootContext()->setContextProperty(
-                    "CppQmlConsole", CppQmlConsole);
+        emit languages_singleton->new_message(msg);
     }
 
    // Return message to default handler for terminal output
     (*QT_DEFAULT_MSG_HANDLER)(type, context, msg);
 }
 
-
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    QScopedPointer<Languages> languages_singleton(new Languages(&engine));
     qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
                                  languages_singleton.get());
     qmlRegisterType<Code>("Code", 1, 0, "Code");
@@ -47,8 +43,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("ExecutableDir", QString(QCoreApplication::applicationDirPath()));
 
     qInstallMessageHandler(qmlConsoleHandler);
-    engine.rootContext()->setContextProperty("CppQmlConsole", CppQmlConsole);
-
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

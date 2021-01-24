@@ -49,6 +49,7 @@ public:
 
 signals:
     void code_filesChanged();
+    void new_message(QString);
 
 public slots:
     //! @brief opens a pipe and sets read_fd_ and write_fd_

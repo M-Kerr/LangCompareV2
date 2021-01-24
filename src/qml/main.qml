@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import "pages"
+import "components"
 import Languages 1.0
 
 ApplicationWindow {
@@ -23,6 +24,14 @@ ApplicationWindow {
         write_fd = Languages.write_fd_;
     }
 
+    function execute() {
+        runConsole.transition.runningChanged.disconnect(root.execute)
+        cModel.executeCode(read_fd, write_fd)
+        swipeView.setCurrentIndex(resultsPage.SwipeView.index)
+    }
+
+    Component.onCompleted: openPipe()
+
     header: ColumnLayout {
         width: root.width
 
@@ -36,65 +45,59 @@ ApplicationWindow {
             Layout.bottomMargin: 7
 
             TabButton {
-                id: add_tab
+                id: selectTab
                 text: qsTr("Select")
             }
 
             TabButton {
-                id: edit_tab
+                id: editTab
                 text: qsTr("Edit")
             }
 
             TabButton {
-                id: results_tab
+                id: resultsTab
                 text: qsTr("Results")
             }
         }
     }
 
-        SwipeView {
-            id: swipeView
-            anchors.fill: parent
-            currentIndex: tabBar.currentIndex
+    SwipeView {
+        id: swipeView
+        anchors.fill: parent
+        currentIndex: tabBar.currentIndex
 
-            SelectPage{
-                id: selectPage
-                fDialog.onAccepted: {
-                    runButton.enabled = true
-                }
+        SelectPage{
+            id: selectPage
+            fDialog.onAccepted: {
+                runButton.enabled = true
             }
-
-            EditPage {
-            }
-
-            ResultsPage {
-            }
-
         }
 
-        ScrollView {
-            id: scrollView
-            z: 1
-            visible: false
-            anchors.fill: parent
-
-            TextArea {
-                id: textArea
-                focus: false
-                activeFocusOnPress: false
-                activeFocusOnTab: false
-                color: "white"
-
-                text: CppQmlConsole
-
-                background: Rectangle {
-                    color: "#3F51B5"
-                }
-
-            }
-
+        EditPage {
+            id: editPage
         }
 
+        ResultsPage {
+            id: resultsPage
+        }
+    }
+
+    RunConsole {
+        id: runConsole
+        objectName: "runConsole"
+
+        Component.onCompleted: {
+            Languages.new_message.connect(textArea.append)
+        }
+
+            Timer {
+            id: runConsoleOffTimer
+            interval: 250
+            running: false
+
+            onTriggered: runConsole.state = "off"
+        }
+    }
 
     footer: ColumnLayout {
         width: root.width
@@ -114,9 +117,30 @@ ApplicationWindow {
             }
 
             onClicked: {
-                scrollView.visible = true
-                root.openPipe();
-                cModel.executeCode(read_fd, write_fd)
+                runConsole.state = "on"
+                // wait for console transition animations to complete
+                // before compile-run
+                visible = false
+                minimizeConsole.visible = true
+                runConsole.transition.runningChanged.connect(root.execute)
+            }
+        }
+
+        Button {
+            id: minimizeConsole
+//            text: "⤓"
+            text: "⇣"
+            font {bold: true}
+            Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: 50
+            Layout.bottomMargin: 30
+            Layout.preferredWidth: 100
+            visible: false
+
+            onClicked: {
+                runConsoleOffTimer.running = true
+                visible = false
+                runButton.visible = true
             }
         }
 

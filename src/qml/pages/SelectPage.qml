@@ -30,6 +30,10 @@ Page {
             {
                 get(i).code.execute(read_fd, write_fd);
             }
+            for (i=0; i < count; i++)
+            {
+                get(i).code.print_results();
+            }
             // TODO: render results
         }
     }
