@@ -10,6 +10,11 @@ class Results : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool success READ get_success NOTIFY successChanged)
+    Q_PROPERTY(unsigned long long duration_ns READ get_duration_ns)
+    Q_PROPERTY(double duration_us READ get_duration_us)
+    Q_PROPERTY(double duration_ms READ get_duration_ms)
+
     bool success = false;
     unsigned long long duration_ns{0};
     double duration_us{0};
@@ -29,6 +34,7 @@ public:
 
 
 signals:
+    void successChanged(bool);
 
 public slots:
 };

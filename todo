@@ -1,4 +1,7 @@
 Implement GUI
+    - main.qml: iterate through the CodeButton ObjectModel and
+            * Create Results page
+            * iterate through CodeButton objects again and render their results
 
 Implement sockets
     - Update README to reflect sockets instead of pipes

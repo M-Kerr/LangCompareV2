@@ -5,8 +5,14 @@
 
 class LanguagesF : public testing::Test
 {
+private:
     int fd[2];
 
+    //! @brief adds the language's relative code directory prefix in place
+    void add_directory_prefix(QString &language, QString &file)
+    {
+        file.prepend(LANGUAGES[language]);
+    }
 public:
     ~LanguagesF()
     {if (code) delete code;}
@@ -26,7 +32,9 @@ public:
                   long iters = 1, long timeout = 0)
     {
         if (code) delete code;
-        code = code_factory(language, file, nullptr, iters, timeout);
+
+        add_directory_prefix(language, file);
+        code = new Code(language, file, nullptr, iters, timeout);
         ASSERT_TRUE(code != nullptr) << "Failed to create Code *";
         EXPECT_TRUE(code->execute(fd[0], fd[1])) << "execute() failed";
     }

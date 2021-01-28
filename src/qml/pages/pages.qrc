@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/pages">
+        <file>SelectPage.qml</file>
+        <file>EditPage.qml</file>
+        <file>ResultsPage.qml</file>
+    </qresource>
+</RCC>
