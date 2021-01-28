@@ -1,18 +1,16 @@
-Implement GUI
-    - main.qml: iterate through the CodeButton ObjectModel and
-            * Create Results page
-            * iterate through CodeButton objects again and render their results
 
 Rewrite README
     - Create a separate CONTRIBUTING.rst
     - rewrite README to only explain how to use the app
 
+Implement GUI
+    - main.qml: iterate through the CodeButton ObjectModel and
+            * Create Results page
+
 Implement sockets
     - Update README to reflect sockets instead of pipes
 
 Add Qt src to maintain Qt licensing requirements
-
-PUBLISH MVP
 
 Add compiler support for MSVC and GCC
 
