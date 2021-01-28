@@ -114,7 +114,7 @@ Page {
 
                             code_model.append(
                                         codeButtonComponent.createObject(
-                                            code_grid_view,
+                                            gridView,
                                             { language: comboBox.currentText,
                                                 file: fileUrl, iters: iters_,
                                                 limit: limit_, color: comboBox.Material.background
@@ -176,9 +176,8 @@ Page {
             width: root.width
             contentWidth: availableWidth
 
-
             GridView {
-                id: code_grid_view
+                id: gridView
                 cellWidth: 130
                 cellHeight: 40
                 anchors.fill: parent
@@ -196,6 +195,29 @@ Page {
                 }
                 anchors.topMargin: 40
                 anchors.bottomMargin: 40
+
+                add: Transition {
+                    SequentialAnimation {
+                        SmoothedAnimation {
+                            property: "y";
+                            velocity: 400 * (gridView.count * 1.35);
+                            to: y - 8;
+                        }
+                        SmoothedAnimation {
+                            property: "y";
+                            velocity: 400 * (gridView.count * 1.35);
+                            to: y + 8;
+                        }
+                    }
+                }
+
+                removeDisplaced: Transition {
+                    SmoothedAnimation {
+                        property: "x";
+                        velocity: 375 * (gridView.count * 0.5);
+                        to: x + 8;
+                    }
+                }
             }
         }
     }
