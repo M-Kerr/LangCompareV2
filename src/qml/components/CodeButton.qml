@@ -17,6 +17,9 @@ Item {
     property alias text: txt
     property alias code: code_element
 
+    Behavior on x { SpringAnimation { spring: 3; damping: 0.25; } }
+    Behavior on y { SpringAnimation { spring: 3; damping: 0.25; } }
+
     RoundButton {
         id: round_button
 
