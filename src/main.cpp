@@ -2,17 +2,49 @@
 #include <QQmlApplicationEngine>
 #include <QDebug>
 #include <QVector>
+#include <QQmlContext>
+#include <QString>
 #include "languages/languages.h"
 #include "helpers/helpers.h"
 
+const QtMessageHandler QT_DEFAULT_MSG_HANDLER = qInstallMessageHandler(nullptr);
+static QScopedPointer<Languages> languages_singleton(new Languages);
 
+void qmlConsoleHandler(QtMsgType type, const QMessageLogContext &context,
+                       const QString &msg)
+{
+    // The qml engine outputs its own messages to QtWarningMsg, will clutter
+    // GUI's console
+    if (type != QtWarningMsg)
+    {
+        emit languages_singleton->new_message(msg);
+    }
+
+   // Return message to default handler for terminal output
+    (*QT_DEFAULT_MSG_HANDLER)(type, context, msg);
+}
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/src/main.qml"));
+
+    qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
+                                 languages_singleton.get());
+    qmlRegisterType<Code>("Code", 1, 0, "Code");
+    Languages::set_engine(&engine);
+    engine.rootContext()->setContextProperty(
+                "code_files", QVariant::fromValue(Languages::code_files));
+
+    QStringList available_languages = LANGUAGES.keys();
+    engine.rootContext()->setContextProperty("LANGUAGES",
+                                             QVariant::fromValue(
+                                                 available_languages));
+    engine.rootContext()->setContextProperty("ExecutableDir", QString(QCoreApplication::applicationDirPath()));
+
+    qInstallMessageHandler(qmlConsoleHandler);
+
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
@@ -22,11 +54,16 @@ int main(int argc, char *argv[])
 
     if (!set_cwd_to_application_dir(argv)) return 1;
 
+    // TODO: Parse argv input for a CLI argument to run application
+    // in command line instead of GUI.
+    // TODO: Uncomment below code.
+
+/*
     // Fill vector with user submitted code for benchmarking
-    QVector<Code*> code_files;
-    build_code_list(code_files);
+    Languages::build_code_list();
 
     //Open pipe to receive results
+    // FIXME: turn these blocks into Languages:: methods
     int pipe_fd[2];
     if (pipe(pipe_fd) < 0 )
     {
@@ -34,16 +71,20 @@ int main(int argc, char *argv[])
     }
 
     // Benchmark code
-    for (Code *const code: qAsConst(code_files))
+    // FIXME: turn these blocks into Languages:: methods
+    for (QObject *const code: qAsConst(Languages::code_files))
     {
-        code->execute(pipe_fd[0], pipe_fd[1]);
+        Code *cp = qobject_cast<Code *>(code);
+        cp->execute(pipe_fd[0], pipe_fd[1]);
     }
 
     // Print results
-    for (const Code *code: qAsConst(code_files))
+    // FIXME: turn these blocks into Languages:: methods
+    for (const QObject *code: qAsConst(Languages::code_files))
     {
-        code->print_results();
+        Code *cp = qobject_cast<Code *>(code);
+        cp->print_results();
     }
-
+*/
     return app.exec();
 }

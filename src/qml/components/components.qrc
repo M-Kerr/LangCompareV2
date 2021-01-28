@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/components">
+        <file>CodeButton.qml</file>
+        <file>RunConsole.qml</file>
+    </qresource>
+</RCC>

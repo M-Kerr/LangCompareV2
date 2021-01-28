@@ -61,6 +61,7 @@ void Results::receive(int fd)
         if (j == 0)
         {
             success = std::stoi(data_str);
+            if (success) emit successChanged(success);
             buf.clear();
             buf.resize(0);
         }
