@@ -3,10 +3,12 @@ Implement GUI
             * Create Results page
             * iterate through CodeButton objects again and render their results
 
+Rewrite README
+    - Create a separate CONTRIBUTING.rst
+    - rewrite README to only explain how to use the app
+
 Implement sockets
     - Update README to reflect sockets instead of pipes
-
-Perform a second README edit pass
 
 Add Qt src to maintain Qt licensing requirements
 
