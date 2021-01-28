@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.12
+import QtGraphicalEffects 1.12
 
 Item {
     id: root
@@ -29,10 +30,8 @@ Item {
         id: transition
         ParallelAnimation {
             AnchorAnimation { duration: 250}
-//            AnchorAnimation { duration: 250; easing: Easing.OutExpo}
             SmoothedAnimation{ target: root; property: "opacity";
                 velocity: 1.5;
-//                easing: Easing.OutExpo; velocity: 1.5;
             }
         }
     }
@@ -54,9 +53,6 @@ Item {
             background: Rectangle {
                 id: backgroundID
                 color: "white"
-                border.width: 1
-                border.color: "gray"
-                opacity: 0.8
             }
 
             Action {
