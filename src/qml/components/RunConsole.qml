@@ -50,15 +50,13 @@ Item {
             focus: false
             readOnly: true
             selectByMouse: true
-//            activeFocusOnPress: false
-//            activeFocusOnTab: false
-            color: "white"
 
             background: Rectangle {
                 id: backgroundID
-                color: "#3F51B5"
+                color: "white"
                 border.width: 1
                 border.color: "gray"
+                opacity: 0.8
             }
 
             Action {
