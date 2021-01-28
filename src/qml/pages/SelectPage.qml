@@ -90,11 +90,9 @@ Page {
                         acceptButton.enabled = true
                         if (currentText === "c++")
                         {
-                            fileDialog.folder = "file://" + ExecutableDir + "/code/cpp"
                             Material.background = Qt.lighter(colors["c++"], 1.70)
                         } else if (currentText === "python")
                         {
-                            fileDialog.folder = "file://" + ExecutableDir + "/code/py"
                             Material.background = Qt.lighter(colors["python"], 1.80)
                         }
                     }
@@ -102,6 +100,7 @@ Page {
                     FileDialog {
                         id: fileDialog
                         title: "Please choose a file"
+                        folder: "file://" + ExecutableDir + "/code"
 
                         signal codeObjectReady (string language, url file,
                                                 int iters, int limit)
