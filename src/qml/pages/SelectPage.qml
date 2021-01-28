@@ -6,7 +6,6 @@ import QtQml.Models 2.15
 import Languages 1.0
 import Code 1.0
 import "../components"
-import "../components/create_code_button.js" as Code_js
 import QtQuick.Controls.Material 2.15
 
 Page {
@@ -14,12 +13,19 @@ Page {
     width: 600
     height: 400
 
+    property int minimumWidth: topGridLayout.width + 10
+    property int minimumHeight: topGridLayout.height + 30
     property alias fDialog: fileDialog
     property alias cModel: code_model
 
     Component {
         id: codeButtonComponent
-        CodeButton {}
+        CodeButton {
+
+            button.onClicked: {
+                code_model.remove(parent.index)
+            }
+        }
     }
 
     ObjectModel {
@@ -34,13 +40,13 @@ Page {
             {
                 get(i).code.print_results();
             }
-            // TODO: render results
         }
     }
 
     Item {
         id: root
         anchors.fill: parent
+
         Item {
             id: topBox
             anchors.top: root.top
@@ -59,8 +65,8 @@ Page {
                 ComboBox {
                     property string instruction: "Select a Language"
                     property var colors: {
-                        "c++": "#F44336",       // Material.red
-                        "python": "#2196F3"     // Material.blue
+                        "c++": "#F44336",   // Material.red
+                        "python": "#2196F3" // Material.blue
                     }
                     id: comboBox
                     Layout.preferredWidth: 200;
@@ -163,39 +169,34 @@ Page {
             }
         }
 
-        Item {
+        ScrollView {
             id: bottomBox
             anchors.top: topBox.bottom
             anchors.bottom: root.bottom
             width: root.width
+            contentWidth: availableWidth
+
 
             GridView {
                 id: code_grid_view
+                cellWidth: 130
+                cellHeight: 40
                 anchors.fill: parent
-                anchors.leftMargin: 20
-                anchors.rightMargin: 20
-                anchors.topMargin: 20
-                anchors.bottomMargin: 20
-
-                cellWidth: 135
-                cellHeight: 50
-
                 model: code_model
+
+                anchors.leftMargin: {
+                    var centered = (parent.width / 2) - ((cellWidth / 2) * count)
+                    if (centered > 40) centered
+                    else 40
+                }
+                anchors.rightMargin: {
+                    var centered = (parent.width / 2) - ((cellWidth / 2) * count)
+                    if (centered > 40) centered
+                    else 40
+                }
+                anchors.topMargin: 40
+                anchors.bottomMargin: 40
             }
         }
     }
 }
-//            add: Transition {
-//                NumberAnimation { properties: "x,y"; from: 100; duration: 1000 }
-//            }
-//            remove: Transition {
-//                ParallelAnimation {
-//                    NumberAnimation { property: "opacity"; to: 0; duration: 1000 }
-//                    NumberAnimation { properties: "x,y"; to: 100; duration: 1000 }
-//                }
-//            }
-//            removeDisplaced: Transition {
-//                NumberAnimation { properties: "x,y"; duration: 1000 }
-//            }
-
-
