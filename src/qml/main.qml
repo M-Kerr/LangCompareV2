@@ -10,8 +10,14 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Tabs")
+    title: qsTr("LangCompare")
     id: root
+
+    minimumWidth: swipeView.currentItem.minimumWidth
+    minimumHeight: {
+        swipeView.currentItem.minimumHeight + header.height
+                + footer.height + 40
+    }
 
     property int read_fd
     property int write_fd
@@ -27,7 +33,6 @@ ApplicationWindow {
     function execute() {
         runConsole.transition.runningChanged.disconnect(root.execute)
         cModel.executeCode(read_fd, write_fd)
-        swipeView.setCurrentIndex(resultsPage.SwipeView.index)
     }
 
     Component.onCompleted: openPipe()
@@ -44,20 +49,11 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.bottomMargin: 7
 
-            TabButton {
-                id: selectTab
-                text: qsTr("Select")
-            }
-
-            TabButton {
-                id: editTab
-                text: qsTr("Edit")
-            }
-
-            TabButton {
-                id: resultsTab
-                text: qsTr("Results")
-            }
+                // Add tabs when additional pages are implemented
+//            TabButton {
+//                id: selectTab
+//                text: qsTr("Select")
+//            }
         }
     }
 
@@ -71,14 +67,6 @@ ApplicationWindow {
             fDialog.onAccepted: {
                 runButton.enabled = true
             }
-        }
-
-        EditPage {
-            id: editPage
-        }
-
-        ResultsPage {
-            id: resultsPage
         }
     }
 
@@ -118,17 +106,17 @@ ApplicationWindow {
 
             onClicked: {
                 runConsole.state = "on"
-                // wait for console transition animations to complete
-                // before compile-run
                 visible = false
                 minimizeConsole.visible = true
+
+                // wait for console transition animations to complete
+                // before compile-run
                 runConsole.transition.runningChanged.connect(root.execute)
             }
         }
 
         Button {
             id: minimizeConsole
-//            text: "⤓"
             text: "⇣"
             font {bold: true}
             Layout.alignment: Qt.AlignRight
