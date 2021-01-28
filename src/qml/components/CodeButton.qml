@@ -12,7 +12,7 @@ Item {
     property string file
     property int iters
     property int limit
-    property double radius: round_button.width / 10
+    property double radius: round_button.height / 10
     property alias button: round_button
     property alias text: txt
     property alias code: code_element
