@@ -1,5 +1,7 @@
 1/28/21 README is deprecated, will be updated in a few days
 
+Python >= 3.7 required
+
 Goal
 ----
 An application to compare the runtime of similar code constructs in
