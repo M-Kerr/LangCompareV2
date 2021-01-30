@@ -10,7 +10,7 @@ class Compile_And_Run_Failure: public std::exception
     public:
         Compile_And_Run_Failure(const char *error)
             : _error(error){}
-        const char* what() const _NOEXCEPT override
+        const char* what() const noexcept override
         {
             return _error;
         }
