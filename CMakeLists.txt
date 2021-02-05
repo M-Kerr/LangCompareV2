@@ -6,7 +6,8 @@ include_directories(src/)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/src)
 
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+if (NOT (CMAKE_BUILD_TYPE STREQUAL "Release" OR 
+CMAKE_BUILD_TYPE STREQUAL "release"))
     option(PACKAGE_TESTS "Build the tests" ON)
 endif()
 if(PACKAGE_TESTS)
