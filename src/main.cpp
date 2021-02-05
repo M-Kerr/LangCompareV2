@@ -29,9 +29,12 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
-                                 languages_singleton.get());
+//    qmlRegisterSingletonInstance("Languages", 1, 0, "Languages",
+//                                 languages_singleton.get());
     qmlRegisterType<Code>("Code", 1, 0, "Code");
+    engine.rootContext()->setContextProperty("Languages",
+                                             languages_singleton.get());
+
     Languages::set_engine(&engine);
     engine.rootContext()->setContextProperty(
                 "code_files", QVariant::fromValue(Languages::code_files));
@@ -40,7 +43,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("LANGUAGES",
                                              QVariant::fromValue(
                                                  available_languages));
-    engine.rootContext()->setContextProperty("ExecutableDir", QString(QCoreApplication::applicationDirPath()));
+    engine.rootContext()->
+            setContextProperty("ExecutableDir",
+                               QString(QCoreApplication::applicationDirPath()));
 
     qInstallMessageHandler(qmlConsoleHandler);
 

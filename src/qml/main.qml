@@ -4,7 +4,6 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import "pages"
 import "components"
-import Languages 1.0
 
 ApplicationWindow {
     width: 640

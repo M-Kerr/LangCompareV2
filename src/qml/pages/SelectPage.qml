@@ -3,7 +3,6 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.15
-import Languages 1.0
 import Code 1.0
 import "../components"
 import QtQuick.Controls.Material 2.15
