@@ -12,3 +12,7 @@
 	path = third_party/googletest
 	url = https://github.com/google/googletest
 	branch = v1.10.x
+[submodule "third_party/qt5"]
+	path = third_party/qt5
+	url = git://code.qt.io/qt/qt5.git
+	branch = 5.15.2
