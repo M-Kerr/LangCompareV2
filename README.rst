@@ -1,4 +1,4 @@
-1/28/21 README is deprecated, will be updated in a few days
+1/28/21 README is deprecated, will be updated shortly
 
 Python >= 3.7 required
 
