@@ -1,11 +1,11 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
-import QtQml.Models 2.15
+import QtQml.Models 2.12
 import Code 1.0
 import "../components"
-import QtQuick.Controls.Material 2.15
+import QtQuick.Controls.Material 2.12
 
 Page {
     id: page
