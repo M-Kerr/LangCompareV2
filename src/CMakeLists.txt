@@ -28,6 +28,7 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 set(QRC_FILES qml/qml.qrc qml/pages/pages.qrc
     qml/components/components.qrc)
 
+set(CMAKE_MACOSX_BUNDLE ${APPLE})
 if(ANDROID)
     add_library(${PROJECT_NAME} SHARED
       main.cpp
@@ -44,7 +45,7 @@ target_compile_definitions(${PROJECT_NAME}
   PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 ##### Project Setup #####
-set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
+set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 14)
 
 ##### Gather source dirs into libraries #####
 add_subdirectory(helpers/)
