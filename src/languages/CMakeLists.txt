@@ -10,7 +10,3 @@ target_link_libraries(${PROJECT_NAME}_languages
     Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
     ${PROJECT_NAME}_helpers
     )
-
-target_compile_definitions(${PROJECT_NAME}_languages
-    PRIVATE COMPILER=\"${CMAKE_CXX_COMPILER}\"
-    )

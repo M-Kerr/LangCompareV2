@@ -116,16 +116,21 @@ void Code::print_results() const
 
 bool Code::cpp_execute_(int read_fd, int write_fd)
 {
-    QString compile_command = COMPILER; // CMake ${CMAKE_CXX_COMPILER}
+//    QString compile_command = COMPILER; // CMake ${CMAKE_CXX_COMPILER}
+    // This should work on *nix systems, but likely not Windows
+    QString compile_command = "c++";
+
     // Triple escape characters pass forward the quote escape to shell.
     // The file name needs to be wrapped in quotes within the macro.
-    compile_command += " -pthread -O3 -std=c++17 -Icpp/ -DFILEPATH=\\\""
-            + file_path() + "\\\" -DFD=";
+    compile_command += " -L../Libs -pthread -O3 -std=c++17 -Icpp/ \
+                -DFILEPATH=\\\"" + file_path() + "\\\" -DFD=";
+
     compile_command += QString::number(write_fd);
     compile_command += " " + CPP_WRAPPER_FILE;
     compile_command += " -o ";
     compile_command += output_file();
 
+    qInfo() << "\nCompile Command:\n" << compile_command << "\n";
     qInfo() << "\nCompiling C++ " << file_name() << "...";
     int error_code = std::system(compile_command.toLatin1());
     if (error_code)
