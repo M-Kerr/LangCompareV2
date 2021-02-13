@@ -122,11 +122,15 @@ bool Code::cpp_execute_(int read_fd, int write_fd)
 
     // Triple escape characters pass forward the quote escape to shell.
     // The file name needs to be wrapped in quotes within the macro.
-    compile_command += " -L../Libs -pthread -O3 -std=c++17 -Icpp/ \
+    compile_command += " -L../Libs -pthread -O3 -std=c++14 -Icpp/ \
                 -DFILEPATH=\\\"" + file_path() + "\\\" -DFD=";
 
     compile_command += QString::number(write_fd);
-    compile_command += " " + CPP_WRAPPER_FILE;
+// TODO: I believe on Windows QCoreApplication::applicationDirPath() includes
+// the executable in the file path. May have to code a workaround to add
+// Windows support. If so, replace all uses with workaround.
+    compile_command += " " + QCoreApplication::applicationDirPath() + "/" +
+             CPP_WRAPPER_FILE;
     compile_command += " -o ";
     compile_command += output_file();
 
@@ -160,8 +164,9 @@ bool Code::cpp_execute_(int read_fd, int write_fd)
 
 bool Code::python_execute_(int read_fd, int write_fd)
 {
-    QString python_command = "python3 " + PYTHON_WRAPPER_FILE;
-    python_command      += " -name " + output_file()
+    QString python_command = "python3 " +
+            QCoreApplication::applicationDirPath() + "/" + PYTHON_WRAPPER_FILE;
+    python_command += " -name " + output_file()
             + " -fd " + QString::number(write_fd)
             + " -iter " + QString::number(get_iters())
             + " -limit " + QString::number(get_limit());
