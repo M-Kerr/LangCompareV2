@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QDebug>
 #include <QUrl>
+#include <QCoreApplication>
 #include "results.h"
 #include "compile_and_run_failure.h"
 
@@ -38,6 +39,8 @@ class Code : public QObject
     unsigned iters_;
     unsigned limit_;
 
+    // Using a monolithic Code object instead of overriding an `execute` method
+    // for each supported language simplifies QML.
     bool cpp_execute_(int read_fd, int write_fd);
     bool python_execute_(int read_fd, int write_fd);
 
