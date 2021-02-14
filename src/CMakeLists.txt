@@ -25,16 +25,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick REQUIRED)
 
-set(QRC_FILES qml/qml.qrc qml/pages/pages.qrc
-    qml/components/components.qrc)
-
-set(CMAKE_MACOSX_BUNDLE ${APPLE})
+#qml directory contains QRC_FILES definition
+add_subdirectory(qml/)
 if(ANDROID)
     add_library(${PROJECT_NAME} SHARED
       main.cpp
       ${QRC_FILES}
     )
 else()
+    set(CMAKE_MACOSX_BUNDLE ${APPLE})
+    set(MACOSX_BUNDLE_INFO_PLIST
+        ${CMAKE_CURRENT_SOURCE_DIR}/MacOSXBundleInfo.plist.in)
+    set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME})
+    set(MACOSX_BUNDLE_BUNDLE_VERSION ${CMAKE_PROJECT_VERSION})
+    set(MACOSX_BUNDLE_LONG_VERSION_STRING ${CMAKE_PROJECT_VERSION})
+    set(MACOSX_BUNDLE_GUI_IDENTIFIER ${PROJECT_NAME})
+    set(MACOSX_BUNDLE_ICON_FILE LangCompareV2)
+    set(MACOSX_BUNDLE_COPYRIGHT
+        "Copyright © 2021 Milo D Kerr under GNU GENERAL PUBLIC LICENSE")
+
     add_executable(${PROJECT_NAME}
       main.cpp
       ${QRC_FILES}
