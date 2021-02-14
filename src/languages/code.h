@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QUrl>
 #include <QCoreApplication>
+#include <QTemporaryDir>
 #include "results.h"
 #include "compile_and_run_failure.h"
 

@@ -59,7 +59,6 @@ void Code::set_file(QUrl file_path)
     }
 }
 
-
 QString Code::file_name() const
 {
     return file_.completeBaseName();
@@ -116,8 +115,7 @@ void Code::print_results() const
 
 bool Code::cpp_execute_(int read_fd, int write_fd)
 {
-//    QString compile_command = COMPILER; // CMake ${CMAKE_CXX_COMPILER}
-    // This should work on *nix systems, but likely not Windows
+    // TODO: This should work on *nix systems, but likely not Windows
     QString compile_command = "c++";
 
     // Triple escape characters pass forward the quote escape to shell.
@@ -132,11 +130,17 @@ bool Code::cpp_execute_(int read_fd, int write_fd)
     compile_command += " " + QCoreApplication::applicationDirPath() + "/" +
              CPP_WRAPPER_FILE;
     compile_command += " -o ";
-    compile_command += output_file();
+    compile_command += file_name();
 
-    qInfo() << "\nCompile Command:\n" << compile_command << "\n";
+    QTemporaryDir tmpdir{};
+    if (!tmpdir.isValid()) {
+        qInfo() << "Failed to create temporary directory";
+        return false;
+    }
+
     qInfo() << "\nCompiling C++ " << file_name() << "...";
-    int error_code = std::system(compile_command.toLatin1());
+    int error_code = std::system(
+                ("cd " + tmpdir.path() + " && " + compile_command).toLatin1());
     if (error_code)
     {
         QString error = "Error during compilation of CPP " + file_name()
@@ -145,12 +149,13 @@ bool Code::cpp_execute_(int read_fd, int write_fd)
     }
 
     // Run CPP executable
-    QString run_cpp_command =   output_file() + " "
+    QString run_cpp_command = "./" + file_name() + " "
             + QString::number(get_iters()) + " "
             + QString::number(get_limit());
 
     qInfo() << "Executing C++ " << file_name() << "...\n";
-    error_code = std::system(run_cpp_command.toLatin1());
+    error_code = std::system(
+                ("cd " + tmpdir.path() + " && " + run_cpp_command).toLatin1());
     if (error_code)
     {
         QString error = "Error during execution of CPP " + file_name()
@@ -171,8 +176,14 @@ bool Code::python_execute_(int read_fd, int write_fd)
             + " -iter " + QString::number(get_iters())
             + " -limit " + QString::number(get_limit());
 
+    QTemporaryDir tmpdir{};
+    if (!tmpdir.isValid()) {
+        qInfo() << "Failed to create temporary directory";
+        return false;
+    }
     qInfo() << "\nExecuting Python " << file_name() << "...\n";
-    int error_code = std::system(python_command.toLatin1());
+    int error_code = std::system(
+                ("cd " + tmpdir.path() + " && " + python_command).toLatin1());
     if (error_code)
     {
         QString error = "Error during execution of Python " + output_file()
@@ -183,7 +194,6 @@ bool Code::python_execute_(int read_fd, int write_fd)
     results.receive(read_fd);
     return true;
 }
-
 
 bool Code::execute(int read_fd, int write_fd)
 {
