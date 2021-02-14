@@ -1,11 +1,11 @@
 #pragma once
 
 #include <QFileInfo>
-#include <QMap>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QUrl>
-#include <QScopedPointer>
+#include <QString>
+#include <QDebug>
 #include "code.h"
 #include "helpers/helpers.h"
 
@@ -20,8 +20,10 @@ class Languages: public QObject
     static QQmlApplicationEngine *engine_;
     static int read_fd_;
     static int write_fd_;
+
 public:
     explicit Languages(QObject *parent = nullptr);
+    ~Languages();
 
     void execute_code();
 

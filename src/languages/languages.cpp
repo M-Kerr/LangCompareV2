@@ -1,14 +1,18 @@
 #include "languages.h"
 
+QQmlApplicationEngine *Languages::engine_ = nullptr;
+QList<QObject *> Languages::code_files{};
+int Languages::read_fd_ = 0;
+int Languages::write_fd_ = 0;
+
 Languages::Languages(QObject *parent)
     : QObject(parent)
 {
 }
 
-QQmlApplicationEngine *Languages::engine_ = nullptr;
-QList<QObject *> Languages::code_files{};
-int Languages::read_fd_ = 0;
-int Languages::write_fd_ = 0;
+Languages::~Languages()
+{
+}
 
 QList<QObject *> &Languages::get_code_files()
 {
