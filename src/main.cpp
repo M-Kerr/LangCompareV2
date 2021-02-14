@@ -57,7 +57,9 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.load(url);
 
-    if (!set_cwd_to_application_dir(argv)) return 1;
+    // Ensures working dir is the application's directory.
+    //  Required for correct paths to user submitted code.
+    if(!QDir::setCurrent(app.applicationDirPath())) return 1;
 
     // TODO: Parse argv input for a CLI argument to run application
     // in command line instead of GUI.
