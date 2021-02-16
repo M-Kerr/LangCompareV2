@@ -7,8 +7,9 @@ Supported Languages
     * Python >= 3.7
 
 For a description of LangCompare's architecture and information on how to
-contribute, please see CONTRIBUTING.rst. We'd love to support your favorite
-language, demonstrate more algorithms, and add interesting features.
+contribute, please see CONTRIBUTING.rst. We'd love contributions that contain
+support for your favorite language, additional algorithm demonstrations, and
+interesting features.
 
 Why
 ---
@@ -18,7 +19,7 @@ to time and compare the efficiency of code in multiple languages.
 
 How
 ---
-Select code files you'd like to time, LangCompare will compile (if
+Select code files you'd like to time. LangCompare will compile (if
 necessary) then run the files in a subprocess, timing how long it takes for the
 code to complete. 
 
