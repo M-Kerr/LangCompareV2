@@ -25,7 +25,7 @@ code to complete.
 
 FAQ
 ---
-    * What compiler settings does LangCompare use for code it compiles?
+    * **What compiler settings does LangCompare use for code it compiles?**
 
       C++ currently compiles with compiler optimizations using the -O3 flag,
       and support for multithreading using the -pthread flag. 
@@ -33,8 +33,8 @@ FAQ
       In the future we'd like to provide the user the ability to define their
       own compiler options.
       
-    * My code includes additional header files or python modules, but
-      LangCompare can't read them?
+    * **My code includes additional header files or python modules, but
+      LangCompare can't read them?**
 
       If on MacOS, right click the .app and select "Show package contents",
       then navigate to Contents > MacOS > code. Move the files into the "code/"
