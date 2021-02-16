@@ -1,239 +1,44 @@
-README is outdated, will be updated shortly
+Supported Platforms 
+    * Linux 
+    * MacOS 
 
-Python >= 3.7 required
+Supported Languages
+    * C++ via clang++ or g++ compiler 
+    * Python >= 3.7
 
-Goal
-----
-An application to compare the runtime of similar code constructs in
-multiple languages.
+For a description of LangCompare's architecture and information on how to
+contribute, please see CONTRIBUTING.rst. We'd love to support your favorite
+language, demonstrate more algorithms, and add interesting features.
 
 Why
 ---
 The difference between languages in runtime efficiency is an occasional
-topic of conversation amongst developers.
-This application will allow the user to test and compare the runtime 
-efficiency of code written in multiple languages.
+topic of conversation amongst developers. LangCompare is a simple tool
+to time and compare the efficiency of code in multiple languages.
 
 How
 ---
-The user provides code files of the languages of their choice. The 
-application will compile (if necessary) then run the files in a subprocess, 
-using a wrapper that times how long it takes for the code to complete. The
-wrapper then returns the results back to the application for comparison.
+Select code files you'd like to time, LangCompare will compile (if
+necessary) then run the files in a subprocess, timing how long it takes for the
+code to complete. 
 
-Current program structure
--------------------------
-The main application is currently built in C++, using Qt.
-The "code/<language_name>/" subdirectories contain user submitted code 
-files. Inside the code/ directory is a collection of wrapper files for each
-supported language. The job of the wrapper file is to load the user code,
-initialize a timer, execute the user code, and relay the timing results
-back to the application (currently via pipe, will refactor to sockets soon
-for cross platform compatibility).
+FAQ
+---
+    * What compiler settings does LangCompare use for code it compiles?
 
+      C++ currently compiles with compiler optimizations using the -O3 flag,
+      and support for multithreading using the -pthread flag. 
 
-Detailed program structure
---------------------------
-**src/languages/code.h**
-    User submitted code files are abstracted into a ``Code`` object 
-    containing the language, file information, and timing results.
-    A ``Code`` subclass is created for each language, where the language's
-    specific build and run rules are implemented within the Code.execute()
-    method. The Code.execute() method should ultimately run the language's
-    wrapper file, passing the user code to the wrapper file.
+      In the future we'd like to provide the user the ability to define their
+      own compiler options.
+      
+    * My code includes additional header files or python modules, but
+      LangCompare can't read them?
 
-    The ``Code`` object contains a ``Results`` object member, which stores 
-    the benchmarking results.
-    
-    Example ``Code`` subclasses:
-    
-    - *src/languages/code_cpp.h*
-    - *src/languages/code_python.h* 
+      If on MacOS, right click the .app and select "Show package contents",
+      then navigate to Contents > MacOS > code. Move the files into the "code/"
+      directory.
 
-**src/languages/results.h**
-    The ``Results`` object stores benchmarking results.
-
-**src/languages/languages.h**
-    Root languages header, contains the factory function called within main
-    to build Code objects.
-
-
-**code/<language>/<user_code>**
-    User-submitted code files are expected to have an execute() function 
-    that calls the code to benchmark.
-
-
-**code/wrapper.<language_extension>**
-    Through either a macro or command line argument, the wrapper file for
-    each language receives the code to wrap; a write pipe file descriptor;
-    and optionally receives the number of iterations to execute; and a 
-    timeout (seconds) to stop execution upon expiration.
-
-    The wrapper file is expected to:
-
-    - Embed the user code
-    - Initialize a timer
-        - The timer should begin execution as close as possible to the 
-          execute() call, and stop upon its return
-    - Call the execute() function
-    - Stop the timer
-    - Average the timing results of the execute() iterations
-    - Return the results through the write pipe
-    
-
-**src/main.cpp**
-    The main call first builds a list of Code objects through user input.
-    Then it opens a pipe, calls each Code object's execute() method,  
-    passing the pipe file descriptor as an argument in order to communicate
-    the timing results. Finally, it prints each Code object's results.
-
-
-How to contribute support for a language
-----------------------------------------
-    
-1. Build a wrapper file that matches the requirements for wrapper files
-   described in the "Detailed program structure" section.
-   *Use the existing wrapper files for inspiration.*
-
-   A const string containing the path to this wrapper file should be placed
-   at the top of the header file to the Code subclass created in step 3.
-
-   The wrapper file should transmit the benchmarking results back to the 
-   application, following the pattern outlined in the IPC section.
-
-.. code-block:: c++
-
-   static const QString <LANGUAGE>_WRAPPER_FILE("code/wrapper.<extension>");
-
-
-2. Create a user-code directory for the language within the ``code/`` 
-   directory. E.g., ``code/cpp/``. This is the directory the user places the 
-   code they want to benchmark.
-
-3. Create a ``Code`` subclass using the file naming convention
-    - ``code_<language>.h`` 
-   and class naming convention:
-    - ``<Code_Language_Name>``
-
-
-Code subclass design
-++++++++++++++++++++
-**Constructor**
-
-Pass the name of the language into the ``Code`` superclass constructor, and
-prefix the user-code path for the language to the ``file_name`` argument.
-Forward the remaining arguments to the ``Code`` constructor.
-
-.. code-block:: c++
-
-   Code_Cpp::Code_Cpp(const QString file_name,
-                      QObject *parent, unsigned iters, unsigned limit)
-       : Code("C++", "code/cpp/" + file_name, parent, iters, limit){}
-        
-**Implement the virtual execute method**
-
-.. code-block:: c++
-
-   bool execute(int read_fd, int write_fd) override;
-
-The ``execute`` method should compile the language's ``wrapper.<ext>`` and user
-code together then run it, passing the required command line arguments and any
-others if necessary.
-Execution must support the user adding a single file directly in the 
-``code/<language>/`` directory, or multiple files within a package.
-
-Finally, ``execute`` should call ``this->results.receive(read_fd)`` 
-to receive the benchmark results, before returning successfully.
-
-Code sublass examples
-    - ``code_cpp.cpp`` 
-    - ``code_python.cpp``
-
-4. Update ``src/languages/languages.h``
-    - ``#include`` the ``code_<language>.h`` header file
-    - Add the language name to the ``LANGUAGES`` ``QStringList``
-
-.. code-block:: c++
-
-   static const QStringList LANGUAGES = {"C++", "Python", "<Language>"};
-
-5. Update ``src/languages/languages.cpp``
-    - Add an ``else if`` segment to the ``code_factory`` function,
-      which builds and returns a pointer to a ``Code_<Language>`` object.
-      The ``else if`` segment should follow this basic pattern:
-
-.. code-block:: c++
-
-   Code *code_factory(const QString &language, const QString &file_name,
-                      QObject *parent, unsigned iters, unsigned timeout)
-   {
-       ...
-
-       // <Language>
-       else if (language.toLower() == "<language>")
-       {
-           auto code = new Code_<Language>(file_name, parent);
-           auto file = code->get_file();
-           if (file.exists())
-           {
-               return code;
-           }
-           else
-           {
-               delete code;
-               return nullptr;
-           }
-   }
-
-5. Add an example hello_world user-file to the code/<language> directory
-    that prints the string "Hello, World!" within the execute() function.
-
-IPC
-----
-Currently, a pipe is used to communicate benchmarking results back to the 
-application. Communication will be performed with sockets in a future update. 
-stdin/stdout is not a viable means of IPC in the event user-code writes to
-them, and therefore cannot be used for IPC between the application and 
-user-code.
-
-The application passes the file descriptor for the write end of the pipe to the
-language wrapper. The application then expects to receive the results back from
-the wrapper through the pipe in the following format:
-
-- A ``'1'`` or ``'0'`` character followed by a newline ``'\n'``, 
-  representing the state of the benchmark run. ``0`` represents failure or 
-  timeout, ``1`` represents success.
-
-- The byte size of the incoming results data followed by a newline ``'\n'``.
-
-- The results data. Currently, the results are expected to be in nanoseconds,
-  with the option to adjust the time unit coming in a future update.
-  In the event of a failure, the pipe must still receive timing results. 
-  For consistency, the wrapper should return a result of ``'0'``, but the 
-  value will be ignored by the application if the success bit is ``'0'``.
-
-.. warning::
-
-   Its important that the wrapper file does *not* close the pipe upon completion,
-   as the pipe is maintained by the application until the application ends.
-
-How to contribute common algorithms, data structures, and constructs
---------------------------------------------------------------------
-
-For common algorithms and data structures, add them as:
-::
-
-    code/algorithms/<algorithm>/<algorithm>.<language_extension>
-    code/data_structures/<data_structure>/<data_structure>.<language_extension>
-
-If adding a new algorithm or data structure, include a README outlining 
-the benchmarking parameters. E.g., "The algorithm should sort this container of
-50 objects...".
-
-For a code example, see the ``code/algorithms/mergesorts/mergesort`` directory.
-
-Constructs should follow the same pattern as algorithms and data structures, 
-where constructs are the other common code constructs that don't fall 
-cleanly within the categories of algorithms or data structures. 
-E.g., design patterns, simple servers, memory operations 
-(garbage collection, memory pools, etc.).
+      While not currently supported on Linux, you should be able to mount or
+      extract the AppImage and then place the files inside the "code/"
+      directory that resides next to the LangCompareV2 executable.
