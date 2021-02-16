@@ -27,10 +27,10 @@ FAQ
 ---
     * **What compiler settings does LangCompare use for code it compiles?**
 
-      C++ currently compiles with compiler optimizations using the -O3 flag,
-      and support for multithreading using the -pthread flag. 
+      C++ currently compiles with compiler optimizations using the -O3 flag
+      and supports multithreading using the -pthread flag. 
 
-      In the future we'd like to provide the user the ability to define their
+      In the future, we'd like to provide the user the ability to define their
       own compiler options.
       
     * **My code includes additional header files or python modules, but
