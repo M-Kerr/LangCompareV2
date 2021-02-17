@@ -1,3 +1,16 @@
+LangCompare
+===========
+LangCompare is a simple tool to time code in multiple languages.
+
+How
+---
+Place the code you'd like to time inside a function called `execute`.
+Inside LangCompare, select the files with the code. LangCompare will compile (if
+necessary) then run the files in a subprocess, timing how long it takes for the
+code to complete. 
+[gif](https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompareV2.gif?raw=true)
+
+
 Supported Platforms 
     * Linux 
     * MacOS 
@@ -6,22 +19,11 @@ Supported Languages
     * C++ via clang++ or g++ compiler 
     * Python >= 3.7
 
+
 For a description of LangCompare's architecture and information on how to
 contribute, please see CONTRIBUTING.rst. We'd love contributions that contain
 support for your favorite language, additional algorithm demonstrations, and
 interesting features.
-
-Why
----
-The difference between languages in runtime efficiency is an occasional
-topic of conversation amongst developers. LangCompare is a simple tool
-to time and compare the efficiency of code in multiple languages.
-
-How
----
-Select code files you'd like to time. LangCompare will compile (if
-necessary) then run the files in a subprocess, timing how long it takes for the
-code to complete. 
 
 FAQ
 ---
