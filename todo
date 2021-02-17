@@ -1,7 +1,3 @@
-Rewrite README
-    - Create a separate CONTRIBUTING.rst
-    - rewrite README to only explain how to use the app
-
 Re-implement command line version of the app
 
 Implement sockets
