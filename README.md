@@ -1,36 +1,37 @@
-LangCompare
-===========
+<img src="https://github.com/M-Kerr/assets/blob/master/LangCompareV2/code_metrics64.png?raw=true" align="left"
+     alt="Code Metrics by Richard Slater from the Noun Project" width="64" height="64">
+
+# LangCompare
+
 LangCompare is a simple tool to time code in multiple languages.
 
-How
----
-#. **Place the code you'd like to time inside a function called** ``execute``.
-#. Inside LangCompare, select the files with the code. LangCompare will compile (if
+## How
+
+1. **Place the code you'd like to time inside a function called** ``execute``.
+1. Inside LangCompare, select the files with the code. LangCompare will compile (if
    necessary) then run the files in a subprocess, timing how long it takes for the
    code to complete. 
 
-|
-.. image:: https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompare.gif?raw=true
+<img src="https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompar\
+e.gif?raw=true" align="center" alt="How-to gif">
 
-|
-Supported Platforms 
-    * Linux 
-    * MacOS 
+## Supported Platforms 
+* Linux 
+* MacOS 
 
-Supported Languages
-    * C++ via clang++ or g++ compiler 
-    * Python >= 3.7
+## Supported Languages
+* C++ via clang++ or g++ compiler 
+* Python >= 3.7
 
-Contributing
-------------
+## Contributing
+
 For a description of LangCompare's architecture and information on how to
 contribute, please see CONTRIBUTING.rst. We'd love contributions that contain
 support for your favorite language, additional algorithm demonstrations, and
 interesting features.
 
 
-FAQ
----
+## FAQ
 * **What compiler settings does LangCompare use for code it compiles?**
 
 C++ currently compiles with compiler optimizations using the -O3 flag
@@ -44,7 +45,6 @@ own compiler options.
 If on MacOS, right click the .app and select "Show package contents",
 then navigate to Contents > MacOS > code. Move the files into the "code/"
 directory.
-
-While not currently supported on Linux, you should be able to mount or
+<br>While not currently supported on Linux, you should be able to mount or
 extract the AppImage and then place the files inside the "code/"
 directory that resides next to the LangCompareV2 executable.
