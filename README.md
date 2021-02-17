@@ -2,7 +2,7 @@
      alt="Code Metrics by Richard Slater from the Noun Project" width="64" height="64">
 
 # LangCompare
-
+<br>
 LangCompare is a simple tool to time code in multiple languages.
 
 ## How
@@ -11,9 +11,9 @@ LangCompare is a simple tool to time code in multiple languages.
 1. Inside LangCompare, select the files with the code. LangCompare will compile (if
    necessary) then run the files in a subprocess, timing how long it takes for the
    code to complete. 
+<br>
 
-<img src="https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompar\
-e.gif?raw=true" align="center" alt="How-to gif">
+![how-to gif](https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompare.gif?raw=true)
 
 ## Supported Platforms 
 * Linux 
