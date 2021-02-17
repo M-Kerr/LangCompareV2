@@ -12,7 +12,7 @@ code to complete.
 |
 .. image:: https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompareV2.gif?raw=true
 
-
+|
 Supported Platforms 
     * Linux 
     * MacOS 
@@ -21,11 +21,13 @@ Supported Languages
     * C++ via clang++ or g++ compiler 
     * Python >= 3.7
 
-
+Contributing
+------------
 For a description of LangCompare's architecture and information on how to
 contribute, please see CONTRIBUTING.rst. We'd love contributions that contain
 support for your favorite language, additional algorithm demonstrations, and
 interesting features.
+
 
 FAQ
 ---
