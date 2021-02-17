@@ -10,7 +10,7 @@ necessary) then run the files in a subprocess, timing how long it takes for the
 code to complete. 
 
 |
-.. image:: https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompareV2.gif?raw=true
+.. image:: https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompare.gif?raw=true
 
 |
 Supported Platforms 
