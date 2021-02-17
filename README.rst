@@ -9,6 +9,7 @@ Inside LangCompare, select the files with the code. LangCompare will compile (if
 necessary) then run the files in a subprocess, timing how long it takes for the
 code to complete. 
 
+|
 .. image:: https://github.com/M-Kerr/assets/blob/master/LangCompareV2/LangCompareV2.gif?raw=true
 
 
