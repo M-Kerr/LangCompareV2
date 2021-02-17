@@ -2,6 +2,7 @@ LangCompare
 ===========
 LangCompare is a simple tool to time code in multiple languages.
 
+|
 
 **Place the code you'd like to time inside a function called** ``execute``.
 Inside LangCompare, select the files with the code. LangCompare will compile (if
@@ -29,19 +30,18 @@ FAQ
 ---
     * **What compiler settings does LangCompare use for code it compiles?**
 
-      C++ currently compiles with compiler optimizations using the -O3 flag
-      and supports multithreading using the -pthread flag. 
-
-      In the future, we'd like to provide the user the ability to define their
-      own compiler options.
+C++ currently compiles with compiler optimizations using the -O3 flag
+and supports multithreading using the -pthread flag. 
+In the future, we'd like to provide the user the ability to define their
+own compiler options.
       
     * **My code includes additional header files or python modules, but
       LangCompare can't read them?**
 
-      If on MacOS, right click the .app and select "Show package contents",
-      then navigate to Contents > MacOS > code. Move the files into the "code/"
-      directory.
+If on MacOS, right click the .app and select "Show package contents",
+then navigate to Contents > MacOS > code. Move the files into the "code/"
+directory.
 
-      While not currently supported on Linux, you should be able to mount or
-      extract the AppImage and then place the files inside the "code/"
-      directory that resides next to the LangCompareV2 executable.
+While not currently supported on Linux, you should be able to mount or
+extract the AppImage and then place the files inside the "code/"
+directory that resides next to the LangCompareV2 executable.
