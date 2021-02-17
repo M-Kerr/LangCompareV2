@@ -2,8 +2,7 @@ LangCompare
 ===========
 LangCompare is a simple tool to time code in multiple languages.
 
-How
----
+
 **Place the code you'd like to time inside a function called** ``execute``.
 Inside LangCompare, select the files with the code. LangCompare will compile (if
 necessary) then run the files in a subprocess, timing how long it takes for the
