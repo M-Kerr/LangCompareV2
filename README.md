@@ -55,4 +55,4 @@ directory that resides next to the LangCompareV2 executable.
 <br>
 
 ### Credits
-LangCompareV2's logo is Code Metrics by Richard Slater from the Noun Project
+LangCompareV2's logo is "Code Metrics" by Richard Slater from the Noun Project
