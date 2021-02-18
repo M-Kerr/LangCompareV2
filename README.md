@@ -52,3 +52,7 @@ directory.
 > While not currently supported on Linux, you should be able to mount or
 extract the AppImage and then place the files inside the "code/"
 directory that resides next to the LangCompareV2 executable.
+<br>
+
+### Credits
+LangCompareV2's logo is Code Metrics by Richard Slater from the Noun Project
