@@ -7,7 +7,7 @@ LangCompareV2
 <br>
 </h1>
 
-<h4>LangCompare is a simple tool to time code in multiple languages</h4>
+<h4 align="center">A simple tool to time code in multiple languages</h4>
 
 ## How
 
