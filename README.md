@@ -1,9 +1,13 @@
-<img src="https://github.com/M-Kerr/assets/blob/master/LangCompareV2/code_metrics64.png?raw=true" align="left"
-     alt="Code Metrics by Richard Slater from the Noun Project" width="64" height="64">
-
-# LangCompare
+<h1 align="center">
+     <br>
+     <img src="https://github.com/M-Kerr/assets/blob/master/LangCompareV2/code_metrics64.png?raw=true"
+     alt="Code Metrics by Richard Slater from the Noun Project" width="64" height="64"></a>
 <br>
-LangCompare is a simple tool to time code in multiple languages.
+LangCompareV2
+<br>
+</h1>
+
+<h4>LangCompare is a simple tool to time code in multiple languages</h4>
 
 ## How
 
