@@ -3,6 +3,8 @@
 - [ ] Implement sockets
     - [ ] Update CONTRIBUTING to reflect sockets instead of pipes
 
+- [ ] Outline application's architecture in CONTRIBUTING
+
 - [ ] Add Qt src to maintain Qt licensing requirements
 
 - [ ] Add Windows and MSVC support
