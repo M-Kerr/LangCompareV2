@@ -29,10 +29,9 @@ LangCompareV2
 
 ## Contributing
 
-For a description of LangCompare's architecture and information on how to
-contribute, please see CONTRIBUTING.rst. We'd love contributions that contain
-support for your favorite language, additional algorithm demonstrations, and
-interesting features.
+For information on how to contribute, please see CONTRIBUTING.rst. We'd love contributions that 
+contain support for your favorite language, additional algorithm demonstrations, and interesting 
+features.
 
 
 ## FAQ
