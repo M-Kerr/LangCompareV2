@@ -21,7 +21,7 @@ LangCompareV2
 
 ## Supported Platforms 
 * Linux 
-* MacOS 
+* macOS 
 
 ## Supported Languages
 * C++ via clang++ or g++ compiler 
